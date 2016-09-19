@@ -9,7 +9,7 @@
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles-old             # old dotfiles backup directory
 #files="bashrc vimrc vim zshrc oh-my-zsh"    # list of files/folders to symlink in homedir
-files="bashrc vimrc zshrc"    # list of files/folders to symlink in homedir
+files="bashrc vimrc zshrc spacemacs xprofile rundo.sh Rprofile vimperatorrc"    # list of files/folders to symlink in homedir
 
 ##########
 
@@ -52,6 +52,10 @@ else
     platform=$(uname);
     # If the platform is Linux, try an apt-get to install zsh and then recurse
     if [[ $platform == 'Linux' ]]; then
+        if [[ -f /etc/arch-release ]]; then
+            sudo pacman -S zsh
+            install_zsh
+        fi
         if [[ -f /etc/redhat-release ]]; then
             sudo yum install zsh
             install_zsh

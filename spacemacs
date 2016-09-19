@@ -35,6 +35,7 @@ values."
      spell-checking
      syntax-checking
      ;; version-control
+     ess
      latex
      python
      shell-scripts
@@ -117,7 +118,8 @@ values."
                          solarized-dark
                          leuven
                          monokai
-                         zenburn)
+                         zenburn
+                         wombat)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -269,6 +271,18 @@ you should place your code here."
   ;; Swap ; and :, one or both ways
   (define-key evil-motion-state-map ";" 'evil-ex)
   ;; (define-key evil-motion-state-map ":" 'evil-repeat-find-char)
+
+
+  ;; Vim key bindings for commenting
+  (evil-leader/set-key
+    "ci" 'evilnc-comment-or-uncomment-lines
+    "cc" 'evilnc-comment-or-uncomment-lines
+    "cu" 'evilnc-comment-or-uncomment-lines
+    "cp" 'evilnc-comment-or-uncomment-paragraphs
+    )
+
+  ;; latex update preview after build
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

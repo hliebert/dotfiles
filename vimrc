@@ -16,7 +16,7 @@ Plug 'molok/vim-vombato-colorscheme'
 Plug 'scrooloose/nerdtree'
 Plug 'godlygeek/csapprox'
 Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline-themes'
 Plug 'majutsushi/tagbar'
 "Plug 'vim-scripts/taglist.vim'
 Plug 'easymotion/vim-easymotion'
@@ -29,6 +29,13 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'klen/python-mode'
 Plug 'hdima/python-syntax'
+Plug 'Yggdroot/indentLine'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+"Plug 'garbas/vim-snipmate'
+"Plug 'nathanaelkane/vim-indent-guides'
+"Plug 'ivanov/vim-ipython'
+"Plug 'jpalardy/vim-slime'
 "Plug 'raimondi/delimitmate'
 "Plug 'bronson/vim-trailing-whitespace'
 "Plug 'jceb/vim-orgmode'
@@ -41,7 +48,7 @@ call plug#end()
 set nocompatible
 filetype plugin on
 filetype indent on
-syntax on 
+syntax on
 
 " maximize window on startup, windows
 "au GUIEnter * simalt ~x
@@ -60,7 +67,7 @@ colorscheme vombato
 "colorscheme jellybeans
 "colorscheme darkspectrum
 "colorscheme neverness
-"colorscheme ir_black 
+"colorscheme ir_black
 "colorscheme desert
 "colorscheme xoria256
 "colorscheme tesla
@@ -71,9 +78,9 @@ colorscheme vombato
 "set guifont=DejaVu\ Sans\ Mono\:h10
 "set guifont=DejaVu\ Sans\ Mono\ 8
 "set guifont=Monospace\ 9
-set guifont=Ubuntu\ Mono\ 12
+"set guifont=Ubuntu\ Mono\ 12
 "set guifont=Inconsolata\ 10
-"set guifont=Consolas\ 9
+set guifont=Consolas\ 9
 "set guifont=Hack\ 9
 set guioptions-=T
 set guioptions-=m
@@ -115,8 +122,8 @@ set laststatus=2
 set undofile
 set shellslash
 " also use system clipboard
-"set clipboard+=unnamedplus 
-set clipboard=unnamedplus 
+"set clipboard+=unnamedplus
+set clipboard=unnamedplus
 "set clipboard+=unnamed
 "set clipboard=unnamed
 nnoremap yy yy"+yy
@@ -125,6 +132,8 @@ vnoremap y ygv"+y
 
 " searching / moving / stuff from system file, check /etc/vim/vimrc
 set ignorecase
+set infercase
+set wildignorecase
 set smartcase
 "set gdefault
 set incsearch
@@ -150,7 +159,7 @@ set formatoptions=qrn1
 "set colorcolumn=85
 
 ""disable folding or set foldmethod, unnecessary
-"set nofoldenable 
+"set nofoldenable
 "set foldmethod=syntax
 
 " tabs and indentation
@@ -295,7 +304,7 @@ nnoremap <leader><space> :noh<cr>
 " working directory
 nnoremap <silent> <Leader>cd :cd %:p:h<CR>
 " home directory
-nnoremap <silent> <Leader>ho :cd /home/helge/<CR> 
+nnoremap <silent> <Leader>ho :cd /home/helge/<CR>
 "set autochdir
 
 
@@ -304,7 +313,7 @@ nnoremap <silent> <Leader>ho :cd /home/helge/<CR>
 "noremap <C-a> :put =''<CR>k
 
 " deal with trailing whitespace
-nnoremap <F4> :/\s\+$<CR> 
+nnoremap <F4> :/\s\+$<CR>
 nnoremap <silent> <S-F4> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 
@@ -407,7 +416,7 @@ set iskeyword+=:
 "au BufWritePost *.tex silent call Tex_RunLaTeX()
 ""au BufWritePost *.tex silent call Tex_CompileLatex() "only for dvi
 "au BufWritePost *.tex silent !pkill -USR1 xdvi.bin
-function! Ps2pdf() 
+function! Ps2pdf()
 	let g:Tex_DefaultTargetFormat = 'pdf'
     let g:Tex_FormatDependency_pdf = 'dvi,ps,pdf'
     let g:Tex_CompileRule_ps = 'dvips -Ppdf -o $*.ps $*.dvi'
@@ -421,7 +430,7 @@ endfunction
 au FileType tex nnoremap <leader>ps  :call Ps2pdf()<CR>
 au FileType tex nnoremap <leader>pdf :call Pdflatex()<CR>
 " format tables (not working fully, marks them at least then <leader>tt
-au FileType tex nnoremap <leader>tb /\\toprule<CR>jV/\\bottomrule<CR>k 
+au FileType tex nnoremap <leader>tb /\\toprule<CR>jV/\\bottomrule<CR>k
 
 
 "" Python
@@ -432,15 +441,20 @@ au FileType tex nnoremap <leader>tb /\\toprule<CR>jV/\\bottomrule<CR>k
 nnoremap <leader>tl :TagbarToggle<CR>
 
 "" R
-let vimrplugin_vsplit = 1
-let vimrplugin_ca_ck = 1
-let g:ScreenImpl = 'Tmux' 
-let vimrplugin_vimpager = "horizontal"
+"let vimrplugin_vsplit = 1
+"let vimrplugin_ca_ck = 1
+"let g:ScreenImpl = 'Tmux'
+"let vimrplugin_vimpager = "horizontal"
 "let g:vimrplugin_conqueplugin = 1
 "let vimrplugin_conquevsplit = 1
 "let r_syntax_folding = 1
 "set nofoldenable
 
+"" Nvim-R plugin
+let R_nvimpager = "vertical"
+let R_ca_ck = 1
+let R_editor_w = 80
+let R_editor_h = 60
 
 "" STATA DO-FILE SCRIPTS
 fun! RunIt()
@@ -463,11 +477,11 @@ fun! RunDoLines()
     "au VimLeave * exe "!del -y" temp
     au VimLeave * silent exe '!del /Q "'.$TEMP.'\*.tmp.do"'
 endfun
-au FileType stata noremap <F9> :<C-U>call RunDoLines()<CR><CR> 
-au FileType stata noremap <leader>se :<C-U>call RunDoLines()<CR><CR> 
-au FileType stata noremap <leader>l <S-v>:<C-U>call RunDoLines()<CR><CR> 
-""au FileType stata nnoremap <F9> :<C-U>call RunDoLines()<CR><CR> 
-""au FileType stata inoremap <F9> <Esc>:<C-U>call RunDoLines()<CR><CR> 
+au FileType stata noremap <F9> :<C-U>call RunDoLines()<CR><CR>
+au FileType stata noremap <leader>se :<C-U>call RunDoLines()<CR><CR>
+au FileType stata noremap <leader>l <S-v>:<C-U>call RunDoLines()<CR><CR>
+""au FileType stata nnoremap <F9> :<C-U>call RunDoLines()<CR><CR>
+""au FileType stata inoremap <F9> <Esc>:<C-U>call RunDoLines()<CR><CR>
 ""au FileType stata nnoremap <S-Space> :<C-U>call RunDoLines()<CR><CR>
 ""au FileType stata inoremap <S-Space> <Esc>:<C-U>call RunDoLines()<CR><CR>
 "useful idea, fix this sometime
@@ -475,7 +489,7 @@ au FileType stata noremap <leader>l <S-v>:<C-U>call RunDoLines()<CR><CR>
   "w
   "!sh "/home/helge/.runhelp.sh" "%:p"
 "endfun
-"au FileType stata noremap <leader>rh <viwy>:<C-U>call RunHelp()<CR><CR> 
+"au FileType stata noremap <leader>rh <viwy>:<C-U>call RunHelp()<CR><CR>
 
 
 " Tag modifications
@@ -502,7 +516,7 @@ function ToggleWrap()
     echo &wrap ? 'wrap' : 'nowrap'
 endfunc
 
-"F11 toggles wrap 
+"F11 toggles wrap
 nnoremap <silent> <F11>      :call ToggleWrap()<CR>
 vnoremap <silent> <F11> <C-C>:call ToggleWrap()<CR>
 inoremap <silent> <F11> <C-O>:call ToggleWrap()<CR>
@@ -588,7 +602,10 @@ nmap ga <Plug>(EasyAlign)
 " ]]            Jump on next class or function (normal, visual, operator modes)
 " [M            Jump on previous class or method (normal, visual, operator modes)
 " ]M            Jump on next class or method (normal, visual, operator modes)
-let g:pymode_rope = 1
+"let g:pymode_rope = 1
+let g:pymode_rope = 0
+" if rope activated, it hangs sometimes, use this to prevent it
+let g:pymode_rope_lookup_project = 0
 " Documentation
 let g:pymode_doc = 1
 let g:pymode_doc_key = 'K'
@@ -612,3 +629,51 @@ let g:pymode_syntax_indent_errors = g:pymode_syntax_all
 let g:pymode_syntax_space_errors = g:pymode_syntax_all
 " Don't autofold code
 let g:pymode_folding = 0
+
+
+"" slime python
+"let g:slime_python_ipython = 1
+
+" disable youcomplete me for now with filteype stata
+" due to problems with latin1/iso encoding
+let g:enable_ycm_at_startup = 0
+let g:loaded_youcompleteme = 1
+" or
+"let g:ycm_filetype_blacklist = { 'stata': 1 }
+
+
+" vim-indent-guides
+"let g:indent_guides_start_level = 2
+"let g:indent_guides_guide_size = 1
+
+" vim-indent-line
+"let g:indentLine_concealcursor = 'inc'
+"let g:indentLine_conceallevel = 2
+" indent char, 'c' can be any ASCII character. You can use one of ¦, ┆, or │ to display more beautiful lines.
+" However, will only work in UTF-8 encoded files
+"let g:indentLine_char = 'c'
+" disable by default
+let g:indentLine_enabled = 0
+" map same hotkey as vim-indent-guides
+"nnoremap <leader>ig :IndentLinesToggle<CR>
+" or map to leader il mnemonic
+nnoremap <leader>il :IndentLinesToggle<CR>
+
+
+" UtilSnips
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+"let g:UltiSnipsExpandTrigger="<c-tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+

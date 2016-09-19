@@ -84,6 +84,15 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+#alias ls='ls --color=auto'
+#PS1='[\u@\h \W]\$ '
+
+alias vim="vim --servername VIM"
+alias emc='emacsclient -nc -a ""'
+alias emt='emacsclient -t -a ""'
+#alias rmi='rm -i'’
+
+
 
 # CLI Colors
 export CLICOLOR=1
