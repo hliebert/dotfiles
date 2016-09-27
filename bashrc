@@ -132,6 +132,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# add ruby to path
+export PATH="$PATH:/root/.gem/ruby/2.3.0/bin"
 
 # If fortune is installed, run a fortune
 if [ -e /opt/local/bin/fortune ]; then
