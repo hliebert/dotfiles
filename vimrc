@@ -194,13 +194,6 @@ set spelllang=en,en_gb,de
 "set spelllang=en,en_us,de
 
 
-" Prettify Markdown files
-augroup markdown
-  au!
-  au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
-augroup END
-
-
 " KKK
 " Setting markdown as the standard text mark mode
 "au BufNewFile,BufRead *.txt set ft=mkd
