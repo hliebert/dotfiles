@@ -25,7 +25,7 @@ winid=$(xdotool getactivewindow getwindowname)
 # pidof or pgrep
 if [ "$(pgrep stata)" ] 
 then
-    wmctrl -a 'Stata/MP 13.1'
+    wmctrl -a 'Stata/MP 14.2'
 else
     xstata &
     sleep .1
