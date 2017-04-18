@@ -2,7 +2,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'yegappan/mru'
 Plug 'vim-scripts/YankRing.vim'
-Plug 'scrooloose/syntastic'
+Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-repeat'
 Plug 'scrooloose/nerdcommenter'
 Plug 'ervandew/supertab'
@@ -15,15 +15,25 @@ Plug 'sheerun/vim-wombat-scheme'
 Plug 'molok/vim-vombato-colorscheme'
 Plug 'scrooloose/nerdtree'
 Plug 'godlygeek/csapprox'
-Plug 'bling/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'majutsushi/tagbar'
 "Plug 'vim-scripts/taglist.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-scripts/Align'
 "Plug 'junegunn/vim-easy-align'
-"Plug 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
+"Plug 'airblade/vim-gitgutter'
+"Plug 'jreybert/vim-magit'
+"Plug 'plasticboy/vim-markdown'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'vim-pandoc/vim-markdownfootnotes'
+Plug 'vim-pandoc/vim-rmarkdown'
+Plug 'vim-pandoc/vim-pandoc-after'
 Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'vim-ctrlspace/vim-ctrlspace'
+"Plug 'Shougo/denite.vim'
 Plug 'Shougo/neocomplete.vim'
 Plug 'Valloric/YouCompleteMe'
 Plug 'terryma/vim-multiple-cursors'
@@ -32,6 +42,7 @@ Plug 'hdima/python-syntax'
 Plug 'Yggdroot/indentLine'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'chrisbra/csv.vim'
 "Plug 'garbas/vim-snipmate'
 "Plug 'nathanaelkane/vim-indent-guides'
 "Plug 'ivanov/vim-ipython'
@@ -76,11 +87,14 @@ colorscheme vombato
 
 
 "set guifont=DejaVu\ Sans\ Mono\:h10
-"set guifont=DejaVu\ Sans\ Mono\ 8
+"set guifont=DejaVu\ Sans\ Mono\ 9
 "set guifont=Monospace\ 9
-"set guifont=Ubuntu\ Mono\ 12
-"set guifont=Inconsolata\ 10
-set guifont=Consolas\ 9
+set guifont=Droid\ Sans\ Mono\ 9
+"set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
+"set guifont=Cousine\ 9
+"set guifont=Ubuntu\ Mono\ 11
+"set guifont=Inconsolata\ 11
+"set guifont=Consolas\ 10
 "set guifont=Hack\ 9
 set guioptions-=T
 set guioptions-=m
@@ -158,8 +172,8 @@ set formatoptions=qrn1
 "set formatoptions=qrna
 "set colorcolumn=85
 
-""disable folding or set foldmethod, unnecessary
-"set nofoldenable
+""disable folding or set foldmethod
+set nofoldenable
 "set foldmethod=syntax
 
 " tabs and indentation
@@ -194,9 +208,10 @@ set spelllang=en,en_gb,de
 "set spelllang=en,en_us,de
 
 
-" KKK
+" Markdown
 " Setting markdown as the standard text mark mode
 "au BufNewFile,BufRead *.txt set ft=mkd
+"autocmd BufNewFile,BufRead *.md set filetype=markdown
 " Setting automatic linebreak after 80 chars
 "au Filetype mkd set tw=80
 
@@ -344,8 +359,10 @@ nnoremap <leader>gq Vgq
 "map <leader>ggl ?^$\\|^\s*\(\\begin\\|\\end\\|\\label\)?1<CR>gq//-1<CR>
 "omap lp ?^$\\|^\s*\(\\begin\\|\\end\\|\\label\)?1<CR>//-1<CR>.<CR>
 
-" reselect pasted text
-nnoremap <leader>v V`]
+" reselect pasted line
+"nnoremap <leader>vl V`]
+"reselect pasted text
+nnoremap <leader>v `[v`]
 
 " quick esc
 inoremap jj <ESC>
@@ -370,6 +387,11 @@ inoremap <silent> <F6> <ESC>:YRShow<cr>
     "return myline
 "endfunction
 "inoremap <expr> <C-o> InsertHLine()
+"
+
+" stata comment ignoring endofline ///
+nnoremap <leader>cx 0v/\/\/\/<CR>BE:'<,'>call NERDComment('x','comment')<CR>
+"nnoremap <leader>cx 0v/\/\/\/<CR>hh:'<,'>call NERDComment('x','comment')<CR>
 
 nnoremap <silent> <leader>hel 020i%<Esc>a<Space><Esc>$a<Space><Esc>60a%<Esc>80\|D0
 nnoremap <silent> <leader>hes 020i*<Esc>a<Space><Esc>$a<Space><Esc>60a*<Esc>80\|D0
@@ -410,13 +432,13 @@ set iskeyword+=:
 ""au BufWritePost *.tex silent call Tex_CompileLatex() "only for dvi
 "au BufWritePost *.tex silent !pkill -USR1 xdvi.bin
 function! Ps2pdf()
-	let g:Tex_DefaultTargetFormat = 'pdf'
+    let g:Tex_DefaultTargetFormat = 'pdf'
     let g:Tex_FormatDependency_pdf = 'dvi,ps,pdf'
     let g:Tex_CompileRule_ps = 'dvips -Ppdf -o $*.ps $*.dvi'
     let g:Tex_CompileRule_pdf = 'ps2pdf $*.ps'
 endfunction
 function Pdflatex()
-	let g:Tex_DefaultTargetFormat = 'pdf'
+    let g:Tex_DefaultTargetFormat = 'pdf'
     "let g:Tex_FormatDependency_pdf = ''
     let g:Tex_CompileRule_pdf = 'pdflatex -interaction=nonstopmode $*'
 endfunction
@@ -669,4 +691,48 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+
+
+" airline
+let g:airline#extensions#tabline#enabled = 1
+"let g:airline_powerline_fonts = 1
+"if !exists('g:airline_symbols')
+  "let g:airline_symbols = {}
+"endif
+"let g:airline_symbols.space = "\ua0"
+
+" air-line
+" from https://vi.stackexchange.com/questions/3359/how-to-fix-status-bar-symbols-in-airline-plugin
+"https://stackoverflow.com/questions/30780045/why-vim-airline-is-not-showing-symbols-properly
+let g:airline_powerline_fonts = 1
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" airline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
+
 

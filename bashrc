@@ -87,6 +87,7 @@ fi
 #alias ls='ls --color=auto'
 #PS1='[\u@\h \W]\$ '
 
+export visual="vim"
 alias vim="vim --servername VIM"
 alias emc='emacsclient -nc -a ""'
 alias emt='emacsclient -t -a ""'
