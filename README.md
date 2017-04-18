@@ -13,6 +13,6 @@ Usage
 ------------
 
 ``` bash
-git clone git://github.com/helibert/dotfiles ~/dotfiles
+git clone git://github.com/hliebert/dotfiles ~/dotfiles
 cd ~/dotfiles
 ./makesymlinks.sh

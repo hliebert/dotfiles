@@ -89,12 +89,18 @@ colorscheme vombato
 "set guifont=DejaVu\ Sans\ Mono\:h10
 "set guifont=DejaVu\ Sans\ Mono\ 9
 "set guifont=Monospace\ 9
+<<<<<<< HEAD
 set guifont=Droid\ Sans\ Mono\ 9
 "set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
 "set guifont=Cousine\ 9
 "set guifont=Ubuntu\ Mono\ 11
 "set guifont=Inconsolata\ 11
 "set guifont=Consolas\ 10
+=======
+set guifont=Ubuntu\ Mono\ 12
+"set guifont=Inconsolata\ 10
+"set guifont=Consolas\ 9
+>>>>>>> 5934bd8b470124f0298312d5571ed11b55ce6232
 "set guifont=Hack\ 9
 set guioptions-=T
 set guioptions-=m
@@ -204,8 +210,8 @@ set undodir=~/.backup_vim//
 "set spell
 au Filetype tex set spell
 au Filetype tex syntax spell toplevel
-set spelllang=en,en_gb,de
-"set spelllang=en,en_us,de
+"set spelllang=en,en_gb,de
+set spelllang=en,en_us,de
 
 
 " Markdown
@@ -474,7 +480,8 @@ let R_editor_h = 60
 "" STATA DO-FILE SCRIPTS
 fun! RunIt()
   w
-  !sh "/home/helge/.rundo.sh" "%:p"
+  "!sh "/home/helge/.rundo.sh" "%:p"
+  !sh "/home/helge/dotfiles/rundo.sh" "%:p"
 endfun
 au FileType stata noremap <F8> :<C-U>call RunIt()<CR><CR>
 "au FileType stata inoremap  <F8> <Esc>:<C-U>call RunIt()<CR><CR>
@@ -488,7 +495,8 @@ fun! RunDoLines()
   endif
  let temp = tempname() . ".do"
  call writefile(selectedLines, temp)
-          exec "!sh /home/helge/.rundo.sh " . temp
+          "exec "!sh /home/helge/.rundo.sh " . temp
+          exec "!sh /home/helge/dotfiles/rundo.sh " . temp
     "au VimLeave * exe "!del -y" temp
     au VimLeave * silent exe '!del /Q "'.$TEMP.'\*.tmp.do"'
 endfun
