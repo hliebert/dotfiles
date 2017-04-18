@@ -89,18 +89,15 @@ colorscheme vombato
 "set guifont=DejaVu\ Sans\ Mono\:h10
 "set guifont=DejaVu\ Sans\ Mono\ 9
 "set guifont=Monospace\ 9
-<<<<<<< HEAD
 set guifont=Droid\ Sans\ Mono\ 9
 "set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
 "set guifont=Cousine\ 9
 "set guifont=Ubuntu\ Mono\ 11
 "set guifont=Inconsolata\ 11
 "set guifont=Consolas\ 10
-=======
-set guifont=Ubuntu\ Mono\ 12
+"set guifont=Ubuntu\ Mono\ 12
 "set guifont=Inconsolata\ 10
 "set guifont=Consolas\ 9
->>>>>>> 5934bd8b470124f0298312d5571ed11b55ce6232
 "set guifont=Hack\ 9
 set guioptions-=T
 set guioptions-=m
