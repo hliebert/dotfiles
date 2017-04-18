@@ -40,7 +40,7 @@ values."
      auto-completion
      better-defaults
      emacs-lisp
-     git
+     ;; git
      markdown
      org
      (shell :variables
@@ -56,7 +56,7 @@ values."
      ;; ruby
      ;; html
      ;; vimscript
-     github
+     ;; github
      ;; evil-cleverparens
      ;; evil-nerd-commenter
      ;; evil-commentary
@@ -142,14 +142,15 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(wombat
+                         spacemacs-dark
                          spacemacs-light
                          solarized-light
                          solarized-dark
                          leuven
                          monokai
                          zenburn
-                         wombat)
+                         )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -281,7 +282,7 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -332,18 +333,14 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  (global-hl-line-mode -1) ; Disable current line highlight
+
   ;; Swap ; and :, one or both ways
   (define-key evil-motion-state-map ";" 'evil-ex)
   ;; (define-key evil-motion-state-map ":" 'evil-repeat-find-char)
 
-
   ;; Vim key bindings for commenting
-  (evil-leader/set-key
-    "ci" 'evil-nerd-commenter-comment-or-uncomment-lines
-    "cc" 'evil-nerd-commenter-comment-or-uncomment-lines
-    "cu" 'evil-nerd-commenter-comment-or-uncomment-lines
-    "cp" 'evil-nerd-commenter-comment-or-uncomment-paragraphs
-    )
+  (evilnc-default-hotkeys)
 
   ;; latex update preview after build
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)
