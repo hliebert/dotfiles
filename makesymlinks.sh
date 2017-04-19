@@ -41,7 +41,7 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     # change folder to use homedir
     if [[ ! -d ~/.oh-my-zsh/ ]]; then
         mkdir ~/.oh-my-zsh
-        git clone http://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh/
+        git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh/
     fi
     # Set the default shell to zsh if it isn't currently set to zsh
     if [[ ! $(echo $SHELL) == $(which zsh) ]]; then

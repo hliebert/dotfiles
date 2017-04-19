@@ -13,6 +13,7 @@ Plug 'vim-scripts/Wombat'
 Plug 'vim-scripts/wombat256.vim'
 Plug 'sheerun/vim-wombat-scheme'
 Plug 'molok/vim-vombato-colorscheme'
+Plug 'junegunn/seoul256.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'godlygeek/csapprox'
 Plug 'vim-airline/vim-airline'
@@ -72,6 +73,12 @@ set background=dark
 "else
     "colorscheme wombat256
 "endif
+
+"" seoul256 (dark):
+""   Range:   233 (darkest) ~ 239 (lightest)
+""   Default: 237
+"let g:seoul256_background = 234
+"colorscheme seoul256
 
 colorscheme vombato
 "colorscheme wombat22
