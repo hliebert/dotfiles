@@ -340,6 +340,9 @@ you should place your code here."
 
   (global-hl-line-mode -1) ; Disable current line highlight
 
+  ;; ctrl f4 to close buffer
+  (global-set-key [(control f4)] 'kill-this-buffer)
+
   ;; map toggle line wrapping 
   (define-key global-map [f12] 'toggle-truncate-lines)
 
