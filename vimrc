@@ -43,7 +43,7 @@ Plug 'hdima/python-syntax'
 Plug 'Yggdroot/indentLine'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'chrisbra/csv.vim'
+"Plug 'chrisbra/csv.vim'
 "Plug 'garbas/vim-snipmate'
 "Plug 'nathanaelkane/vim-indent-guides'
 "Plug 'ivanov/vim-ipython'
@@ -445,28 +445,7 @@ nnoremap <leader>lo /\%>80v.\+<cr>
   "autocmd BufEnter * match OverLength /\%81v.*/
 "augroup END
 
-" Latex Suite
-"set grepprg=C:\\Programme\WindowsGrep\grep32.exe\ -nH\ $*
-let g:tex_flavor='latex'
-set iskeyword+=:
-"autocompile when saving
-"au BufWritePost *.tex silent call Tex_RunLaTeX()
-""au BufWritePost *.tex silent call Tex_CompileLatex() "only for dvi
-"au BufWritePost *.tex silent !pkill -USR1 xdvi.bin
-function! Ps2pdf()
-    let g:Tex_DefaultTargetFormat = 'pdf'
-    let g:Tex_FormatDependency_pdf = 'dvi,ps,pdf'
-    let g:Tex_CompileRule_ps = 'dvips -Ppdf -o $*.ps $*.dvi'
-    let g:Tex_CompileRule_pdf = 'ps2pdf $*.ps'
-endfunction
-function Pdflatex()
-    let g:Tex_DefaultTargetFormat = 'pdf'
-    "let g:Tex_FormatDependency_pdf = ''
-    let g:Tex_CompileRule_pdf = 'pdflatex -interaction=nonstopmode $*'
-endfunction
-au FileType tex nnoremap <leader>ps  :call Ps2pdf()<CR>
-au FileType tex nnoremap <leader>pdf :call Pdflatex()<CR>
-" format tables (not working fully, marks them at least then <leader>tt
+" format latex tables (not working fully, marks them at least then <leader>tt
 au FileType tex nnoremap <leader>tb /\\toprule<CR>jV/\\bottomrule<CR>k
 
 
