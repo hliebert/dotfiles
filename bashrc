@@ -87,7 +87,6 @@ fi
 #alias ls='ls --color=auto'
 #PS1='[\u@\h \W]\$ '
 
-export visual="vim"
 alias vim="vim --servername VIM"
 alias emc='emacsclient -nc -a ""'
 alias emt='emacsclient -t -a ""'
@@ -132,9 +131,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-# add ruby to path
-export PATH="$PATH:/root/.gem/ruby/2.3.0/bin"
 
 # If fortune is installed, run a fortune
 if [ -e /opt/local/bin/fortune ]; then

@@ -144,12 +144,13 @@ values."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
                          doom-one
-                         wombat
+                         spacemacs-dark
                          zenburn
+                         wombat
+                         sanityinc-tomorrow-eighties
                          sanityinc-tomorrow-night
                          darktooth
                          ample
-                         spacemacs-dark
                          spacemacs-light
                          solarized-light
                          solarized-dark
@@ -318,7 +319,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup trailing
    ))
 
 (defun dotspacemacs/user-init ()
@@ -338,23 +339,30 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  (global-hl-line-mode -1) ; Disable current line highlight
+  ;; Disable current line highlight
+  (global-hl-line-mode -1) 
 
-  ;; ctrl f4 to close buffer
+  ;; Disable comment block line highlight for spacemacs theme
+  ;; (setq-default spacemacs-theme-comment-bg nil)
+
+  ;; map toggle line wrapping
+  (global-set-key [f12] 'toggle-truncate-lines)
+
+  ;; line navigation on wrapped lines
+  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+
+  ;; buffer management, cycle and close
+  (global-set-key (kbd "<C-tab>") 'next-buffer)
+  (global-set-key (kbd "<C-iso-lefttab>") 'previous-buffer)
   (global-set-key [(control f4)] 'kill-this-buffer)
 
-  ;; map toggle line wrapping 
-  (define-key global-map [f12] 'toggle-truncate-lines)
+  ;; make auctex ask for tex master file
+  (setq-default TeX-master nil)
 
   ;; Swap ; and :, one or both ways
-  (define-key evil-motion-state-map ";" 'evil-ex)
+  ;; (define-key evil-motion-state-map ";" 'evil-ex)
   ;; (define-key evil-motion-state-map ":" 'evil-repeat-find-char)
-
-  ;; Vim key bindings for commenting
-  (evilnc-default-hotkeys)
-
-  ;; latex update preview after build
-  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
   )
 
@@ -369,7 +377,8 @@ you should place your code here."
    ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(package-selected-packages
    (quote
-    (evil-commentary magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode insert-shebang hy-mode htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck fish-mode evil-magit magit magit-popup git-commit with-editor ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-shell company-auctex company-anaconda company auto-yasnippet yasnippet auto-dictionary auctex-latexmk auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (evil-commentary magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode insert-shebang hy-mode htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck fish-mode evil-magit magit magit-popup git-commit with-editor ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-shell company-auctex company-anaconda company auto-yasnippet yasnippet auto-dictionary auctex-latexmk auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+ '(spacemacs-theme-comment-bg nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
