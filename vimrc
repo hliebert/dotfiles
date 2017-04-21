@@ -100,12 +100,14 @@ colorscheme vombato
 " using Source Code Pro
 set anti enc=utf-8
 "set guifont=Source\ Code\ Pro\ 10
+set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
 "set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
-set guifont=Source\ Code\ Pro\ for\ Powerline\ 10,Menlo\ 8,Monaco\ 8
+"set guifont=Menlo\ 10
+"set guifont=Monaco\ 10
 "set guifont=Cousine\ 9
 "set guifont=Ubuntu\ Mono\ 11
 "set guifont=Inconsolata\ 11
-"set guifont=Consolas\ 10
+"set guifont=Consolas\ 11
 "set guifont=Ubuntu\ Mono\ 12
 "set guifont=Inconsolata\ 10
 "set guifont=Consolas\ 9
