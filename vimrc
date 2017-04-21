@@ -96,11 +96,11 @@ colorscheme vombato
 "set guifont=DejaVu\ Sans\ Mono\:h10
 "set guifont=DejaVu\ Sans\ Mono\ 9
 "set guifont=Monospace\ 9
-"set guifont=Droid\ Sans\ Mono\ 9
+set guifont=Droid\ Sans\ Mono\ 9
 " using Source Code Pro
 set anti enc=utf-8
 "set guifont=Source\ Code\ Pro\ 10
-set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
+"set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
 "set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
 "set guifont=Menlo\ 10
 "set guifont=Monaco\ 10
@@ -314,12 +314,12 @@ com Vimrc :tabnew ~/.vimrc
 " When vimrc is edited, reload it
 "autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
 
-" searching etc
-"nnoremap <leader><space> :noh<cr>
-" better: toggle highlight
-map  <leader><space> :set hls!<CR>
-imap <leader><space> <ESC>:set hls!<CR>a
-vmap <leader><space> <ESC>:set hls!<CR>gv
+" searching etc, clear highlight
+nnoremap <leader><space> :noh<cr>
+" alternatively: toggle highlight
+"map  <leader><space> :set hls!<CR>
+"imap <leader><space> <ESC>:set hls!<CR>a
+"vmap <leader><space> <ESC>:set hls!<CR>gv
 " Make double-<Esc> clear search highlights
 nnoremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
 "nnoremap <tab> %
@@ -382,7 +382,7 @@ nnoremap <leader>gq Vgq
 "omap lp ?^$\\|^\s*\(\\begin\\|\\end\\|\\label\)?1<CR>//-1<CR>.<CR>
 
 " pasting and indentation
-set pastetoggle=<F7>
+"set pastetoggle=<F7>
 " reselect pasted line
 "nnoremap <leader>vl V`]
 "reselect pasted text
