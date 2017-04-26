@@ -90,6 +90,8 @@ fi
 alias vim="vim --servername VIM"
 alias emc='emacsclient -nc -a ""'
 alias emt='emacsclient -t -a ""'
+#alias emacs="emacsclient -nw --alternate-editor="""
+
 #alias rmi='rm -i'’
 
 

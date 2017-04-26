@@ -31,6 +31,11 @@ plugins=(git zsh-syntax-highlighting sudo python)
 source $ZSH/oh-my-zsh.sh
 
 # Shell Aliases
+## Emacs Aliases
+alias vim="vim --servername VIM"
+alias emc='emacsclient -nc -a ""'
+alias emt='emacsclient -t -a ""'
+#alias emt="emacsclient -nw --alternate-editor="""
 ## Git Aliases
 alias gs='git status '
 alias ga='git add '
