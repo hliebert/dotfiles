@@ -43,6 +43,7 @@ Plug 'hdima/python-syntax'
 Plug 'Yggdroot/indentLine'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+"Plug 'blindFS/vim-taskwarrior'
 "Plug 'chrisbra/csv.vim'
 "Plug 'garbas/vim-snipmate'
 "Plug 'nathanaelkane/vim-indent-guides'
@@ -96,7 +97,7 @@ colorscheme vombato
 "set guifont=DejaVu\ Sans\ Mono\:h10
 "set guifont=DejaVu\ Sans\ Mono\ 9
 "set guifont=Monospace\ 9
-set guifont=Droid\ Sans\ Mono\ 9
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 9
 " using Source Code Pro
 set anti enc=utf-8
 "set guifont=Source\ Code\ Pro\ 10
@@ -470,7 +471,7 @@ nnoremap <leader>tl :TagbarToggle<CR>
 
 "" Nvim-R plugin
 let R_nvimpager = "vertical"
-let R_ca_ck = 1
+let R_clear_line = 1
 let R_editor_w = 80
 let R_editor_h = 60
 
