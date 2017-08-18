@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# script needs wmctrl, xte and xsel
+# script needs wmctrl, xte and xsel and xdotool or xprop 
+# (xprop has some issues in arch)
 # to get them run
 # in debian/ubuntu linux
-# sudo apt-get install wmctrl xautomation xsel
+# sudo apt-get install wmctrl xautomation xsel xdotool
 # in arch
-# sudo pacman -S wmctrl xautomation xsel
-# and evt.
-# sudo pacman -S xorg-xprop xdotool
+# sudo pacman -S wmctrl xautomation xsel xorg-xprop xdotool
 # more useful info on commands
 # https://bbs.archlinux.org/viewtopic.php?id=117031
 # winid/xprop somehow not working in arch now, use xdotool to get window name and switch back
@@ -26,8 +25,8 @@ winid=$(xdotool getactivewindow getwindowname)
 if [ "$(pgrep stata)" ] 
 then
     #wmctrl -a 'Stata/MP 14.2'
-    wmctrl -a 'Stata/MP 13.1'
-    #wmctrl -a 'Stata/MP'
+    #wmctrl -a 'Stata/MP 13.1'
+    wmctrl -a 'Stata/MP'
 else
     #xstata-mp &
     xstata13-mp &

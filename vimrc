@@ -20,7 +20,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'majutsushi/tagbar'
 "Plug 'vim-scripts/taglist.vim'
-Plug 'easymotion/vim-easymotion'
+"Plug 'easymotion/vim-easymotion'
+Plug 'justinmk/vim-sneak'
 Plug 'vim-scripts/Align'
 "Plug 'junegunn/vim-easy-align'
 Plug 'godlygeek/tabular'
@@ -144,12 +145,12 @@ set wildmode=list:longest
 "set vb t_vb=
 set novisualbell
 set noerrorbells
-"set cursorline
+set cursorline
 set ttyfast
 set ruler
 set backspace=indent,eol,start
 set laststatus=2
-"set relativenumber
+set relativenumber
 set undofile
 set shellslash
 " also use system clipboard
@@ -741,4 +742,7 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
 
+" Vim-sneak
+let g:sneak#s_next = 1
+let g:sneak#label = 1
 
