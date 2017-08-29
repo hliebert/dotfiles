@@ -1,55 +1,52 @@
 #!/bin/bash
 
-# script needs wmctrl, xte and xsel and xdotool or xprop 
-# (xprop has some issues in arch)
+# script needs wmctrl, xsel and xdotool 
 # to get them run
 # in debian/ubuntu linux
-# sudo apt-get install wmctrl xautomation xsel xdotool
+# sudo apt-get install wmctrl xsel xdotool
 # in arch
-# sudo pacman -S wmctrl xautomation xsel xorg-xprop xdotool
-# more useful info on commands
-# https://bbs.archlinux.org/viewtopic.php?id=117031
-# winid/xprop somehow not working in arch now, use xdotool to get window name and switch back
+# sudo pacman -S wmctrl xsel xdotool
+# the default delays should work on most systems 
 
-# delays depends on window manager, and whether stata is on a different workspace etc 
-
+# save clipboard contents
+clip=$(xsel -b)
 #copy to clipboard
 echo 'do ' '"'$1'"' | xsel -b
 
 # get current window id or name
-#winid=$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')
-winid=$(xdotool getactivewindow getwindowname)
+#winid=$(xdotool getactivewindow getwindowname)
+winid=$(xdotool getactivewindow)
+# get last active stata window id 
+stataid=$(xdotool search --name "Stata" | tail -1)
+
 
 # check for stata window, if found activate else execute
-# pidof or pgrep
-if [ "$(pgrep stata)" ] 
+#if [ "$(pgrep stata)" ] 
+if [ "$stataid" ] 
 then
-    #wmctrl -a 'Stata/MP 14.2'
     #wmctrl -a 'Stata/MP 13.1'
-    wmctrl -a 'Stata/MP'
+    xdotool windowactivate --sync $stataid key 'Control_L+1' 'Control_L+a' 'Control_L+v' 'Return'
+    #xdotool windowactivate --sync $stataid key 'Control_L+1' 'Control_L+a' type 'do ' '"'$1'"'
+    #xdotool key 'Return'
 else
-    #xstata-mp &
-    xstata13-mp &
-    sleep .1
+    xstata-mp &
+    stataid=$(xdotool search --sync --name "Stata" | tail -1)
+    #sleep .2
+    xdotool windowactivate --sync $stataid key 'Control_L+1' 'Control_L+a' 'Control_L+v' 'Return'
+    #xdotool windowactivate --sync $stataid key 'Control_L+1' 'Control_L+a' type 'do ' '"'$1'"'
+    #xdotool key 'Return'
 fi
 
-sleep .1 
-
-# switch to command line, ctrl-4 in stata 10, ctrl-1 in 11/12?
-# and select existing text via ctrl-a
-xte 'keydown Control_L' 'key 1' 'key A' 'usleep 100' \
-    'key V' 'keyup Control_L' 
-sleep .1
-xte 'key Return'
+# switch to command window, ctrl-1 in Stata v11+ (ctrl-4 in stata 10) 
+# and select any existing text via ctrl-a, then paste over it and execute
+#xdotool key 'Control_L+1' 'Control_L+a' 'Control_L+v' 'Return'
 
 
-
-sleep .3
-#sleep .1
-#sleep 1
+# restore clipboard
+echo $clip | xsel -b
 
 # go back to editor window
-#wmctrl -i -a $winid 
-wmctrl -a $winid 
-
+#sleep .3
+#wmctrl -a $winid 
+xdotool windowactivate --sync $winid
 

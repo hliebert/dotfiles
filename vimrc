@@ -210,9 +210,9 @@ set sw=4
 " handle backup and undo files
 "silent execute '!mkdir "'.$VIMRUNTIME.'/temp"'
 "silent execute '!del "'.$VIMRUNTIME.'/temp/*~"'
-set backupdir=~/.backup_vim//
-set directory=~/.backup_vim//
-set undodir=~/.backup_vim//
+set backupdir=~/.backup-vim//
+set directory=~/.backup-vim//
+set undodir=~/.backup-vim//
 
 " autosave when changing buffer
 "au FocusLost * :wa

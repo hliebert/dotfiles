@@ -18,6 +18,11 @@ echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
 mkdir -p $olddir
 echo "done"
 
+# create backupdir for vim 
+echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
+mkdir -p ~/.backup-vim
+echo "done"
+
 # change to the dotfiles directory
 echo -n "Changing to the $dir directory ..."
 cd $dir
