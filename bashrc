@@ -139,3 +139,4 @@ if [ -e /opt/local/bin/fortune ]; then
     fortune -so
     echo " "
 fi
+

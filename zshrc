@@ -1,13 +1,17 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+export TERM="xterm-256color"
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="random"
 #ZSH_THEME="agnoster"
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
+# POWERLEVEL9K_MODE='awesome-fontconfig'
+ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -58,4 +62,11 @@ qfind () {
   return 0
 }
 
+# source "/usr/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh"
 
+# default
+# POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir rbenv vcs)
+# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(user dir)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vcs ssh root_indicator dir_writable background_jobs)
+# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vcs ssh root_indicator dir_writable background_jobs)

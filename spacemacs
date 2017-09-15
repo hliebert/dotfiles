@@ -67,7 +67,7 @@ This function should only modify configuration layer settings."
      pdf-tools
      pandoc
      ;; ruby
-     vimscript
+     ;; vimscript
      ;; evil-cleverparens
      ;; evil-nerd-commenter
      ;; evil-commentary
@@ -156,8 +156,8 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         doom-one
                          atom-one-dark
+                         doom-one
                          ample
                          ample-flat
                          alect-dark
@@ -194,7 +194,7 @@ It should only modify the values of Spacemacs settings."
                                ;; :width normal
                                ;; :powerline-scale 1.1)
                                "Fira Mono for Powerline"
-                               :size 13
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -434,7 +434,9 @@ before packages are loaded."
   ;; buffer management, cycle and close
   (global-set-key (kbd "<C-tab>") 'next-buffer)
   (global-set-key (kbd "<C-iso-lefttab>") 'previous-buffer)
-  (global-set-key [(control f4)] 'kill-this-buffer)
+  (global-set-key (kbd "<C-w>") 'kill-buffer-and-window)
+  ;; (global-set-key [(control f4)] 'kill-this-buffer)
+  (global-set-key [(control f4)] 'kill-buffer-and-window)
   (spacemacs/set-leader-keys "bq" 'kill-buffer-and-window)
   (spacemacs/set-leader-keys "wq" 'kill-buffer-and-window)
 
@@ -490,6 +492,82 @@ before packages are loaded."
                                         "CANCELLED(c)")))
   )
 
+  ;; ESS
+(defun delimit-do (start end toggle &optional clear message)
+  "Send the current region to the inferior ESS process, Stata do-editor style.
+Creates a temporary file, \"do\"-es it, deletes it.
+With prefix argument toggle the meaning of `ess-eval-visibly-p';
+this does not apply when using the S-plus GUI, see `ess-eval-region-ddeclient'."
+  (interactive "r\nP")
+  ;;(untabify (point-min) (point-max))
+  ;;(untabify start end); do we really need to save-excursion?
+  (ess-force-buffer-current "Process to use: ")
+  (message "Starting evaluation...")
+  (setq message (or message "Eval region"))
+
+  (save-excursion
+    ;; don't send new lines (avoid screwing the debugger)
+    (goto-char start)
+    (skip-chars-forward "\n\t ")
+    (setq start (point))
+
+    (unless mark-active
+      (ess-blink-region start end))
+
+    ;; don't send new lines at the end (avoid screwing the
+    ;; debugger)
+    (goto-char end)
+    (skip-chars-backward "\n\t ")
+    (setq end (point)))
+
+  (let* (delimit
+	 (commands (buffer-substring-no-properties start end))
+	 (delimit-do-file (make-temp-file "delimit-do" nil ".do"))
+	 (proc (get-process ess-local-process-name))
+	 (visibly (if toggle (not ess-eval-visibly-p) ess-eval-visibly-p))
+	 (dev-p (process-get proc 'developer))
+	 (tb-p  (process-get proc 'tracebug)))
+    ;; Go to the start of the section and look back for #delimit
+    ;; if found set delimit unless the delimiter is not ";"
+    (save-excursion
+      (goto-char start)
+      (setq delimit (re-search-backward "^#delimit +\\(.+\\)$" nil t))
+      (if delimit
+	  (if (not (string-match ";" (match-string 1))) (setq delimit nil))))
+
+    (with-temp-buffer
+      (if clear (insert "clear\n"))
+      (if delimit (insert "#delimit ;\n"
+			  commands
+			  "\n#delimit cr\n")
+	(insert commands "\n"))
+      (write-file delimit-do-file nil)
+      (kill-buffer (current-buffer)))
+
+    (process-send-string
+     (ess-get-process ess-current-process-name)
+     ;; (format "do %s\nrm %s\n" delimit-do-file delimit-do-file))
+     (format "do %s\n" delimit-do-file delimit-do-file))
+    )
+    ;; (call-process-shell-command
+    ;; (format "sh ~/.rundo.sh %S"
+    ;;         (format "%s" delimit-do-file))))
+;; (format "do %s\nrm %s\n" delimit-do-file delimit-do-file))))
+
+  (if (and (fboundp 'deactivate-mark) ess-eval-deactivate-mark)
+      (deactivate-mark))
+  ;; return value
+  (list start end))
+
+(with-eval-after-load 'ess-mode
+  ;; (define-key ess-mode-map (kbd "C-c C-s") 'delimit-do)
+  (spacemacs/set-leader-keys-for-major-mode 'ess-mode "ss" 'delimit-do)
+  )
+
+  ;; remap keys
+  ;; (define-key ess-mode-map (kbd "C-M-x>") 'delimit-do)
+  ;; (spacemacs/set-leader-keys-for-major-mode 'ess-mode "ss" 'delimit-do)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -529,8 +607,7 @@ This function is called at the very end of Spacemacs initialization."
    ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(package-selected-packages
    (quote
-    (evil-snipe org-brain evil-org zenburn-theme symon string-inflection solarized-theme password-generator monokai-theme impatient-mode simple-httpd helm-purpose window-purpose imenu-list flycheck-bashate evil-lion editorconfig doom-themes darktooth-theme autothemer color-theme-sanityinc-tomorrow browse-at-remote atom-one-dark-theme ample-theme alect-themes ox-reveal vimrc-mode org-category-capture dactyl-mode memoize font-lock+ all-the-icons atom-one-theme doom-dark-theme doom-nova-theme-theme tomorrow-night-theme doom-theme-nova-theme doom-nova-theme wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper pandoc-mode ox-pandoc pdf-tools tablist web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data org-ref key-chord ivy helm-bibtex parsebib biblio biblio-core evil-commentary magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode insert-shebang hy-mode htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck fish-mode evil-magit magit magit-popup git-commit with-editor ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-shell company-auctex company-anaconda company auto-yasnippet yasnippet auto-dictionary auctex-latexmk auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
- '(paradox-github-token t)
+    (org-brain dash-functional evil-org editorconfig doom-themes color-theme-sanityinc-tomorrow evil-snipe ox-reveal vimrc-mode org-category-capture dactyl-mode memoize font-lock+ all-the-icons atom-one-theme doom-dark-theme doom-nova-theme-theme tomorrow-night-theme doom-theme-nova-theme doom-nova-theme wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper pandoc-mode ox-pandoc pdf-tools tablist web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data org-ref key-chord ivy helm-bibtex parsebib biblio biblio-core evil-commentary magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode insert-shebang hy-mode htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck fish-mode evil-magit magit magit-popup git-commit with-editor ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-shell company-auctex company-anaconda company auto-yasnippet yasnippet auto-dictionary auctex-latexmk auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(spacemacs-theme-comment-bg nil t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

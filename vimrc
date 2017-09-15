@@ -48,8 +48,9 @@ Plug 'honza/vim-snippets'
 "Plug 'chrisbra/csv.vim'
 "Plug 'garbas/vim-snipmate'
 "Plug 'nathanaelkane/vim-indent-guides'
-"Plug 'ivanov/vim-ipython'
+Plug 'ivanov/vim-ipython'
 "Plug 'jpalardy/vim-slime'
+"Plug 'julienr/vimux-pyutils'
 "Plug 'raimondi/delimitmate'
 "Plug 'bronson/vim-trailing-whitespace'
 "Plug 'jceb/vim-orgmode'
@@ -98,9 +99,13 @@ colorscheme vombato
 "set guifont=DejaVu\ Sans\ Mono\:h10
 "set guifont=DejaVu\ Sans\ Mono\ 9
 "set guifont=Monospace\ 9
+" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
+" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ Book\ 9
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 9
+" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Book\ 9
+" set guifont=Fira\ Mono\ for\ Powerline\ 9 
 " using Source Code Pro
-set anti enc=utf-8
+" set anti enc=utf-8
 "set guifont=Source\ Code\ Pro\ 10
 "set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
 "set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
@@ -108,7 +113,7 @@ set anti enc=utf-8
 "set guifont=Monaco\ 10
 "set guifont=Cousine\ 9
 "set guifont=Ubuntu\ Mono\ 11
-"set guifont=Inconsolata\ 11
+" set guifont=Inconsolata\ for\ Powerline\ 11
 "set guifont=Consolas\ 11
 "set guifont=Ubuntu\ Mono\ 12
 "set guifont=Inconsolata\ 10
@@ -134,6 +139,7 @@ set encoding=utf-8 "The encoding displayed.
 
 " more editing related stuff
 set scrolloff=3
+" set nowrap
 set autoindent
 set showmode
 set showcmd
@@ -153,9 +159,12 @@ set laststatus=2
 set relativenumber
 set undofile
 set shellslash
+set splitright
+set splitbelow
 " also use system clipboard
+set clipboard=unnamed,unnamedplus
 "set clipboard+=unnamedplus
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
 "set clipboard+=unnamed
 "set clipboard=unnamed
 nnoremap yy yy"+yy
@@ -199,10 +208,12 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+set smarttab
 set sw=4
 
 
 " whitespace
+set nojoinspaces
 "set list
 "set listchars=tab:?\ ,eol:Â¬
 
@@ -218,12 +229,11 @@ set undodir=~/.backup-vim//
 "au FocusLost * :wa
 
 
-" Spellchecking
-"set spell
-au Filetype tex set spell
-au Filetype tex syntax spell toplevel
-"set spelllang=en,en_gb,de
-set spelllang=en,en_us,de
+" " Spellchecking
+" "set spell
+" au Filetype tex set spell
+" au Filetype tex syntax spell toplevel
+" set spelllang=en,en_us,de
 
 
 " Markdown
@@ -239,7 +249,7 @@ let mapleader = ","
 let maplocalleader = ","
 
 " enter cml w/o shift
-nnoremap ; :
+" nnoremap ; :
 
 "" Automatically save and restore foldview
 "au BufWinLeave ?* mkview
@@ -311,10 +321,6 @@ noremap <C-F4> :bdelete<CR>
 
 " file shortcuts
 com Vimrc :tabnew ~/.vimrc
-"com Texrc :tabnew ~/.vim/ftplugin/tex/texrc
-"map <leader>e :e! ~/.vim_runtime/vimrc<cr>
-" When vimrc is edited, reload it
-"autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
 
 " searching etc, clear highlight
 nnoremap <leader><space> :noh<cr>
@@ -362,7 +368,7 @@ let g:ctrlp_map = '<C-t>'
 "let g:ctrlp_cmd = 'CtrlP'
 "let g:ctrlp_map = '<leader>t'
 nnoremap <leader>t :CtrlP<CR>
-"nnoremap <leader>m :CtrlPMRU<CR>
+nnoremap <leader>m :CtrlPMRU<CR>
 ""nnoremap <leader>m CtrlPBuffer<CR>
 "nnoremap <leader>b :CtrlPPMixed<CR>
 
@@ -415,6 +421,8 @@ inoremap <silent> <F6> <ESC>:YRShow<cr>
 "inoremap <expr> <C-o> InsertHLine()
 "
 
+" NERD commenter
+let NERDSpaceDelims=1
 " stata comment ignoring endofline ///
 nnoremap <leader>cx 0v/\/\/\/<CR>BE:'<,'>call NERDComment('x','comment')<CR>
 "nnoremap <leader>cx 0v/\/\/\/<CR>hh:'<,'>call NERDComment('x','comment')<CR>
@@ -744,5 +752,10 @@ let g:airline_symbols.linenr = ''
 
 " Vim-sneak
 let g:sneak#s_next = 1
-let g:sneak#label = 1
+" let g:sneak#label = 1
+
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
 
