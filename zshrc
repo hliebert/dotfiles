@@ -62,8 +62,6 @@ qfind () {
   return 0
 }
 
-# source "/usr/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh"
-
 # default
 # POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir rbenv vcs)
 # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
