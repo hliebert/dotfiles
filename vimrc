@@ -13,11 +13,15 @@ Plug 'vim-scripts/Wombat'
 Plug 'vim-scripts/wombat256.vim'
 Plug 'sheerun/vim-wombat-scheme'
 Plug 'molok/vim-vombato-colorscheme'
+Plug 'arcticicestudio/nord-vim'
+Plug 'joshdick/onedark.vim'
+Plug 'rakr/vim-one'
 Plug 'junegunn/seoul256.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'godlygeek/csapprox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+" Plug 'itchyny/lightline.vim'
 Plug 'majutsushi/tagbar'
 "Plug 'vim-scripts/taglist.vim'
 "Plug 'easymotion/vim-easymotion'
@@ -48,7 +52,7 @@ Plug 'honza/vim-snippets'
 "Plug 'chrisbra/csv.vim'
 "Plug 'garbas/vim-snipmate'
 "Plug 'nathanaelkane/vim-indent-guides'
-Plug 'ivanov/vim-ipython'
+"Plug 'ivanov/vim-ipython'
 "Plug 'jpalardy/vim-slime'
 "Plug 'julienr/vimux-pyutils'
 "Plug 'raimondi/delimitmate'
@@ -70,20 +74,27 @@ syntax on
 
 "" Appearance
 set background=dark
-" csapprox can also approx one scheme, comment then
-"if has('gui_running')
-    "colorscheme wombat22
-"else
-    "colorscheme wombat256
-"endif
 
-"" seoul256 (dark):
-""   Range:   233 (darkest) ~ 239 (lightest)
-""   Default: 237
-"let g:seoul256_background = 234
-"colorscheme seoul256
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (empty($TMUX))
+  if (has("nvim"))
+    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
 
-colorscheme vombato
+" colorscheme vombato
+" colorscheme one
+colorscheme onedark
+" colorscheme nord
 "colorscheme wombat22
 "colorscheme jellybeans
 "colorscheme darkspectrum
@@ -101,14 +112,13 @@ colorscheme vombato
 "set guifont=Monospace\ 9
 " set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
 " set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ Book\ 9
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 9
+" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 9
 " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Book\ 9
-" set guifont=Fira\ Mono\ for\ Powerline\ 9 
+" set guifont=Fira\ Mono\ for\ Powerline\ 9
+" set guifont=Monaco\ for\ Powerline\ 9
 " using Source Code Pro
 " set anti enc=utf-8
-"set guifont=Source\ Code\ Pro\ 10
-"set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
-"set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
+set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
 "set guifont=Menlo\ 10
 "set guifont=Monaco\ 10
 "set guifont=Cousine\ 9
@@ -162,13 +172,10 @@ set shellslash
 set splitright
 set splitbelow
 " also use system clipboard
-set clipboard=unnamed,unnamedplus
-"set clipboard+=unnamedplus
-" set clipboard=unnamedplus
-"set clipboard+=unnamed
-"set clipboard=unnamed
-nnoremap yy yy"+yy
-vnoremap y ygv"+y
+" set clipboard+=unnamedplus
+set clipboard=unnamedplus,unnamed
+" nnoremap yy yy"+yy
+" vnoremap y ygv"+y
 
 
 " searching / moving / stuff from system file, check /etc/vim/vimrc
@@ -362,6 +369,9 @@ nnoremap <F5> :GundoToggle<CR>
 "noremap <F2> :NERDTreeToggle /home/helge<CR>
 noremap <F2> :NERDTreeToggle %:p:h<CR>
 
+" latex
+let g:tex_flavor = "latex"
+
 "" CtrLP
 let g:ctrlp_map = '<C-t>'
 "let g:ctrlp_map = '<C-p>'
@@ -483,6 +493,7 @@ let R_nvimpager = "vertical"
 let R_clear_line = 1
 let R_editor_w = 80
 let R_editor_h = 60
+let R_in_buffer = 0
 
 "" STATA DO-FILE SCRIPTS
 fun! RunIt()
@@ -710,6 +721,9 @@ let g:UltiSnipsEditSplit="vertical"
 
 
 " airline
+" let g:airline_theme='wombat'
+let g:airline_theme='onedark'
+" let g:airline_theme='nord'
 let g:airline#extensions#tabline#enabled = 1
 "let g:airline_powerline_fonts = 1
 "if !exists('g:airline_symbols')
