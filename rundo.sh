@@ -15,7 +15,7 @@ echo 'do ' '"'$1'"' | xsel -b
 # get current window id or name
 winid=$(xdotool getactivewindow)
 # get last active stata window id 
-stataid=$(xdotool search --name "Stata MP" | tail -1)
+stataid=$(xdotool search --name "Stata/MP" | tail -1)
 
 
 # check for stata window, if found activate else execute
