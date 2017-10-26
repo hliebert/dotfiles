@@ -77,7 +77,7 @@ This function should only modify configuration layer settings."
      ;; unimpaired
      ;; vim-empty-lines
      ;; vinegar
-     vim-powerline
+     ;; vim-powerline
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -181,16 +181,6 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '(;; "Source Code Pro for Powerline"
-                               ;; :size 13
-                               ;; :weight normal
-                               ;; :width normal
-                               ;; :powerline-scale 1.1)
-                               ;; "Inconsolata"
-                               ;; :size 16
-                               ;; :weight normal
-                               ;; :width normal
-                               ;; :powerline-scale 1.3)
-                               ;; "DejaVu Sans Mono for Powerline"
                                ;; :size 13
                                ;; :weight normal
                                ;; :width normal
@@ -409,20 +399,11 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-  ;; Disable current line highlight
-  ;; (global-hl-line-mode -1)
-
   ;; odd powerline separator in emacsclient only
-  (setq powerline-default-separator 'arrow)
-  ;; (setq powerline-default-separator 'nil)
+  ;; (setq powerline-default-separator 'arrow)
 
   ;; Disable comment block line highlight for spacemacs theme
   ;; (setq-default spacemacs-theme-comment-bg nil)
-
-  ;; map toggle line wrapping
-  ;; (global-visual-line-mode t)
-  (global-set-key [f8] 'toggle-visual-line-navigation)
-  (global-set-key [f12] 'toggle-truncate-lines)
 
   ;; line navigation on wrapped lines
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
@@ -473,10 +454,6 @@ before packages are loaded."
   (evil-define-key 'normal LaTeX-mode-map "gw"
     #'evil-LaTeX-fill)
 
-  ;; Swap ; and :, one or both ways
-  ;; (define-key evil-motion-state-map ";" 'evil-ex)
-  ;; (define-key evil-motion-state-map ":" 'evil-repeat-find-char)
-
   ;; org-mode setup
   (with-eval-after-load 'org
     ;; agenda files
@@ -504,6 +481,13 @@ before packages are loaded."
                                         "DONE(d)"
                                         "CANCELLED(c)")))
   )
+
+  ;; enable persistent undo via undo-tree, currently disabled in master
+  (setq undo-tree-auto-save-history t
+        undo-tree-history-directory-alist
+        `(("." . ,(concat spacemacs-cache-directory "undo"))))
+  (unless (file-exists-p (concat spacemacs-cache-directory "undo"))
+    (make-directory (concat spacemacs-cache-directory "undo")))
 
   )
 
