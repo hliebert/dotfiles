@@ -299,6 +299,15 @@ nnoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
+" make search results appear in the middle of the screen 
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+
+
 "" R assignment operator
 "au FileType R inoremap - <-
 "au FileType R inoremap -- -
