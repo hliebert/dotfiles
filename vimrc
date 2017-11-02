@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Thu 02 Nov 2017 09:13:51 PM CET
+"" Last modified: Thu 02 Nov 2017 09:22:56 PM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -40,7 +40,7 @@ Plug 'honza/vim-snippets'
 Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 Plug 'sjl/gundo.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'yegappan/mru'
@@ -395,8 +395,8 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " Gutentags
-let g:gutentags_ctags_tagfile = '.tags'
-let g:gutentags_project_root = ['paper.tex','.projectile']
+" let g:gutentags_ctags_tagfile = '.tags'
+" let g:gutentags_project_root = ['.projectile']
 
 " YouCompleteMe
 " disable youcomplete me for now with filteype stata
