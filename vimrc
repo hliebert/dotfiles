@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Thu 02 Nov 2017 08:30:21 PM CET
+"" Last modified: Thu 02 Nov 2017 08:35:41 PM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -26,7 +26,7 @@ Plug 'majutsushi/tagbar'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'sjl/gundo.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'yegappan/mru'
+Plug 'yegappan/mru'
 """""""""""""""""""" Language support """""""""""""""""""""""""""""""""""""""""
 Plug 'lervag/vimtex'
 Plug 'jalvesaq/Nvim-R'
@@ -71,8 +71,8 @@ endif
 
 " set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ Book\ 9
 " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Book\ 9
-" set guifont=Fira\ Mono\ for\ Powerline\ 9
-set guifont=Source\ Code\ Pro\ for\ Powerline\ 10
+set guifont=Fira\ Mono\ for\ Powerline\ 11
+" set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
 
 " colorscheme vombato
 " colorscheme onedark
@@ -298,7 +298,7 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType latex,python,r,stata autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType tex,markdown,mkd,latex,python,r,stata autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 " autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " Tag modifications
@@ -368,7 +368,10 @@ map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 
-" CtrLP/MRU
+" MRU 
+noremap <F3> :MRU<CR>
+
+" CtrLP
 let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
 let g:ctrlp_by_filename = 1
 let g:ctrlp_map = '<C-t>'
@@ -377,8 +380,7 @@ nnoremap <leader>t :CtrlP<CR>
 nnoremap <leader>m :CtrlPMRU<CR>
 " nnoremap <leader>b CtrlPBuffer<CR>
 nnoremap <leader>b :CtrlPMixed<CR>
-" noremap <F3> :MRU<CR>
-noremap <F3> :CtrlPMRU<CR>
+" noremap <F3> :CtrlPMRU<CR>
 
 " NERD commenter
 let NERDSpaceDelims=1
