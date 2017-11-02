@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Thu 02 Nov 2017 08:35:41 PM CET
+"" Last modified: Thu 02 Nov 2017 09:13:51 PM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -18,6 +18,23 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'itchyny/lightline.vim'
+"""""""""""""""""""" Editing """"""""""""""""""""""""""""""""""""""""""""""""""
+Plug 'vim-scripts/YankRing.vim'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdcommenter'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'vim-scripts/Align'
+Plug 'junegunn/vim-easy-align'
+Plug 'justinmk/vim-gtfo'
+"""""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
+"Plug 'Shougo/denite.vim'
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'ajh17/VimCompletesMe'
+Plug 'ervandew/supertab'
+Plug 'Valloric/YouCompleteMe'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
 " Plug 'vim-syntastic/syntastic'
 Plug 'w0rp/ale'
@@ -40,22 +57,6 @@ Plug 'hdima/python-syntax'
 "Plug 'airblade/vim-gitgutter'
 "Plug 'jreybert/vimagit'
 "Plug 'tpope/vim-fugitive'
-"""""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
-"Plug 'Shougo/denite.vim'
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'ajh17/VimCompletesMe'
-Plug 'ervandew/supertab'
-Plug 'Valloric/YouCompleteMe'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-"""""""""""""""""""" Editing """"""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'vim-scripts/YankRing.vim'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'scrooloose/nerdcommenter'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'vim-scripts/Align'
-Plug 'junegunn/vim-easy-align'
 """""""""""""""""""" Misc """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plug '~/.vim/vim-latex'
 call plug#end()
@@ -135,8 +136,8 @@ set showmatch
 set hlsearch
 set autowrite
 set mouse=a	
-set clipboard+=unnamedplus
-" set clipboard=unnamedplus,unnamed
+" set clipboard+=unnamedplus
+set clipboard=unnamedplus,unnamed
 set encoding=utf-8 
 " format and wrap
 set wrap
@@ -393,6 +394,10 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
+" Gutentags
+let g:gutentags_ctags_tagfile = '.tags'
+let g:gutentags_project_root = ['paper.tex','.projectile']
+
 " YouCompleteMe
 " disable youcomplete me for now with filteype stata
 " due to problems with latin1/iso encoding
@@ -400,6 +405,9 @@ nmap ga <Plug>(EasyAlign)
 " let g:loaded_youcompleteme = 1
 " or
 let g:ycm_filetype_blacklist = { 'stata': 1 }
+
+"Ale
+let g:airline#extensions#ale#enabled = 1
 
 " " Syntastic
 " set statusline+=%#warningmsg#
@@ -416,9 +424,6 @@ let g:ycm_filetype_blacklist = { 'stata': 1 }
 " let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 " " crtl-w E to check and activate at once
 " nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
-
-"Ale
-let g:airline#extensions#ale#enabled = 1
 
 " UtilSnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -437,6 +442,7 @@ let g:UltiSnipsEditSplit="vertical"
 " Latex/Vimtex
 let g:tex_flavor = "latex"
 let g:vimtex_complete_recursive_bib = 1
+let g:vimtex_index_split_pos = 'vert rightbelow'
 " mark latex table between toprule/bottomrule
 au FileType tex nnoremap <leader>tb /\\toprule<CR>jV/\\bottomrule<CR>k
 
