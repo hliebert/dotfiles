@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Thu 02 Nov 2017 09:22:56 PM CET
+"" Last modified: Fri 10 Nov 2017 05:14:59 PM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -49,9 +49,8 @@ Plug 'lervag/vimtex'
 Plug 'jalvesaq/Nvim-R'
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
-" Plug 'vim-pandoc/vim-markdownfootnotes'
-" Plug 'vim-pandoc/vim-rmarkdown'
 " Plug 'vim-pandoc/vim-pandoc-after'
+" Plug 'vim-pandoc/vim-rmarkdown'
 Plug 'klen/python-mode'
 Plug 'hdima/python-syntax'
 "Plug 'airblade/vim-gitgutter'
@@ -70,10 +69,11 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ Book\ 9
-" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Book\ 9
+" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ Book\ 11
+" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Book\ 11
 set guifont=Fira\ Mono\ for\ Powerline\ 11
 " set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
+" set guifont=Pragmata\ Pro\ 11
 
 " colorscheme vombato
 " colorscheme onedark
@@ -135,10 +135,10 @@ set incsearch
 set showmatch
 set hlsearch
 set autowrite
-set mouse=a	
+set mouse=a
 " set clipboard+=unnamedplus
 set clipboard=unnamedplus,unnamed
-set encoding=utf-8 
+set encoding=utf-8
 " format and wrap
 set wrap
 set textwidth=79
@@ -202,7 +202,7 @@ nnoremap k gk
 " kill ex mode once and for all
 nnoremap Q <nop>
 
-" make search results appear in the middle of the screen 
+" make search results appear in the middle of the screen
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
@@ -228,6 +228,7 @@ nnoremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
 noremap <C-S-tab> :bprevious<CR>
 noremap <C-tab> :bnext<CR>
 noremap <C-F4> :bdelete<CR>
+noremap <C-w> :bdelete<CR>
 
 " directories
 nnoremap <silent> <Leader>cd :cd %:p:h<CR>
@@ -318,7 +319,7 @@ function! LastModified()
 endfun
 autocmd BufWritePre * call LastModified()
 
-" Toggle wrap 
+" Toggle wrap
 function ToggleWrap()
     set wrap!
     echo &wrap ? 'wrap' : 'nowrap'
@@ -360,6 +361,7 @@ inoremap <silent> <F6> <ESC>:YRShow<cr>
 
 " Tagbar
 nnoremap <leader>tl :TagbarToggle<CR>
+" nnoremap <silent> <F9> :TagbarToggle<CR>
 
 " Vim-sneak
 let g:sneak#s_next = 1
@@ -369,7 +371,7 @@ map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 
-" MRU 
+" MRU
 noremap <F3> :MRU<CR>
 
 " CtrLP
@@ -399,12 +401,9 @@ nmap ga <Plug>(EasyAlign)
 " let g:gutentags_project_root = ['.projectile']
 
 " YouCompleteMe
-" disable youcomplete me for now with filteype stata
-" due to problems with latin1/iso encoding
-" let g:enable_ycm_at_startup = 0
-" let g:loaded_youcompleteme = 1
-" or
-let g:ycm_filetype_blacklist = { 'stata': 1 }
+" may need to disable youcompleteme with filteype stata
+" due to problems with latin1/iso encoding in spd code files
+" let g:ycm_filetype_blacklist = { 'stata': 1 }
 
 "Ale
 let g:airline#extensions#ale#enabled = 1
@@ -443,8 +442,13 @@ let g:UltiSnipsEditSplit="vertical"
 let g:tex_flavor = "latex"
 let g:vimtex_complete_recursive_bib = 1
 let g:vimtex_index_split_pos = 'vert rightbelow'
+" Disable overfull/underfull \hbox warnings
+let g:vimtex_quickfix_latexlog = {'overfull' : 0, 'underfull' : 0}
 " mark latex table between toprule/bottomrule
 au FileType tex nnoremap <leader>tb /\\toprule<CR>jV/\\bottomrule<CR>k
+
+" Markdown/Pandoc
+let g:pandoc#after#modules#enabled = ["supertab", "ultisnips"]
 
 " Nvim-R plugin
 let R_nvimpager = "vertical"
