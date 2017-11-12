@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Fri 10 Nov 2017 05:14:59 PM CET
+"" Last modified: Son 12 Nov 2017 12:56:17 CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -28,11 +28,14 @@ Plug 'vim-scripts/Align'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-gtfo'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
-"Plug 'Shougo/denite.vim'
+" Plug 'Shougo/denite.vim'
 " Plug 'Shougo/deoplete.nvim'
 " Plug 'ajh17/VimCompletesMe'
-Plug 'ervandew/supertab'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'maralla/completor.vim'
+" Plug 'lifepillar/vim-mucomplete'
+" Plug 'ervandew/supertab'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
@@ -400,10 +403,14 @@ nmap ga <Plug>(EasyAlign)
 " let g:gutentags_ctags_tagfile = '.tags'
 " let g:gutentags_project_root = ['.projectile']
 
-" YouCompleteMe
-" may need to disable youcompleteme with filteype stata
-" due to problems with latin1/iso encoding in spd code files
-" let g:ycm_filetype_blacklist = { 'stata': 1 }
+" Completor
+" Use Tab to select completion
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+" Use Tab to trigger completion (disable auto trigger)
+" let g:completor_auto_trigger = 0
+" inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
 
 "Ale
 let g:airline#extensions#ale#enabled = 1
