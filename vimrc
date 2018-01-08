@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Son 12 Nov 2017 12:56:17 CET
+"" Last modified: Mon 08 Jan 2018 06:46:52 PM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -15,9 +15,12 @@ Plug 'molok/vim-vombato-colorscheme'
 Plug 'joshdick/onedark.vim'
 Plug 'rakr/vim-one'
 Plug 'arcticicestudio/nord-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-" Plug 'itchyny/lightline.vim'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
+Plug 'drmikehenry/vim-fontsize'
+Plug 'mgee/lightline-bufferline'
 """""""""""""""""""" Editing """"""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'vim-scripts/YankRing.vim'
 Plug 'tpope/vim-repeat'
@@ -27,6 +30,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-scripts/Align'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-gtfo'
+Plug 'justinmk/vim-sneak'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
 " Plug 'Shougo/denite.vim'
 " Plug 'Shougo/deoplete.nvim'
@@ -58,7 +62,7 @@ Plug 'klen/python-mode'
 Plug 'hdima/python-syntax'
 "Plug 'airblade/vim-gitgutter'
 "Plug 'jreybert/vimagit'
-"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 """""""""""""""""""" Misc """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plug '~/.vim/vim-latex'
 call plug#end()
@@ -88,10 +92,74 @@ set background=dark
 " Airline (alternative: lightline)
 " let g:airline_theme='wombat'
 " let g:airline_theme='onedark'
-let g:airline_theme='one'
+" let g:airline_theme='one'
 " let g:airline_theme='nord'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline_powerline_fonts = 1
+" let g:airline_left_sep=''
+" let g:airline_right_sep=''
+
+" Lightline
+" let g:lightline = {
+      " \ 'colorscheme': 'wombat',
+      " \ 'separator': { 'left': '', 'right': '' },
+      " \ 'subseparator': { 'left': '', 'right': '' }
+      " \ }
+" Lots of customization to get a bufferline/tabline. If I knew before this
+" would be missing and this messy, I'd have stayed with airline.
+
+" Config
+" always show tabline
+au VimEnter * :set showtabline=2
+if has('gui_running') 
+  set guioptions-=e
+endif
+
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ], 
+		  \   'right': [ [ 'lineinfo' ],
+		  \              [ 'percent' ],
+		  \              [ 'fileformat', 'fileencoding', 'filetype' ], 
+		  \              [ 'linter_errors', 'linter_warnings'] ] 
+      \ },
+      \ 'tabline': {
+      \   'left': [ [ 'buffers' ], ],
+      \   'right': [ [ 'close' ], ],
+      \ },
+      \ 'component': {
+      \   'lineinfo': ' %3l:%-2v',
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head',
+      \   'readonly': 'LightlineReadonly',
+      \   'fugitive': 'LightlineFugitive',
+      \ },
+      \ 'component_expand': {
+      \   'linter_warnings': 'lightline#ale#warnings',
+      \   'linter_errors': 'lightline#ale#errors',
+      \   'linter_ok': 'lightline#ale#ok',
+      \   'buffers': 'lightline#bufferline#buffers',
+      \ },
+      \ 'component_type': {
+      \   'linter_warnings': 'warning',
+      \   'linter_errors': 'error',
+      \   'buffers': 'tabsel',
+      \ },
+      \ }
+
+function! LightlineReadonly()
+  return &readonly ? '' : ''
+endfunction
+function! LightlineFugitive()
+  if exists('*fugitive#head')
+    let branch = fugitive#head()
+    return branch !=# '' ? ''.branch : ''
+  endif
+  return ''
+endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -106,6 +174,7 @@ syntax on
 set guioptions-=T
 set guioptions-=m
 set guioptions+=b
+set guioptions+=r
 set stal=1
 set number
 set relativenumber
@@ -390,8 +459,6 @@ nnoremap <leader>b :CtrlPMixed<CR>
 
 " NERD commenter
 let NERDSpaceDelims=1
-" stata comment ignoring endofline ///
-nnoremap <leader>cx 0v/\/\/\/<CR>BE:'<,'>call NERDComment('x','comment')<CR>
 
 " Easy Align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -404,16 +471,17 @@ nmap ga <Plug>(EasyAlign)
 " let g:gutentags_project_root = ['.projectile']
 
 " Completor
+" Use Tab to trigger completion (disable auto trigger)
+let g:completor_auto_trigger = 0
+inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
 " Use Tab to select completion
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-" Use Tab to trigger completion (disable auto trigger)
-" let g:completor_auto_trigger = 0
-" inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
 
 "Ale
-let g:airline#extensions#ale#enabled = 1
+" let g:airline#extensions#ale#enabled = 1
+nmap <F7> <Plug>(ale_toggle)
 
 " " Syntastic
 " set statusline+=%#warningmsg#
@@ -450,12 +518,50 @@ let g:tex_flavor = "latex"
 let g:vimtex_complete_recursive_bib = 1
 let g:vimtex_index_split_pos = 'vert rightbelow'
 " Disable overfull/underfull \hbox warnings
-let g:vimtex_quickfix_latexlog = {'overfull' : 0, 'underfull' : 0}
+let g:vimtex_quickfix_latexlog = {
+      \ 'default' : 1,
+      \ 'general' : 1,
+      \ 'references' : 1,
+      \ 'overfull' : 0,
+      \ 'underfull' : 0,
+      \ 'font' : 0,
+      \ 'packages' : {
+      \   'default' : 1,
+      \   'natbib' : 1,
+      \   'biblatex' : 1,
+      \   'babel' : 1,
+      \   'hyperref' : 1,
+      \   'scrreprt' : 1,
+      \   'fixltx2e' : 1,
+      \   'titlesec' : 1,
+      \ },
+      \}
+" Set compiler to latexrun
+" let g:vimtex_compiler_method = 'latexrun'
+" Disable continous compilation
+" let g:vimtex_compiler_latexmk = {'continuous' : 0}
+" enable shell escape
+let g:vimtex_compiler_latexmk = {
+    \ 'backend' : 'jobs',
+    \ 'background' : 1,
+    \ 'build_dir' : '',
+    \ 'callback' : 1,
+    \ 'continuous' : 0,
+    \ 'executable' : 'latexmk',
+    \ 'options' : [
+    \   '-pdf',
+    \   '-verbose',
+    \   '-file-line-error',
+    \   '-synctex=1',
+    \   '-interaction=nonstopmode',
+    \   '-shell-escape',
+    \ ],
+    \}
 " mark latex table between toprule/bottomrule
 au FileType tex nnoremap <leader>tb /\\toprule<CR>jV/\\bottomrule<CR>k
 
 " Markdown/Pandoc
-let g:pandoc#after#modules#enabled = ["supertab", "ultisnips"]
+" let g:pandoc#after#modules#enabled = ["supertab", "ultisnips"]
 
 " Nvim-R plugin
 let R_nvimpager = "vertical"
