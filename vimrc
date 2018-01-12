@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Mon 08 Jan 2018 06:46:52 PM CET
+"" Last modified: Fri 12 Jan 2018 12:00:27 PM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -21,6 +21,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 Plug 'drmikehenry/vim-fontsize'
 Plug 'mgee/lightline-bufferline'
+Plug 'ryanoasis/vim-devicons'
 """""""""""""""""""" Editing """"""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'vim-scripts/YankRing.vim'
 Plug 'tpope/vim-repeat'
@@ -78,7 +79,9 @@ endif
 
 " set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ Book\ 11
 " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Book\ 11
-set guifont=Fira\ Mono\ for\ Powerline\ 11
+" set guifont=Fira\ Mono\ for\ Powerline\ 11
+" set guifont=Fura\ Mono\ Nerd\ Font\ 11
+set guifont=Fura\ Code\ Nerd\ Font\ 11
 " set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
 " set guifont=Pragmata\ Pro\ 11
 
@@ -98,6 +101,17 @@ set background=dark
 " let g:airline_powerline_fonts = 1
 " let g:airline_left_sep=''
 " let g:airline_right_sep=''
+" if !exists('g:airline_symbols')
+  " let g:airline_symbols = {}
+" endif
+" " unicode symbols
+" let g:Powerline_symbols='unicode'
+" let g:airline_symbols.branch = ''
+" let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = ''
+" let g:airline_symbols.maxlinenr = ''
+" " let g:airline_symbols.linenr = '☰'
+" " let g:airline_symbols.maxlinenr = ''"
 
 " Lightline
 " let g:lightline = {
