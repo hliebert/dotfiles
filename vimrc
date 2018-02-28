@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Fri 12 Jan 2018 12:00:27 PM CET
+"" Last modified: Wed 28 Feb 2018 11:12:50 AM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -14,6 +14,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'molok/vim-vombato-colorscheme'
 Plug 'joshdick/onedark.vim'
 Plug 'rakr/vim-one'
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'arcticicestudio/nord-vim'
 " Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
@@ -33,16 +34,21 @@ Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-gtfo'
 Plug 'justinmk/vim-sneak'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 " Plug 'Shougo/denite.vim'
 " Plug 'Shougo/deoplete.nvim'
 " Plug 'ajh17/VimCompletesMe'
 " Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'maralla/completor.vim'
+" Plug 'maralla/completor.vim'
 " Plug 'lifepillar/vim-mucomplete'
 " Plug 'ervandew/supertab'
 " Plug 'Valloric/YouCompleteMe'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+Plug 'roxma/nvim-completion-manager'
+if !has('nvim')
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'gaalcaras/ncm-R'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
 " Plug 'vim-syntastic/syntastic'
 Plug 'w0rp/ale'
@@ -52,6 +58,8 @@ Plug 'majutsushi/tagbar'
 Plug 'sjl/gundo.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'yegappan/mru'
+Plug 'andymass/vim-matchup'
+Plug 'chrisbra/csv.vim'
 """""""""""""""""""" Language support """""""""""""""""""""""""""""""""""""""""
 Plug 'lervag/vimtex'
 Plug 'jalvesaq/Nvim-R'
@@ -83,14 +91,15 @@ endif
 " set guifont=Fura\ Mono\ Nerd\ Font\ 11
 set guifont=Fura\ Code\ Nerd\ Font\ 11
 " set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
-" set guifont=Pragmata\ Pro\ 11
 
-" colorscheme vombato
-" colorscheme onedark
-colorscheme one
-" colorscheme nord
 set background=dark
 " set background=light
+" colorscheme vombato
+" colorscheme onedark
+" colorscheme one
+" colorscheme nord
+colorscheme palenight
+let g:palenight_terminal_italics = 1
 
 " Airline (alternative: lightline)
 " let g:airline_theme='wombat'
@@ -189,12 +198,15 @@ set guioptions-=T
 set guioptions-=m
 set guioptions+=b
 set guioptions+=r
+set guioptions+=a
 set stal=1
 set number
 set relativenumber
 set scrolloff=3
 " set nowrap
 set autoindent
+set autochdir
+" autocmd BufEnter * silent! lcd %:p:h
 set showmode
 set showcmd
 set hidden
@@ -202,6 +214,7 @@ set novisualbell
 set noerrorbells
 set cursorline
 set ttyfast
+" set lazyredraw
 set ruler
 set backspace=indent,eol,start
 set laststatus=2
@@ -222,15 +235,21 @@ set showmatch
 set hlsearch
 set autowrite
 set mouse=a
+set clipboard=unnamedplus
 " set clipboard+=unnamedplus
-set clipboard=unnamedplus,unnamed
+" set clipboard=unnamedplus,unnamed
 set encoding=utf-8
 " format and wrap
 set wrap
-set textwidth=79
+set textwidth=80
+" set textwidth=79
 "set linebreak=79
 "set colorcolumn=85
-set formatoptions=qrn1
+set formatoptions=qrnj
+autocmd FileType markdown,mkd,tex setlocal formatoptions+=tc2
+" set formatoptions=tcqron12j
+" set formatoptions=tcqron12ja
+" set formatoptions=qrn1
 "set formatoptions=qrna
 set nofoldenable
 "set foldmethod=syntax
@@ -356,14 +375,19 @@ function! YRRunAfterMaps()
 endfunction
 nnoremap Y y$
 
+" preserve clipboard content after pasting over text in visual mode
+function! YRRunAfterMaps()                                                                                                      
+    " From Steve Losh, Preserve the yank post selection/put.    
+    vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr> 
+endfunction  
 
 " find lines longer than 80
 nnoremap <leader>lo /\%>80v.\+<cr>
 
 " minor comment delimiters
-nnoremap <silent> <leader>hel 020i%<Esc>a<Space><Esc>$a<Space><Esc>60a%<Esc>80\|D0
-nnoremap <silent> <leader>hes 020i*<Esc>a<Space><Esc>$a<Space><Esc>60a*<Esc>80\|D0
-nnoremap <silent> <leader>her 020i#<Esc>a<Space><Esc>$a<Space><Esc>60a#<Esc>80\|D0
+au FileType tex nnoremap <silent> <leader>he 020i%<Esc>a<Space><Esc>$a<Space><Esc>60a%<Esc>80\|D0
+au FileType stata nnoremap <silent> <leader>he 020i*<Esc>a<Space><Esc>$a<Space><Esc>60a*<Esc>80\|D0
+au FileType r,rmd,rnoweb nnoremap <silent> <leader>he 020i#<Esc>a<Space><Esc>$a<Space><Esc>60a#<Esc>80\|D0
 
 " TODO major comment delimiters
 nnoremap <leader>cp O<Esc>80A#<Esc>80\|D<CR>i##<CR><Esc>80A#<Esc>80\|D<Esc>kA
@@ -430,6 +454,50 @@ function ToggleHorizontalScrollbar_setKeys()
 endfunc
 au GUIEnter * call ToggleHorizontalScrollbar_setKeys()
 
+" * and # search for next/previous of selected text when used in visual mode
+xno * :<c-u>cal<SID>VisualSearch()<cr>/<cr>
+xno # :<c-u>cal<SID>VisualSearch()<cr>?<cr>
+
+fun! s:VisualSearch()
+  let old = @" | norm! gvy
+  let @/ = '\V'.substitute(escape(@", '\'), '\n', '\\n', 'g')
+  let @" = old
+endf
+
+" mark duplicate lines appearing in the same buffer, like ^\(.*\)\n\ze\%(.*\n\)*\1$
+function! HighlightRepeats() range
+  let lineCounts = {}
+  let lineNum = a:firstline
+  while lineNum <= a:lastline
+    let lineText = getline(lineNum)
+    if lineText != ""
+      let lineCounts[lineText] = (has_key(lineCounts, lineText) ? lineCounts[lineText] : 0) + 1
+    endif
+    let lineNum = lineNum + 1
+  endwhile
+  exe 'syn clear Repeat'
+  for lineText in keys(lineCounts)
+    if lineCounts[lineText] >= 2
+      exe 'syn match Repeat "^' . escape(lineText, '".\^$*[]') . '$"'
+    endif
+  endfor
+endfunction
+
+command! -range=% HighlightRepeats <line1>,<line2>call HighlightRepeats()
+
+" word counts in tex file
+function! WC()
+    let filename = expand("%")
+    " let cmd = "detex " . filename . " | wc -w | tr -d [:space:]"
+    " let result = system(cmd)
+    " echo result . " words"
+    let cmd = "detex " . filename . " | wc -m -w"
+    let result = system(cmd)
+    echo result . " words characters"
+endfunction
+
+command WC call WC()
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""" Plugin/Filetype configurations """""""""""""""""""""""""""
@@ -484,18 +552,65 @@ nmap ga <Plug>(EasyAlign)
 " let g:gutentags_ctags_tagfile = '.tags'
 " let g:gutentags_project_root = ['.projectile']
 
-" Completor
-" Use Tab to trigger completion (disable auto trigger)
-let g:completor_auto_trigger = 0
-inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
-" Use Tab to select completion
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" " Completor
+" " Use Tab to trigger completion (disable auto trigger)
+" " let g:completor_auto_trigger = 0
+" let g:completor_min_chars = 4
+" inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
+" " Use Tab to select completion
+" " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+
+" nvim-completion-manager
+" suppress |ins-completion-menu| messages
+set shortmess+=c
+" <Enter> still starts a new line when pressed while the popup menu is visible
+" inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+" example for expanding snippet in the popup menu with <Enter> key. Suppose you use the <C-U> key for expanding snippet.
+imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
+imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
+"When using CTRL-C key to leave insert mode, it does not trigger the autocmd InsertLeave. You should use CTRL-[, or map the <c-c> to <ESC>.
+inoremap <c-c> <ESC>
+"Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+" Configuration for vimtex
+augroup my_cm_setup
+  autocmd!
+  autocmd User CmSetup call cm#register_source({
+        \ 'name' : 'vimtex',
+        \ 'priority': 8,
+        \ 'scoping': 1,
+        \ 'scopes': ['tex'],
+        \ 'abbreviation': 'tex',
+        \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+        \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
+        \ })
+augroup END
+
+" UtilSnips
+let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger	= "<tab>"
+" let g:UltiSnipsJumpBackwardTrigger	= "<S-tab>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
+" optional
+" inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
 
 "Ale
 " let g:airline#extensions#ale#enabled = 1
 nmap <F7> <Plug>(ale_toggle)
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_enabled = 0
+
 
 " " Syntastic
 " set statusline+=%#warningmsg#
@@ -513,43 +628,11 @@ nmap <F7> <Plug>(ale_toggle)
 " " crtl-w E to check and activate at once
 " nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
 
-" UtilSnips
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-"let g:UltiSnipsExpandTrigger="<c-tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
 " Latex/Vimtex
 let g:tex_flavor = "latex"
 let g:vimtex_complete_recursive_bib = 1
 let g:vimtex_index_split_pos = 'vert rightbelow'
-" Disable overfull/underfull \hbox warnings
-let g:vimtex_quickfix_latexlog = {
-      \ 'default' : 1,
-      \ 'general' : 1,
-      \ 'references' : 1,
-      \ 'overfull' : 0,
-      \ 'underfull' : 0,
-      \ 'font' : 0,
-      \ 'packages' : {
-      \   'default' : 1,
-      \   'natbib' : 1,
-      \   'biblatex' : 1,
-      \   'babel' : 1,
-      \   'hyperref' : 1,
-      \   'scrreprt' : 1,
-      \   'fixltx2e' : 1,
-      \   'titlesec' : 1,
-      \ },
-      \}
+" let g:matchup_override_vimtex = 1
 " Set compiler to latexrun
 " let g:vimtex_compiler_method = 'latexrun'
 " Disable continous compilation
@@ -571,6 +654,19 @@ let g:vimtex_compiler_latexmk = {
     \   '-shell-escape',
     \ ],
     \}
+" quickfix window becomes active window if opened
+" let g:vimtex_quickfix_mode = 1
+" alternatively, jump to error (do not use with 'continous'
+let g:vimtex_quickfix_autojump = 1
+" Disable overfull/underfull \hbox warnings
+let g:vimtex_quickfix_latexlog = {
+      \ 'default' : 1,
+      \ 'general' : 1,
+      \ 'references' : 1,
+      \ 'overfull' : 0,
+      \ 'underfull' : 0,
+      \ 'font' : 0,
+      \}
 " mark latex table between toprule/bottomrule
 au FileType tex nnoremap <leader>tb /\\toprule<CR>jV/\\bottomrule<CR>k
 
@@ -583,6 +679,8 @@ let R_clear_line = 1
 let R_editor_w = 80
 let R_editor_h = 60
 let R_in_buffer = 0
+let R_csv_app = "localc"
+let R_csv_delim = ";"
 
 " Stata do-file scripts
 fun! RunIt()
