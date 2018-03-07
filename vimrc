@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Wed 07 Mar 2018 07:26:59 PM CET
+"" Last modified: Wed 07 Mar 2018 07:30:10 PM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -44,15 +44,10 @@ Plug 'gaalcaras/ncm-R'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
-" Plug 'vim-syntastic/syntastic'
 Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
-" Plug 'ludovicchabant/vim-gutentags'
 Plug 'sjl/gundo.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'FelikZ/ctrlp-py-matcher'
-" Plug 'nixprime/cpsm'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'yegappan/mru'
@@ -527,20 +522,6 @@ map T <Plug>Sneak_T
 " MRU
 noremap <F3> :MRU<CR>
 
-" CtrLP
-" keep for now, sometimes easier to find files due to ordered search
-" customize fzf to do this
-let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
-" let g:ctrlp_by_filename = 1
-" let g:ctrlp_map = '<C-p>'
-let g:ctrlp_map = ''
-" nnoremap <leader>t :CtrlP<CR>
-nnoremap <leader>p :CtrlP<CR>
-nnoremap <leader>m :CtrlPMRU<CR>
-" nnoremap <leader>b CtrlPBuffer<CR>
-nnoremap <leader>b :CtrlPMixed<CR>
-" noremap <F3> :CtrlPMRU<CR>
-
 " fzf
 nnoremap <mapleader>t :<C-u>FZF<CR>
 nnoremap <C-t> :<C-u>FZF<CR>
@@ -583,10 +564,6 @@ let NERDSpaceDelims=1
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-" Gutentags
-" let g:gutentags_ctags_tagfile = '.tags'
-" let g:gutentags_project_root = ['.projectile']
 
 " " nvim-completion-manager
 " " suppress |ins-completion-menu| messages
@@ -639,22 +616,6 @@ let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
 let g:ale_enabled = 0
 
-
-" " Syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" nnoremap <S-F6> :SyntasticToggleMode<cr>
-" nnoremap <F6> :SyntasticCheck<cr>
-" "let g:syntastic_disabled_filetypes=['html,tex,latex']
-" " disable by default, for all filetypes
-" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-" " crtl-w E to check and activate at once
-" nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
 
 " Latex/Vimtex
 let g:tex_flavor = "latex"
