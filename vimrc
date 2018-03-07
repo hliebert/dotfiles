@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Wed 07 Mar 2018 07:22:35 PM CET
+"" Last modified: Wed 07 Mar 2018 07:26:59 PM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -52,6 +52,7 @@ Plug 'majutsushi/tagbar'
 Plug 'sjl/gundo.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'FelikZ/ctrlp-py-matcher'
+" Plug 'nixprime/cpsm'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'yegappan/mru'
@@ -530,8 +531,9 @@ noremap <F3> :MRU<CR>
 " keep for now, sometimes easier to find files due to ordered search
 " customize fzf to do this
 let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
-let g:ctrlp_by_filename = 1
-let g:ctrlp_map = '<C-p>'
+" let g:ctrlp_by_filename = 1
+" let g:ctrlp_map = '<C-p>'
+let g:ctrlp_map = ''
 " nnoremap <leader>t :CtrlP<CR>
 nnoremap <leader>p :CtrlP<CR>
 nnoremap <leader>m :CtrlPMRU<CR>
