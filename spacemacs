@@ -10,6 +10,7 @@ This function should only modify configuration layer settings."
    ;; `+distribution'. For now available distributions are `spacemacs-base'
    ;; or `spacemacs'. (default 'spacemacs)
    dotspacemacs-distribution 'spacemacs
+
    ;; Lazy installation of layers (i.e. layers are installed only when a file
    ;; with a supported type is opened). Possible values are `all', `unused'
    ;; and `nil'. `unused' will lazy install only unused layers (i.e. layers
@@ -39,19 +40,18 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     (auto-completion :variables
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-help-tooltip t)
-     better-defaults
+     ;; auto-completion
+     ;; better-defaults
      emacs-lisp
-     vimscript
+     ;; vimscript
      git
-     markdown
      neotree
      (org :config
       (setq org-startup-indented t)
       :variables
           org-projectile-file "todo.org")
+     markdown
+     pandoc
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -61,7 +61,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      colors
      version-control
-     github
+     ;; github
      ess
      (latex :variables
             latex-enable-auto-fill t)
@@ -69,7 +69,6 @@ This function should only modify configuration layer settings."
      python
      shell-scripts
      html
-     pandoc
      evil-snipe
      ;; pdf-tools
      ;; ruby
@@ -506,6 +505,9 @@ before packages are loaded."
   ;; (set-scroll-bar-mode 'right)
   ;; (toggle-horizontal-scroll-bar 1)
 
+  ;; enable visual line mode globally, SPC t L
+  (global-visual-line-mode t)
+
   ;; Disable comment block line highlight for spacemacs theme
   ;; (setq-default spacemacs-theme-comment-bg nil)
 
@@ -535,15 +537,14 @@ before packages are loaded."
   ;; helm, get standard behavior
   ;; https://emacs.stackexchange.com/questions/3798/how-do-i-make-pressing-ret-in-helm-find-files-open-the-directory
   (with-eval-after-load 'helm-files
-    (defun fu/helm-find-files-navigate-forward (orig-fun &rest args)
-      (if (and (equal "Find Files" (assoc-default 'name (helm-get-current-source)))
-              (equal args nil)
-              (stringp (helm-get-selection))
-              (not (file-directory-p (helm-get-selection))))
-          (helm-maybe-exit-minibuffer)
-        (apply orig-fun args)))
-    (advice-add 'helm-execute-persistent-action :around #'fu/helm-find-files-navigate-forward)
-    (define-key helm-find-files-map (kbd "<return>") 'helm-execute-persistent-action)
+  ;;   (defun fu/helm-find-files-navigate-forward (orig-fun &rest args)
+  ;;     (if (and (equal "Find Files" (assoc-default 'name (helm-get-current-source)))
+  ;;             (equal args nil)
+  ;;             (stringp (helm-get-selection))
+  ;;             (not (file-directory-p (helm-get-selection))))
+  ;;         (helm-maybe-exit-minibuffer)
+  ;;       (apply orig-fun args)))
+  ;;   (advice-add 'helm-execute-persistent-action :around #'fu/helm-find-files-navigate-forward)
     (defun fu/helm-find-files-navigate-back (orig-fun &rest args)
       (if (= (length helm-pattern) (length (helm-find-files-initial-input)))
           (helm-find-files-up-one-level 1)
@@ -585,13 +586,28 @@ before packages are loaded."
             ("\\.pdf\\'" . default)
             (auto-mode . emacs)))
     ;; pandoc export
-    (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "xelatex")))
+    (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "xelatex"))))
 
     ;; check for customization of export
     ;; https://orgmode.org/worg/org-faq.html#using-xelatex-for-pdf-export
     ;; https://orgmode.org/worg/org-faq.html#using-xelatex-for-pdf-export
     ;; https://orgmode.org/worg/org-tutorials/org-latex-export.html
-  )
+
+  (with-eval-after-load "ox-latex"
+    (setq org-latex-default-class "koma-article")
+    (add-to-list 'org-latex-classes
+                  '("koma-article"
+                    "\\documentclass[a4paper,oneside,
+                                    headings=standardclasses,
+                                    parskip=full
+                                    ]{scrartcl}
+                      \\usepackage{mathptmx}
+                      \\usepackage[nswiss,english]{babel}"
+                    ("\\section{%s}" . "\\section*{%s}")
+                    ("\\subsection{%s}" . "\\subsection*{%s}")
+                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
   )
 
@@ -632,7 +648,7 @@ This function is called at the very end of Spacemacs initialization."
    ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(package-selected-packages
    (quote
-    (helm-xref helm-purpose evil-snipe ox-reveal vimrc-mode org-category-capture dactyl-mode memoize font-lock+ all-the-icons atom-one-theme doom-dark-theme doom-nova-theme-theme tomorrow-night-theme doom-theme-nova-theme doom-nova-theme wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper pandoc-mode ox-pandoc pdf-tools tablist web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data org-ref key-chord ivy helm-bibtex parsebib biblio biblio-core evil-commentary magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode insert-shebang hy-mode htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck fish-mode evil-magit magit magit-popup git-commit with-editor ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-shell company-auctex company-anaconda company auto-yasnippet yasnippet auto-dictionary auctex-latexmk auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (rainbow-mode rainbow-identifiers pippel pipenv org-mime org-brain importmagic epc concurrent deferred impatient-mode simple-httpd dash-functional flycheck-bashate evil-org ghub doom-themes color-identifiers-mode browse-at-remote evil-snipe ox-reveal vimrc-mode org-category-capture dactyl-mode memoize font-lock+ all-the-icons atom-one-theme doom-dark-theme doom-nova-theme-theme tomorrow-night-theme doom-theme-nova-theme doom-nova-theme wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper pandoc-mode ox-pandoc pdf-tools tablist web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data org-ref key-chord ivy helm-bibtex parsebib biblio biblio-core evil-commentary magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode insert-shebang hy-mode htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck fish-mode evil-magit magit magit-popup git-commit with-editor ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-shell company-auctex company-anaconda company auto-yasnippet yasnippet auto-dictionary auctex-latexmk auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(spacemacs-theme-comment-bg nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
