@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Wed 07 Mar 2018 06:30:15 PM CET
+"" Last modified: Wed 07 Mar 2018 07:22:35 PM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -36,7 +36,6 @@ Plug 'justinmk/vim-gtfo'
 Plug 'justinmk/vim-sneak'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
 " Plug 'lifepillar/vim-mucomplete'
-Plug 'ervandew/supertab'
 " Plug 'roxma/nvim-completion-manager'
 " if !has('nvim')
     " Plug 'roxma/vim-hug-neovim-rpc'
@@ -52,8 +51,7 @@ Plug 'majutsushi/tagbar'
 " Plug 'ludovicchabant/vim-gutentags'
 Plug 'sjl/gundo.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'Shougo/denite.nvim'
+" Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'yegappan/mru'
@@ -134,7 +132,7 @@ let g:palenight_terminal_italics = 1
 " Config
 " always show tabline
 au VimEnter * :set showtabline=2
-if has('gui_running') 
+if has('gui_running')
   set guioptions-=e
 endif
 
@@ -142,11 +140,11 @@ let g:lightline = {
       \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ], 
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
 		  \   'right': [ [ 'lineinfo' ],
 		  \              [ 'percent' ],
-		  \              [ 'fileformat', 'fileencoding', 'filetype' ], 
-		  \              [ 'linter_errors', 'linter_warnings'] ] 
+		  \              [ 'fileformat', 'fileencoding', 'filetype' ],
+		  \              [ 'linter_errors', 'linter_warnings'] ]
       \ },
       \ 'tabline': {
       \   'left': [ [ 'buffers' ], ],
@@ -376,10 +374,10 @@ endfunction
 nnoremap Y y$
 
 " preserve clipboard content after pasting over text in visual mode
-function! YRRunAfterMaps()                                                                                                      
-    " From Steve Losh, Preserve the yank post selection/put.    
-    vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr> 
-endfunction  
+function! YRRunAfterMaps()
+    " From Steve Losh, Preserve the yank post selection/put.
+    vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
+endfunction
 
 " find lines longer than 80
 nnoremap <leader>lo /\%>80v.\+<cr>
@@ -528,54 +526,42 @@ map T <Plug>Sneak_T
 " MRU
 noremap <F3> :MRU<CR>
 
-" " CtrLP
-" let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
-" let g:ctrlp_by_filename = 1
-" let g:ctrlp_map = '<C-t>'
-" "let g:ctrlp_cmd = 'CtrlPMixed'
-" " nnoremap <leader>t :CtrlP<CR>
-" nnoremap <leader>p :CtrlP<CR>
-" " nnoremap <C-t> :CtrlP<CR>
-" nnoremap <leader>m :CtrlPMRU<CR>
-" " nnoremap <leader>b CtrlPBuffer<CR>
-" nnoremap <leader>b :CtrlPMixed<CR>
-" " noremap <F3> :CtrlPMRU<CR>
-
-" denite.nvim
-call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
-nnoremap <leader>t :<C-u>Denite file_rec<CR>
-nnoremap <leader>s :<C-u>Denite buffer<CR>
-nnoremap <leader><Space>s :<C-u>DeniteBufferDir buffer<CR>
-nnoremap <leader>8 :<C-u>DeniteCursorWord grep:. -mode=normal<CR>
-nnoremap <leader>/ :<C-u>Denite grep:.<CR>
-" nnoremap <leader>/ :<C-u>Denite grep:. -mode=normal<CR>
-nnoremap <leader><Space>/ :<C-u>DeniteBufferDir grep:. -mode=normal<CR>
-nnoremap <leader>d :<C-u>DeniteBufferDir file_rec<CR>
+" CtrLP
+" keep for now, sometimes easier to find files due to ordered search
+" customize fzf to do this
+let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
+let g:ctrlp_by_filename = 1
+let g:ctrlp_map = '<C-p>'
+" nnoremap <leader>t :CtrlP<CR>
+nnoremap <leader>p :CtrlP<CR>
+nnoremap <leader>m :CtrlPMRU<CR>
+" nnoremap <leader>b CtrlPBuffer<CR>
+nnoremap <leader>b :CtrlPMixed<CR>
+" noremap <F3> :CtrlPMRU<CR>
 
 " fzf
-" nnoremap <mapleader>t :<C-u>FZF<CR>
+nnoremap <mapleader>t :<C-u>FZF<CR>
 nnoremap <C-t> :<C-u>FZF<CR>
+" nnoremap <C-a> :<C-u>Ag<CR>
+" nnoremap <C-S-a> :<C-u>Ag!<CR>
+" nnoremap <F10> :<C-u>Ag<CR>
+" nnoremap <S-F10> :<C-u>Ag!<CR>
+nnoremap <C-a> :<C-u>Rg<CR>
+" nnoremap <C-S-a> :<C-u>Rg!<CR>
+nnoremap <F10> :<C-u>Rg<CR>
+nnoremap <S-F10> :<C-u>Rg!<CR>
 " Command for git grep
 " - fzf#vim#grep(command, with_column, [options], [fullscreen])
 command! -bang -nargs=* GGrep
   \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0, <bang>0)
 " Augmenting Ag command using fzf#vim#with_preview function
-"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
-"     * For syntax-highlighting, Ruby and any of the following tools are required:
-"       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
-"       - CodeRay: http://coderay.rubychan.de/
-"       - Rouge: https://github.com/jneen/rouge
-"
-"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-" command! -bang -nargs=* Ag
-  " \ call fzf#vim#ag(<q-args>,
-  " \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-  " \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  " \                 <bang>0)
+  " :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+  " :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -584,8 +570,8 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 " Likewise, Files command with preview window
-" command! -bang -nargs=? -complete=dir Files
-  " \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 " NERD commenter
 let NERDSpaceDelims=1
@@ -718,7 +704,7 @@ let g:vimtex_quickfix_latexlog = {
 let g:vimtex_view_automatic = 0
 
 " vim-evince-synctex
-" Bind forward search 
+" Bind forward search
 nnoremap <leader>lf :VimtexForwardSearch<CR>
 " Overwrite vimtex binding
 nnoremap <leader>lv :VimtexForwardSearch<CR>
