@@ -140,3 +140,5 @@ if [ -e /opt/local/bin/fortune ]; then
     echo " "
 fi
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
