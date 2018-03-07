@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Wed 28 Feb 2018 11:12:50 AM CET
+"" Last modified: Wed 07 Mar 2018 06:30:15 PM CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -29,26 +29,21 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
+" Plug 'godlygeek/tabular'
 Plug 'vim-scripts/Align'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-gtfo'
 Plug 'justinmk/vim-sneak'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
+" Plug 'lifepillar/vim-mucomplete'
+Plug 'ervandew/supertab'
+" Plug 'roxma/nvim-completion-manager'
+" if !has('nvim')
+    " Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+Plug 'gaalcaras/ncm-R'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-" Plug 'Shougo/denite.vim'
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'ajh17/VimCompletesMe'
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'maralla/completor.vim'
-" Plug 'lifepillar/vim-mucomplete'
-" Plug 'ervandew/supertab'
-" Plug 'Valloric/YouCompleteMe'
-Plug 'roxma/nvim-completion-manager'
-if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'gaalcaras/ncm-R'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
 " Plug 'vim-syntastic/syntastic'
 Plug 'w0rp/ale'
@@ -57,11 +52,16 @@ Plug 'majutsushi/tagbar'
 " Plug 'ludovicchabant/vim-gutentags'
 Plug 'sjl/gundo.vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'Shougo/denite.nvim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'yegappan/mru'
 Plug 'andymass/vim-matchup'
 Plug 'chrisbra/csv.vim'
 """""""""""""""""""" Language support """""""""""""""""""""""""""""""""""""""""
 Plug 'lervag/vimtex'
+Plug 'gauteh/vim-evince-synctex'
 Plug 'jalvesaq/Nvim-R'
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
@@ -528,16 +528,64 @@ map T <Plug>Sneak_T
 " MRU
 noremap <F3> :MRU<CR>
 
-" CtrLP
-let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
-let g:ctrlp_by_filename = 1
-let g:ctrlp_map = '<C-t>'
-"let g:ctrlp_cmd = 'CtrlPMixed'
-nnoremap <leader>t :CtrlP<CR>
-nnoremap <leader>m :CtrlPMRU<CR>
-" nnoremap <leader>b CtrlPBuffer<CR>
-nnoremap <leader>b :CtrlPMixed<CR>
-" noremap <F3> :CtrlPMRU<CR>
+" " CtrLP
+" let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
+" let g:ctrlp_by_filename = 1
+" let g:ctrlp_map = '<C-t>'
+" "let g:ctrlp_cmd = 'CtrlPMixed'
+" " nnoremap <leader>t :CtrlP<CR>
+" nnoremap <leader>p :CtrlP<CR>
+" " nnoremap <C-t> :CtrlP<CR>
+" nnoremap <leader>m :CtrlPMRU<CR>
+" " nnoremap <leader>b CtrlPBuffer<CR>
+" nnoremap <leader>b :CtrlPMixed<CR>
+" " noremap <F3> :CtrlPMRU<CR>
+
+" denite.nvim
+call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
+nnoremap <leader>t :<C-u>Denite file_rec<CR>
+nnoremap <leader>s :<C-u>Denite buffer<CR>
+nnoremap <leader><Space>s :<C-u>DeniteBufferDir buffer<CR>
+nnoremap <leader>8 :<C-u>DeniteCursorWord grep:. -mode=normal<CR>
+nnoremap <leader>/ :<C-u>Denite grep:.<CR>
+" nnoremap <leader>/ :<C-u>Denite grep:. -mode=normal<CR>
+nnoremap <leader><Space>/ :<C-u>DeniteBufferDir grep:. -mode=normal<CR>
+nnoremap <leader>d :<C-u>DeniteBufferDir file_rec<CR>
+
+" fzf
+" nnoremap <mapleader>t :<C-u>FZF<CR>
+nnoremap <C-t> :<C-u>FZF<CR>
+" Command for git grep
+" - fzf#vim#grep(command, with_column, [options], [fullscreen])
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0, <bang>0)
+" Augmenting Ag command using fzf#vim#with_preview function
+"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
+"     * For syntax-highlighting, Ruby and any of the following tools are required:
+"       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
+"       - CodeRay: http://coderay.rubychan.de/
+"       - Rouge: https://github.com/jneen/rouge
+"
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+" command! -bang -nargs=* Ag
+  " \ call fzf#vim#ag(<q-args>,
+  " \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  " \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  " \                 <bang>0)
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+" Likewise, Files command with preview window
+" command! -bang -nargs=? -complete=dir Files
+  " \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 " NERD commenter
 let NERDSpaceDelims=1
@@ -552,51 +600,43 @@ nmap ga <Plug>(EasyAlign)
 " let g:gutentags_ctags_tagfile = '.tags'
 " let g:gutentags_project_root = ['.projectile']
 
-" " Completor
-" " Use Tab to trigger completion (disable auto trigger)
-" " let g:completor_auto_trigger = 0
-" let g:completor_min_chars = 4
-" inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
-" " Use Tab to select completion
-" " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" " nvim-completion-manager
+" " suppress |ins-completion-menu| messages
+" set shortmess+=c
+" " <Enter> still starts a new line when pressed while the popup menu is visible
+" " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+" " example for expanding snippet in the popup menu with <Enter> key. Suppose you use the <C-U> key for expanding snippet.
+" imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
+" imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
+" "When using CTRL-C key to leave insert mode, it does not trigger the autocmd InsertLeave. You should use CTRL-[, or map the <c-c> to <ESC>.
+" inoremap <c-c> <ESC>
+" "Use <TAB> to select the popup menu:
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-
-" nvim-completion-manager
-" suppress |ins-completion-menu| messages
-set shortmess+=c
-" <Enter> still starts a new line when pressed while the popup menu is visible
-" inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-" example for expanding snippet in the popup menu with <Enter> key. Suppose you use the <C-U> key for expanding snippet.
-imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
-imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
-"When using CTRL-C key to leave insert mode, it does not trigger the autocmd InsertLeave. You should use CTRL-[, or map the <c-c> to <ESC>.
-inoremap <c-c> <ESC>
-"Use <TAB> to select the popup menu:
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" Configuration for vimtex
-augroup my_cm_setup
-  autocmd!
-  autocmd User CmSetup call cm#register_source({
-        \ 'name' : 'vimtex',
-        \ 'priority': 8,
-        \ 'scoping': 1,
-        \ 'scopes': ['tex'],
-        \ 'abbreviation': 'tex',
-        \ 'cm_refresh_patterns': g:vimtex#re#ncm,
-        \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
-        \ })
-augroup END
+" " Configuration for vimtex
+" augroup my_cm_setup
+  " autocmd!
+  " autocmd User CmSetup call cm#register_source({
+        " \ 'name' : 'vimtex',
+        " \ 'priority': 8,
+        " \ 'scoping': 1,
+        " \ 'scopes': ['tex'],
+        " \ 'abbreviation': 'tex',
+        " \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+        " \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
+        " \ })
+" augroup END
 
 " UtilSnips
-let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
-let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger	= "<tab>"
-" let g:UltiSnipsJumpBackwardTrigger	= "<S-tab>"
-let g:UltiSnipsRemoveSelectModeMappings = 0
+" for nvim completion manager
+" let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+" let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+" let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+" let g:UltiSnipsRemoveSelectModeMappings = 0
+" else
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger	= "<tab>"
+let g:UltiSnipsJumpBackwardTrigger	= "<S-tab>"
 " optional
 " inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 " If you want :UltiSnipsEdit to split your window.
@@ -667,6 +707,22 @@ let g:vimtex_quickfix_latexlog = {
       \ 'underfull' : 0,
       \ 'font' : 0,
       \}
+" forward search
+" let g:vimtex_view_general_viewer = 'qpdfview'
+            " let g:vimtex_view_general_options
+              " \ = '--unique @pdf\#src:@tex:@line:@col'
+            " let g:vimtex_view_general_options_latexmk = '--unique'
+" in qpdfview add as source editor
+" gvim --remote +%2<Enter>zz %1
+" disable switching windows
+let g:vimtex_view_automatic = 0
+
+" vim-evince-synctex
+" Bind forward search 
+nnoremap <leader>lf :VimtexForwardSearch<CR>
+" Overwrite vimtex binding
+nnoremap <leader>lv :VimtexForwardSearch<CR>
+
 " mark latex table between toprule/bottomrule
 au FileType tex nnoremap <leader>tb /\\toprule<CR>jV/\\bottomrule<CR>k
 
