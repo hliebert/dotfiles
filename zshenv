@@ -8,4 +8,8 @@ if [ -f /usr/bin/vim ]; then
 fi
 
 # fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [[ ! "$PATH" == */home/helge/.fzf/bin* ]]; then
+  export PATH="$PATH:/home/helge/.fzf/bin"
+fi
+
+
