@@ -40,12 +40,13 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     ;; auto-completion
-     ;; better-defaults
+     auto-completion
+     better-defaults
      emacs-lisp
      ;; vimscript
      git
      neotree
+     ;; treemacs
      (org :config
       (setq org-startup-indented t)
       :variables
@@ -60,9 +61,11 @@ This function should only modify configuration layer settings."
                      spell-checking-enable-by-default nil)
      syntax-checking
      colors
+     unicode-fonts
      version-control
      ;; github
      ess
+     csv
      (latex :variables
             latex-enable-auto-fill t)
      bibtex
@@ -70,7 +73,8 @@ This function should only modify configuration layer settings."
      shell-scripts
      html
      evil-snipe
-     ;; pdf-tools
+     ;; ranger
+     pdf-tools
      ;; ruby
      ;; evil-cleverparens
      ;; unimpaired
@@ -191,8 +195,9 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         spacemacs-dark
                          doom-one
+                         spacemacs-light
+                         spacemacs-dark
                          ;; atom-one-dark
                          ;; ample
                          ;; ample-flat
@@ -201,7 +206,6 @@ It should only modify the values of Spacemacs settings."
                          ;; doom-nova
                          ;; doom-molokai
                          ;; doom-vibrant
-                         ;; spacemacs-light
                          ;; zenburn
                          wombat
                          ;; sanityinc-tomorrow-eighties
@@ -227,12 +231,13 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '(;; "Source Code Pro for Powerline"
-                               ;; "Fira Mono for Powerline"
+                               "Fira Mono for Powerline"
+                               ;; "DejaVu Sans Mono for Powerline"
                                ;; "Fura Mono Nerd Font"
-                               "Fura Code Nerd Font"
-                               :size 14
-                               :weight normal
-                               :width normal)
+                               ;; "Fura Code Nerd Font"
+                               :size 13
+                               :weight extra-light
+                               :width expanded)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -432,7 +437,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -493,6 +498,10 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; (kill-buffer "*spacemacs*")
+  ;; (when (string= "*scratch*" (buffer-name))
+  ;;   (spacemacs/switch-to-scratch-buffer))
+
   ;; mode-line separator
   (setq powerline-default-separator 'nil)
   ;; add icons to neo tree and disable showing hidden files
@@ -528,11 +537,17 @@ before packages are loaded."
   ;; new in develop: SPC wx and SPC bx now kill-buffer-and-window
   (spacemacs/set-leader-keys "bq" 'kill-buffer-and-window)
   (spacemacs/set-leader-keys "wq" 'kill-buffer-and-window)
+  ;; make SPC q q kill frame instead of emacsclient instance
+  (spacemacs/set-leader-keys "qq" 'spacemacs/frame-killer)
+  ;; (evil-leader/set-key “q q” 'spacemacs/frame-killer)
 
   ;; Save clipboard strings into kill ring before replacing them, now default
   ;; (setq save-interprogram-paste-before-kill t)
   ;; Do not mix Emacs kill ring and system clipboard
   ;; (setq x-select-enable-clipboard nil)
+
+  ;; disable symlink query
+  (setq vc-follow-symlinks t)
 
   ;; helm, get standard behavior
   ;; https://emacs.stackexchange.com/questions/3798/how-do-i-make-pressing-ret-in-helm-find-files-open-the-directory
@@ -552,6 +567,7 @@ before packages are loaded."
     (advice-add 'helm-ff-delete-char-backward :around #'fu/helm-find-files-navigate-back))
 
   ;; Latex/auctex
+  (setq TeX-auto-save nil)
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)
   ;; make auctex ask for tex master file
   ;; (setq-default TeX-master nil)
@@ -599,39 +615,40 @@ before packages are loaded."
                   '("koma-article"
                     "\\documentclass[a4paper,oneside,
                                     headings=standardclasses,
+                                    egregdoesnotlikesansseriftitles,
                                     parskip=full
                                     ]{scrartcl}
+                      \\usepackage{lmodern}
                       \\usepackage{mathptmx}
-                      \\usepackage[nswiss,english]{babel}"
+                      \\usepackage[T1]{fontenc}
+                      \\usepackage[nswissgerman,english]{babel}"
+                      ;; \\usepackage[defaultsans]{droidsans}
+                      ;; \\usepackage{titlesec}
+                      ;; \\titleformat*{\section}{\large\bfseries}
                     ("\\section{%s}" . "\\section*{%s}")
                     ("\\subsection{%s}" . "\\subsection*{%s}")
                     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                     ("\\paragraph{%s}" . "\\paragraph*{%s}")
                     ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
+  ;; fix evil paragraph to behave like vim
+  (with-eval-after-load 'evil
+    (defun forward-evil-paragraph (&optional count)
+      "Move forward COUNT paragraphs.
+Moves point COUNT paragraphs forward or (- COUNT) paragraphs backward
+if COUNT is negative.  A paragraph is defined by
+`start-of-paragraph-text' and `forward-paragraph' functions."
+      (let ((paragraph-start "\f\\|[ \t]*$"))
+        (evil-motion-loop (dir (or count 1))
+          (cond
+           ((> dir 0) (forward-paragraph))
+           ((not (bobp)) (start-of-paragraph-text) (beginning-of-line)))))))
+
   )
+
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ado-comeback-flag t)
- '(ado-stata-home "/usr/local/stata13")
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
- '(package-selected-packages
-   (quote
-    (evil-snipe ox-reveal vimrc-mode org-category-capture dactyl-mode memoize font-lock+ all-the-icons atom-one-theme doom-dark-theme doom-nova-theme-theme tomorrow-night-theme doom-theme-nova-theme doom-nova-theme wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper pandoc-mode ox-pandoc pdf-tools tablist web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data org-ref key-chord ivy helm-bibtex parsebib biblio biblio-core evil-commentary magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode insert-shebang hy-mode htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck fish-mode evil-magit magit magit-popup git-commit with-editor ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-shell company-auctex company-anaconda company auto-yasnippet yasnippet auto-dictionary auctex-latexmk auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
- '(spacemacs-theme-comment-bg nil t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:foreground "#bdbdb3" :background "gray13")))))
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -648,12 +665,6 @@ This function is called at the very end of Spacemacs initialization."
    ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(package-selected-packages
    (quote
-    (rainbow-mode rainbow-identifiers pippel pipenv org-mime org-brain importmagic epc concurrent deferred impatient-mode simple-httpd dash-functional flycheck-bashate evil-org ghub doom-themes color-identifiers-mode browse-at-remote evil-snipe ox-reveal vimrc-mode org-category-capture dactyl-mode memoize font-lock+ all-the-icons atom-one-theme doom-dark-theme doom-nova-theme-theme tomorrow-night-theme doom-theme-nova-theme doom-nova-theme wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper pandoc-mode ox-pandoc pdf-tools tablist web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data org-ref key-chord ivy helm-bibtex parsebib biblio biblio-core evil-commentary magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode insert-shebang hy-mode htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck fish-mode evil-magit magit magit-popup git-commit with-editor ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-shell company-auctex company-anaconda company auto-yasnippet yasnippet auto-dictionary auctex-latexmk auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
- '(spacemacs-theme-comment-bg nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:foreground "#bdbdb3" :background "gray13")))))
+    (yasnippet-snippets evil-snipe ox-reveal vimrc-mode org-category-capture dactyl-mode memoize font-lock+ all-the-icons atom-one-theme doom-dark-theme doom-nova-theme-theme tomorrow-night-theme doom-theme-nova-theme doom-nova-theme wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper pandoc-mode ox-pandoc pdf-tools tablist web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data org-ref key-chord ivy helm-bibtex parsebib biblio biblio-core evil-commentary magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode insert-shebang hy-mode htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck fish-mode evil-magit magit magit-popup git-commit with-editor ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-shell company-auctex company-anaconda company auto-yasnippet yasnippet auto-dictionary auctex-latexmk auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+ '(spacemacs-theme-comment-bg nil t))
 )
