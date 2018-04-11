@@ -6,10 +6,9 @@
 
 ########## Variables
 
-dir=~/dotfiles                    # dotfiles directory
-olddir=~/.dotfiles-old             # old dotfiles backup directory
-#files="bashrc vimrc vim zshrc oh-my-zsh"    # list of files/folders to symlink in homedir
-files="bashrc bash_profile vimrc zshrc zshenv spacemacs xprofile rundo.sh Rprofile vimperatorrc"    # list of files/folders to symlink in homedir
+dir=${HOME}/dotfiles                    # dotfiles directory
+olddir=${HOME}/.dotfiles-old            # old dotfiles backup directory
+files="bashrc bash_profile vimrc zshrc zshenv doom spacemacs xprofile rundo.sh Rprofile"    # list of files/folders to symlink in homedir
 
 ##########
 
@@ -19,8 +18,8 @@ mkdir -p $olddir
 echo "done"
 
 # create backupdir for vim 
-echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
-mkdir -p ~/.backup-vim
+echo -n "Creating Vim backupdir/undodir in ~ ..."
+mkdir -p ${HOME}/.backup-vim
 echo "done"
 
 # change to the dotfiles directory
@@ -29,24 +28,27 @@ cd $dir
 echo "done"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
-for file in $files; do
-    echo "Moving any existing dotfiles from ~ to $olddir"
-    mv ~/.$file ~/.dotfiles-old/
-    echo "Creating symlink to $file in home directory."
-    ln -s $dir/$file ~/.$file
+for file in $files ; do
+    if [[ $file == 'doom' ]]; then
+      echo "Moving any existing dotfiles from ~/.config to $olddir"
+      mv ${HOME}/.config/$file ${HOME}/.dotfiles-old/
+      echo "Creating symlink to $file in ~/.config."
+      ln -s $dir/$file ${HOME}/.config/doom 
+    else
+      echo "Moving any existing dotfiles from ~ to $olddir"
+      mv ${HOME}/.$file ${HOME}/.dotfiles-old/
+      echo "Creating symlink to $file in home directory."
+      ln -s $dir/$file ${HOME}/.$file
+    fi
 done
 
 install_zsh () {
 # Test to see if zshell is installed.  If it is:
 if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-    #if [[ ! -d $dir/oh-my-zsh/ ]]; then
-        #git clone http://github.com/robbyrussell/oh-my-zsh.git
-    #fi
-    # change folder to use homedir
-    if [[ ! -d ~/.oh-my-zsh/ ]]; then
-        mkdir ~/.oh-my-zsh
-        git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh/
+    if [[ ! -d ${HOME}/.oh-my-zsh/ ]]; then
+        mkdir ${HOME}/.oh-my-zsh
+        git clone https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh/
     fi
     # Set the default shell to zsh if it isn't currently set to zsh
     if [[ ! $(echo $SHELL) == $(which zsh) ]]; then
@@ -78,3 +80,4 @@ fi
 }
 
 install_zsh
+
