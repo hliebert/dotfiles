@@ -4,11 +4,14 @@
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
 
+########## Notes
+# for doom, add (doom! :config private) to ~/.emacs.d/init.el
+
 ########## Variables
 
 dir=${HOME}/dotfiles                    # dotfiles directory
 olddir=${HOME}/.dotfiles-old            # old dotfiles backup directory
-files="bashrc bash_profile vimrc zshrc zshenv doom spacemacs xprofile rundo.sh Rprofile"    # list of files/folders to symlink in homedir
+files="bashrc bash_profile vimrc zshrc zshenv doom.d spacemacs xprofile rundo.sh Rprofile"    # list of files/folders to symlink in homedir
 
 ##########
 
@@ -29,17 +32,10 @@ echo "done"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files ; do
-    if [[ $file == 'doom' ]]; then
-      echo "Moving any existing dotfiles from ~/.config to $olddir"
-      mv ${HOME}/.config/$file ${HOME}/.dotfiles-old/
-      echo "Creating symlink to $file in ~/.config."
-      ln -s $dir/$file ${HOME}/.config/doom 
-    else
-      echo "Moving any existing dotfiles from ~ to $olddir"
-      mv ${HOME}/.$file ${HOME}/.dotfiles-old/
-      echo "Creating symlink to $file in home directory."
-      ln -s $dir/$file ${HOME}/.$file
-    fi
+    echo "Moving any existing dotfiles from ~ to $olddir"
+    mv ${HOME}/.$file ${HOME}/.dotfiles-old/
+    echo "Creating symlink to $file in home directory."
+    ln -s $dir/$file ${HOME}/.$file
 done
 
 install_zsh () {
