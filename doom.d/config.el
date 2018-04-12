@@ -9,36 +9,36 @@
 
 (map!
  (:leader
-   :desc "Comment"                     :n ";"   #'evil-commentary
+   :desc "Comment"                     :nv ";"   #'evil-commentary
    ;; caution, remapping tab removes all workspace keybindings
-   :desc "Other buffer"                :n "TAB" #'+helge/alternate-buffer
-   ;; :desc "Previous buffer"             :n "TAB" #'previous-buffer
-   ;; :desc "Next buffer"                 :n "ESC" #'next-buffer
+   :desc "Other buffer"                :n  "TAB" #'+helge/alternate-buffer
+   ;; :desc "Previous buffer"           :n  "TAB" #'previous-buffer
+   ;; :desc "Next buffer"               :n  "ESC" #'next-buffer
    (:prefix "f"
-     :desc "Find file"                 :n "f"   #'counsel-find-file
-     :desc "Find file rg"              :n "g"   #'counsel-rg
-     :desc "Find file ag"              :n "a"   #'counsel-ag
-     :desc "Find file in dotfiles"     :n "t"   #'+neotree/open)
-     ;; :desc "Find file in dotfiles"     :n "t"   #'+helge/find-in-dotfiles
-     ;; :desc "Browse dotfiles"           :n "T"   #'+helge/browse-dotfiles)
+     :desc "Find file"                 :n  "f"   #'counsel-find-file
+     :desc "Find file rg"              :n  "g"   #'counsel-rg
+     :desc "Find file ag"              :n  "a"   #'counsel-ag
+     :desc "Find file in dotfiles"     :n  "t"   #'+neotree/open)
+     ;; :desc "Find file in dotfiles"     :n  "t"   #'+helge/find-in-dotfiles
+     ;; :desc "Browse dotfiles"           :n  "T"   #'+helge/browse-dotfiles)
    (:prefix "b"
-     :desc "Kill buffer"               :n "d"   #'kill-this-buffer
-     :desc "Kill other buffers"        :n "m"   #'kill-other-buffers
-     :desc "Kill buffer and window"    :n "q"   #'kill-buffer-and-window)
+     :desc "Kill buffer"               :n  "d"   #'kill-this-buffer
+     :desc "Kill other buffers"        :n  "m"   #'kill-other-buffers
+     :desc "Kill buffer and window"    :n  "q"   #'kill-buffer-and-window)
    (:prefix "w"
-     :desc "Delete window"             :n "d"   #'delete-window
-     :desc "Kill buffer and window"    :n "q"   #'kill-buffer-and-window
-     :desc "Maximize buffer"           :n "m"   #'+helge/toggle-maximize-buffer
-     :desc "Other window"              :n "w"   #'other-window
-     :desc "Alternate window"          :n "TAB" #'+helge/alternate-window
-     :desc "Split window vertically"   :n "/"   #'split-window-right
-     :desc "Split window horizontally" :n "-"   #'split-window-below)
+     :desc "Delete window"             :n  "d"   #'delete-window
+     :desc "Kill buffer and window"    :n  "q"   #'kill-buffer-and-window
+     :desc "Maximize buffer"           :n  "m"   #'+helge/toggle-maximize-buffer
+     :desc "Other window"              :n  "w"   #'other-window
+     :desc "Alternate window"          :n  "TAB" #'+helge/alternate-window
+     :desc "Split window vertically"   :n  "/"   #'split-window-right
+     :desc "Split window horizontally" :n  "-"   #'split-window-below)
    (:prefix "p"
-     :desc "Projectile find file"      :n "f"   #'counsel-projectile-find-file)
+     :desc "Projectile find file"      :n  "f"   #'counsel-projectile-find-file)
    (:prefix "/"
-     :desc "Find file"                 :n "d"   #'counsel-find-file
-     :desc "Find file rg"              :n "g"   #'counsel-rg
-     :desc "Find file ag"              :n "a"   #'counsel-ag)))
+     :desc "Find file"                 :n  "d"   #'counsel-find-file
+     :desc "Find file rg"              :n  "g"   #'counsel-rg
+     :desc "Find file ag"              :n  "a"   #'counsel-ag)))
 
 
 ;;
