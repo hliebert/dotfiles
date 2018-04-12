@@ -40,10 +40,12 @@
      :desc "Find file rg"              :n  "g"   #'counsel-rg
      :desc "Find file ag"              :n  "a"   #'counsel-ag)))
 
-
 ;;
 ;; Modules
 ;;
+
+;; ivy
+(map! (:after ivy :map ivy-minibuffer-map "RET"  #'ivy-alt-done))
 
 ;; feature/evil
 (after! evil-mc
