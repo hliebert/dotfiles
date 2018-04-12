@@ -3,14 +3,14 @@
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (setq user-mail-address "helge.liebert@gmail.com"
-      user-full-name    "Helge Liebert"
+      user-full-name    "Helge Liebert")
 
       ; +org-dir (expand-file-name "~/work/org/")
       ; org-ellipsis " ▼ "
 
       ;; doom-variable-pitch-font (font-spec :family "Fira Sans")
       ;; doom-unicode-font (font-spec :family "Input Mono Narrow" :size 12)
-      doom-big-font (font-spec :family "Fira Mono" :size 19))
+      ;; doom-big-font (font-spec :family "Fira Mono" :size 19))
 
 ;; (setq doom-localleader-key ",")
 ;; (setq +default-repeat-forward-key ";")
@@ -137,7 +137,7 @@
        ;; and additional ex commands for evil-mode. Use it as a reference for
        ;; your own modules.
        (default +bindings +snippets +evil-commands))
-       ;; add (doom! private) or (doom! (private +xdg) (for .config/) 
+       ;; add (doom! private) or (doom! (private +xdg) (for .config/)
        ;; into .emacs.d/init.el
        ; private)
        ; (private +xdg))
