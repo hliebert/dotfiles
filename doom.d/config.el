@@ -45,7 +45,12 @@
 ;;
 
 ;; ivy
-(map! (:after ivy :map ivy-minibuffer-map "RET"  #'ivy-alt-done))
+(after! ivy
+  ;; do not display ./ and ../ in counsel
+  (setq ivy-extra-directories nil)
+  ;; RET also completes directory and doesn't open dired (ivy-done before)
+  (map! (:map ivy-minibuffer-map "RET" #'ivy-alt-done)))
+
 
 ;; feature/evil
 (after! evil-mc
