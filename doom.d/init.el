@@ -8,9 +8,8 @@
       ; +org-dir (expand-file-name "~/work/org/")
       ; org-ellipsis " ▼ "
 
-      ;; doom-variable-pitch-font (font-spec :family "Fira Sans")
-      ;; doom-unicode-font (font-spec :family "Input Mono Narrow" :size 12)
-      ;; doom-big-font (font-spec :family "Fira Mono" :size 19))
+(setq doom-font (font-spec :family "Fira Mono" :size 12))
+
 
 ;; (setq doom-localleader-key ",")
 ;; (setq +default-repeat-forward-key ";")
@@ -116,7 +115,7 @@
       ;plantuml          ; diagrams for confusing people more
       ;purescript        ; javascript, but functional
        python            ; beautiful is better than ugly
-       rest              ; Emacs as a REST client
+      ;rest              ; Emacs as a REST client
       ;ruby              ; 1.step do {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
       ;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
       ;scala             ; java, but good
