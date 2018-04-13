@@ -16,6 +16,12 @@
 ;; (setq +default-repeat-forward-key ";")
 ;; (setq +default-repeat-backward-key ",")
 
+;; Basic misc settings, probably a better solution available
+;; (setq-default split-width-threshold 80)
+;; (setq-default tab-width 2)
+;; (setq-default evil-shift-width 2)
+
+
 ;;
 (doom! :feature
        (popup            ; tame sudden yet inevitable temporary windows
@@ -49,7 +55,7 @@
        evil-goggles      ; display visual hints when editing in evil
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        nav-flash         ; blink the current line after jumping
-      ;posframe          ; use child frames where possible (Emacs 26+ only)
+       posframe          ; use child frames where possible (Emacs 26+ only)
       ;tabbar            ; FIXME an (incomplete) tab bar for Emacs
       ;unicode           ; extended unicode support for various languages
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB

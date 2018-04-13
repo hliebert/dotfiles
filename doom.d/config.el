@@ -2,6 +2,15 @@
       show-trailing-whitespace t)
 (add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
 
+;;
+;; Basic settings
+;;
+
+;; Basic misc settings, probably a better solution available
+(setq-default split-width-threshold 80)
+(setq-default tab-width 2)
+(setq-default evil-shift-width 2)
+
 
 ;;
 ;; Keybindings
@@ -15,6 +24,7 @@
    ;; :desc "Previous buffer"           :n  "TAB" #'previous-buffer
    ;; :desc "Next buffer"               :n  "ESC" #'next-buffer
    (:prefix "f"
+     :desc "Save file"                 :n  "s"   #'save-buffer
      :desc "Find file"                 :n  "f"   #'counsel-find-file
      :desc "Find file rg"              :n  "g"   #'counsel-rg
      :desc "Find file ag"              :n  "a"   #'counsel-ag
@@ -22,6 +32,9 @@
      ;; :desc "Find file in dotfiles"     :n  "t"   #'+helge/find-in-dotfiles
      ;; :desc "Browse dotfiles"           :n  "T"   #'+helge/browse-dotfiles)
    (:prefix "b"
+     :desc "Save buffer"               :n  "s"   #'save-buffer
+     :desc "Switch buffer"             :n  "b"   #'ivy-switch-buffer
+     :desc "Switch workspace buffer"   :n  "B"   #'+ivy/switch-workspace-buffer
      :desc "Kill buffer"               :n  "d"   #'kill-this-buffer
      :desc "Kill other buffers"        :n  "m"   #'kill-other-buffers
      :desc "Kill buffer and window"    :n  "q"   #'kill-buffer-and-window)
@@ -35,10 +48,15 @@
      :desc "Split window horizontally" :n  "-"   #'split-window-below)
    (:prefix "p"
      :desc "Projectile find file"      :n  "f"   #'counsel-projectile-find-file)
+   (:prefix "t"
+     ;; create toggle for this, lift from spacemacs
+     ;; :desc "Toggle visual line mode"   :n  "L"   #'visual-line-mode
+     :desc "Toggle truncate lines"     :n  "l"   #'toggle-truncate-lines)
    (:prefix "/"
      :desc "Find file"                 :n  "d"   #'counsel-find-file
      :desc "Find file rg"              :n  "g"   #'counsel-rg
      :desc "Find file ag"              :n  "a"   #'counsel-ag)))
+
 
 ;;
 ;; Modules
@@ -49,8 +67,9 @@
   ;; do not display ./ and ../ in counsel
   (setq ivy-extra-directories nil)
   ;; RET also completes directory and doesn't open dired (ivy-done before)
-  (map! (:map ivy-minibuffer-map "RET" #'ivy-alt-done)))
-
+  (map! (:map ivy-minibuffer-map
+          ("RET"        #'ivy-alt-done)
+          ("<C-return>" #'ivy-done))))
 
 ;; feature/evil
 (after! evil-mc
