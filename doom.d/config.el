@@ -114,6 +114,10 @@
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
+;; crude fix for xdg-open not working from org-mode, probably breaks other things
+;; Use pipes for subprocess communication
+(setq process-connection-type nil)
+
 ;; latex
 (after! latex
   (setq TeX-view-program-selection '((output-pdf "Evince")))
