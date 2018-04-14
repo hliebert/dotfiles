@@ -68,3 +68,8 @@ qfind () {
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(user dir)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vcs ssh root_indicator dir_writable background_jobs)
 # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vcs ssh root_indicator dir_writable background_jobs)
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+

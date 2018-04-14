@@ -6,3 +6,10 @@ PATH=/usr/local/git/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 if [ -f /usr/bin/vim ]; then
   export EDITOR=/usr/bin/vim
 fi
+
+# fzf
+if [[ ! "$PATH" == */home/helge/.fzf/bin* ]]; then
+  export PATH="$PATH:/home/helge/.fzf/bin"
+fi
+
+

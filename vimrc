@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Son 12 Nov 2017 12:56:17 CET
+"" Last modified: Tue 10 Apr 2018 09:27:28 PM CEST
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -14,41 +14,51 @@ call plug#begin('~/.vim/plugged')
 Plug 'molok/vim-vombato-colorscheme'
 Plug 'joshdick/onedark.vim'
 Plug 'rakr/vim-one'
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'arcticicestudio/nord-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-" Plug 'itchyny/lightline.vim'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
+Plug 'drmikehenry/vim-fontsize'
+Plug 'mgee/lightline-bufferline'
+Plug 'ryanoasis/vim-devicons'
 """""""""""""""""""" Editing """"""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'vim-scripts/YankRing.vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
+" Plug 'godlygeek/tabular'
 Plug 'vim-scripts/Align'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-gtfo'
+Plug 'justinmk/vim-sneak'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
-" Plug 'Shougo/denite.vim'
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'ajh17/VimCompletesMe'
-" Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'maralla/completor.vim'
 " Plug 'lifepillar/vim-mucomplete'
-" Plug 'ervandew/supertab'
-" Plug 'Valloric/YouCompleteMe'
+" Plug 'roxma/nvim-completion-manager'
+Plug 'JR4er/nvim-completion-manager'
+if !has('nvim')
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'gaalcaras/ncm-R'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
-" Plug 'vim-syntastic/syntastic'
 Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
-" Plug 'ludovicchabant/vim-gutentags'
 Plug 'sjl/gundo.vim'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" Plug 'tweekmonster/fzf-filemru'
 Plug 'yegappan/mru'
+Plug 'andymass/vim-matchup'
+Plug 'chrisbra/csv.vim'
 """""""""""""""""""" Language support """""""""""""""""""""""""""""""""""""""""
+Plug 'thinca/vim-quickrun'
 Plug 'lervag/vimtex'
+Plug 'gauteh/vim-evince-synctex'
 Plug 'jalvesaq/Nvim-R'
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
@@ -58,7 +68,7 @@ Plug 'klen/python-mode'
 Plug 'hdima/python-syntax'
 "Plug 'airblade/vim-gitgutter'
 "Plug 'jreybert/vimagit'
-"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 """""""""""""""""""" Misc """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plug '~/.vim/vim-latex'
 call plug#end()
@@ -74,24 +84,102 @@ endif
 
 " set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ Book\ 11
 " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Book\ 11
-set guifont=Fira\ Mono\ for\ Powerline\ 11
+" set guifont=Fira\ Mono\ for\ Powerline\ 11
+" set guifont=Fura\ Mono\ Nerd\ Font\ 11
+set guifont=Fura\ Code\ Nerd\ Font\ 11
 " set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
-" set guifont=Pragmata\ Pro\ 11
 
-" colorscheme vombato
-" colorscheme onedark
-colorscheme one
-" colorscheme nord
 set background=dark
 " set background=light
+" colorscheme vombato
+" colorscheme onedark
+" colorscheme one
+" colorscheme nord
+colorscheme palenight
+let g:palenight_terminal_italics = 1
 
 " Airline (alternative: lightline)
 " let g:airline_theme='wombat'
 " let g:airline_theme='onedark'
-let g:airline_theme='one'
+" let g:airline_theme='one'
 " let g:airline_theme='nord'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline_powerline_fonts = 1
+" let g:airline_left_sep=''
+" let g:airline_right_sep=''
+" if !exists('g:airline_symbols')
+  " let g:airline_symbols = {}
+" endif
+" " unicode symbols
+" let g:Powerline_symbols='unicode'
+" let g:airline_symbols.branch = ''
+" let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = ''
+" let g:airline_symbols.maxlinenr = ''
+" " let g:airline_symbols.linenr = '☰'
+" " let g:airline_symbols.maxlinenr = ''"
+
+" Lightline
+" let g:lightline = {
+      " \ 'colorscheme': 'wombat',
+      " \ 'separator': { 'left': '', 'right': '' },
+      " \ 'subseparator': { 'left': '', 'right': '' }
+      " \ }
+" Lots of customization to get a bufferline/tabline. If I knew before this
+" would be missing and this messy, I'd have stayed with airline.
+
+" Config
+" always show tabline
+au VimEnter * :set showtabline=2
+if has('gui_running')
+  set guioptions-=e
+endif
+
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+		  \   'right': [ [ 'lineinfo' ],
+		  \              [ 'percent' ],
+		  \              [ 'fileformat', 'fileencoding', 'filetype' ],
+		  \              [ 'linter_errors', 'linter_warnings'] ]
+      \ },
+      \ 'tabline': {
+      \   'left': [ [ 'buffers' ], ],
+      \   'right': [ [ 'close' ], ],
+      \ },
+      \ 'component': {
+      \   'lineinfo': ' %3l:%-2v',
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head',
+      \   'readonly': 'LightlineReadonly',
+      \   'fugitive': 'LightlineFugitive',
+      \ },
+      \ 'component_expand': {
+      \   'linter_warnings': 'lightline#ale#warnings',
+      \   'linter_errors': 'lightline#ale#errors',
+      \   'linter_ok': 'lightline#ale#ok',
+      \   'buffers': 'lightline#bufferline#buffers',
+      \ },
+      \ 'component_type': {
+      \   'linter_warnings': 'warning',
+      \   'linter_errors': 'error',
+      \   'buffers': 'tabsel',
+      \ },
+      \ }
+
+function! LightlineReadonly()
+  return &readonly ? '' : ''
+endfunction
+function! LightlineFugitive()
+  if exists('*fugitive#head')
+    let branch = fugitive#head()
+    return branch !=# '' ? ''.branch : ''
+  endif
+  return ''
+endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -106,12 +194,16 @@ syntax on
 set guioptions-=T
 set guioptions-=m
 set guioptions+=b
+set guioptions+=r
+set guioptions+=a
 set stal=1
 set number
 set relativenumber
 set scrolloff=3
 " set nowrap
 set autoindent
+set autochdir
+" autocmd BufEnter * silent! lcd %:p:h
 set showmode
 set showcmd
 set hidden
@@ -119,6 +211,7 @@ set novisualbell
 set noerrorbells
 set cursorline
 set ttyfast
+" set lazyredraw
 set ruler
 set backspace=indent,eol,start
 set laststatus=2
@@ -139,15 +232,21 @@ set showmatch
 set hlsearch
 set autowrite
 set mouse=a
+set clipboard=unnamedplus
 " set clipboard+=unnamedplus
-set clipboard=unnamedplus,unnamed
+" set clipboard=unnamedplus,unnamed
 set encoding=utf-8
 " format and wrap
 set wrap
-set textwidth=79
+set textwidth=80
+" set textwidth=79
 "set linebreak=79
 "set colorcolumn=85
-set formatoptions=qrn1
+set formatoptions=qrnj
+autocmd FileType markdown,mkd,tex setlocal formatoptions+=tc2
+" set formatoptions=tcqron12j
+" set formatoptions=tcqron12ja
+" set formatoptions=qrn1
 "set formatoptions=qrna
 set nofoldenable
 "set foldmethod=syntax
@@ -273,14 +372,19 @@ function! YRRunAfterMaps()
 endfunction
 nnoremap Y y$
 
+" preserve clipboard content after pasting over text in visual mode
+function! YRRunAfterMaps()
+    " From Steve Losh, Preserve the yank post selection/put.
+    vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
+endfunction
 
 " find lines longer than 80
 nnoremap <leader>lo /\%>80v.\+<cr>
 
 " minor comment delimiters
-nnoremap <silent> <leader>hel 020i%<Esc>a<Space><Esc>$a<Space><Esc>60a%<Esc>80\|D0
-nnoremap <silent> <leader>hes 020i*<Esc>a<Space><Esc>$a<Space><Esc>60a*<Esc>80\|D0
-nnoremap <silent> <leader>her 020i#<Esc>a<Space><Esc>$a<Space><Esc>60a#<Esc>80\|D0
+au FileType tex nnoremap <silent> <leader>he 020i%<Esc>a<Space><Esc>$a<Space><Esc>60a%<Esc>80\|D0
+au FileType stata nnoremap <silent> <leader>he 020i*<Esc>a<Space><Esc>$a<Space><Esc>60a*<Esc>80\|D0
+au FileType r,rmd,rnoweb nnoremap <silent> <leader>he 020i#<Esc>a<Space><Esc>$a<Space><Esc>60a#<Esc>80\|D0
 
 " TODO major comment delimiters
 nnoremap <leader>cp O<Esc>80A#<Esc>80\|D<CR>i##<CR><Esc>80A#<Esc>80\|D<Esc>kA
@@ -347,6 +451,50 @@ function ToggleHorizontalScrollbar_setKeys()
 endfunc
 au GUIEnter * call ToggleHorizontalScrollbar_setKeys()
 
+" * and # search for next/previous of selected text when used in visual mode
+xno * :<c-u>cal<SID>VisualSearch()<cr>/<cr>
+xno # :<c-u>cal<SID>VisualSearch()<cr>?<cr>
+
+fun! s:VisualSearch()
+  let old = @" | norm! gvy
+  let @/ = '\V'.substitute(escape(@", '\'), '\n', '\\n', 'g')
+  let @" = old
+endf
+
+" mark duplicate lines appearing in the same buffer, like ^\(.*\)\n\ze\%(.*\n\)*\1$
+function! HighlightRepeats() range
+  let lineCounts = {}
+  let lineNum = a:firstline
+  while lineNum <= a:lastline
+    let lineText = getline(lineNum)
+    if lineText != ""
+      let lineCounts[lineText] = (has_key(lineCounts, lineText) ? lineCounts[lineText] : 0) + 1
+    endif
+    let lineNum = lineNum + 1
+  endwhile
+  exe 'syn clear Repeat'
+  for lineText in keys(lineCounts)
+    if lineCounts[lineText] >= 2
+      exe 'syn match Repeat "^' . escape(lineText, '".\^$*[]') . '$"'
+    endif
+  endfor
+endfunction
+
+command! -range=% HighlightRepeats <line1>,<line2>call HighlightRepeats()
+
+" word counts in tex file
+function! WC()
+    let filename = expand("%")
+    " let cmd = "detex " . filename . " | wc -w | tr -d [:space:]"
+    " let result = system(cmd)
+    " echo result . " words"
+    let cmd = "detex " . filename . " | wc -m -w"
+    let result = system(cmd)
+    echo result . " words characters"
+endfunction
+
+command WC call WC()
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""" Plugin/Filetype configurations """""""""""""""""""""""""""
@@ -377,21 +525,45 @@ map T <Plug>Sneak_T
 " MRU
 noremap <F3> :MRU<CR>
 
-" CtrLP
-let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
-let g:ctrlp_by_filename = 1
-let g:ctrlp_map = '<C-t>'
-"let g:ctrlp_cmd = 'CtrlPMixed'
-nnoremap <leader>t :CtrlP<CR>
-nnoremap <leader>m :CtrlPMRU<CR>
-" nnoremap <leader>b CtrlPBuffer<CR>
-nnoremap <leader>b :CtrlPMixed<CR>
-" noremap <F3> :CtrlPMRU<CR>
+" fzf
+nnoremap <mapleader>t :<C-u>FZF<CR>
+nnoremap <C-t> :<C-u>FZF<CR>
+nnoremap <C-f> :<C-u>FZF<CR>
+" nnoremap <F3> :<C-u>History<CR>
+nnoremap <C-h> :<C-u>History<CR>
+" nnoremap <C-s> :<C-u>Ag<CR>
+" nnoremap <C-S-s> :<C-u>Ag!<CR>
+" nnoremap <F10> :<C-u>Ag<CR>
+" nnoremap <S-F10> :<C-u>Ag!<CR>
+nnoremap <C-s> :<C-u>Rg<CR>
+" nnoremap <C-S-s> :<C-u>Rg!<CR>
+nnoremap <F10> :<C-u>Rg<CR>
+nnoremap <S-F10> :<C-u>Rg!<CR>
+" Command for git grep
+" - fzf#vim#grep(command, with_column, [options], [fullscreen])
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0, <bang>0)
+" Augmenting Ag command using fzf#vim#with_preview function
+  " :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+  " :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+" Likewise, Files command with preview window
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 " NERD commenter
 let NERDSpaceDelims=1
-" stata comment ignoring endofline ///
-nnoremap <leader>cx 0v/\/\/\/<CR>BE:'<,'>call NERDComment('x','comment')<CR>
 
 " Easy Align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -399,63 +571,119 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-" Gutentags
-" let g:gutentags_ctags_tagfile = '.tags'
-" let g:gutentags_project_root = ['.projectile']
-
-" Completor
-" Use Tab to select completion
+" nvim-completion-manager, starts at min three chars
+" suppress |ins-completion-menu| messages
+set shortmess+=c
+" example for expanding snippet in the popup menu with <Enter> key. Suppose you use the <C-U> key for expanding snippet.
+" imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "")
+imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
+imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
+"When using CTRL-C key to leave insert mode, it does not trigger the autocmd InsertLeave. You should use CTRL-[, or map the <c-c> to <ESC>.
+inoremap <c-c> <ESC>
+"Use <TAB> to select the popup menu:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-" Use Tab to trigger completion (disable auto trigger)
-" let g:completor_auto_trigger = 0
-" inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
-
-"Ale
-let g:airline#extensions#ale#enabled = 1
-
-" " Syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" nnoremap <S-F6> :SyntasticToggleMode<cr>
-" nnoremap <F6> :SyntasticCheck<cr>
-" "let g:syntastic_disabled_filetypes=['html,tex,latex']
-" " disable by default, for all filetypes
-" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-" " crtl-w E to check and activate at once
-" nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
+" Configuration for vimtex
+augroup my_cm_setup
+  autocmd!
+  autocmd User CmSetup call cm#register_source({
+        \ 'name' : 'vimtex',
+        \ 'priority': 8,
+        \ 'scoping': 1,
+        \ 'scopes': ['tex'],
+        \ 'abbreviation': 'tex',
+        \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+        \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
+        \ })
+augroup END
 
 " UtilSnips
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-"let g:UltiSnipsExpandTrigger="<c-tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" for nvim completion manager
+let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
+" else
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger	= "<tab>"
+" let g:UltiSnipsJumpBackwardTrigger	= "<S-tab>"
+" optional
+inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
+" inoremap <silent> <Tab> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+
+
+"Ale
+" let g:airline#extensions#ale#enabled = 1
+nmap <F7> <Plug>(ale_toggle)
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_enabled = 0
+
 
 " Latex/Vimtex
 let g:tex_flavor = "latex"
 let g:vimtex_complete_recursive_bib = 1
 let g:vimtex_index_split_pos = 'vert rightbelow'
+" let g:matchup_override_vimtex = 1
+" Set compiler to latexrun
+" let g:vimtex_compiler_method = 'latexrun'
+" Disable continous compilation
+" let g:vimtex_compiler_latexmk = {'continuous' : 0}
+" enable shell escape
+let g:vimtex_compiler_latexmk = {
+    \ 'backend' : 'jobs',
+    \ 'background' : 1,
+    \ 'build_dir' : '',
+    \ 'callback' : 1,
+    \ 'continuous' : 0,
+    \ 'executable' : 'latexmk',
+    \ 'options' : [
+    \   '-pdf',
+    \   '-verbose',
+    \   '-file-line-error',
+    \   '-synctex=1',
+    \   '-interaction=nonstopmode',
+    \   '-shell-escape',
+    \ ],
+    \}
+" quickfix window becomes active window if opened
+" let g:vimtex_quickfix_mode = 1
+" alternatively, jump to error (do not use with 'continous'
+let g:vimtex_quickfix_autojump = 1
 " Disable overfull/underfull \hbox warnings
-let g:vimtex_quickfix_latexlog = {'overfull' : 0, 'underfull' : 0}
+let g:vimtex_quickfix_latexlog = {
+      \ 'default' : 1,
+      \ 'general' : 1,
+      \ 'references' : 1,
+      \ 'overfull' : 0,
+      \ 'underfull' : 0,
+      \ 'font' : 0,
+      \}
+" forward search
+" let g:vimtex_view_general_viewer = 'qpdfview'
+            " let g:vimtex_view_general_options
+              " \ = '--unique @pdf\#src:@tex:@line:@col'
+            " let g:vimtex_view_general_options_latexmk = '--unique'
+" in qpdfview add as source editor
+" gvim --remote +%2<Enter>zz %1
+" disable switching windows
+let g:vimtex_view_automatic = 0
+
+" vim-evince-synctex
+" Bind forward search
+nnoremap <leader>lf :VimtexForwardSearch<CR>
+" Overwrite vimtex binding
+nnoremap <leader>lv :VimtexForwardSearch<CR>
+
 " mark latex table between toprule/bottomrule
 au FileType tex nnoremap <leader>tb /\\toprule<CR>jV/\\bottomrule<CR>k
 
 " Markdown/Pandoc
-let g:pandoc#after#modules#enabled = ["supertab", "ultisnips"]
+" let g:pandoc#after#modules#enabled = ["supertab", "ultisnips"]
 
 " Nvim-R plugin
 let R_nvimpager = "vertical"
@@ -463,6 +691,8 @@ let R_clear_line = 1
 let R_editor_w = 80
 let R_editor_h = 60
 let R_in_buffer = 0
+let R_csv_app = "localc"
+let R_csv_delim = ";"
 
 " Stata do-file scripts
 fun! RunIt()
