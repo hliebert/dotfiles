@@ -1,3 +1,4 @@
+;; Doom settings
 (setq +doom-modeline-buffer-file-name-style 'relative-from-project
       show-trailing-whitespace t)
 (add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
@@ -5,16 +6,22 @@
 ;;
 ;; Basic settings
 ;;
-
 ;; Basic misc settings, probably a better solution available
 (setq-default split-width-threshold 80)
 (setq-default tab-width 2)
 (setq-default evil-shift-width 2)
+;; Spaces over tabs
+;; (setq c-basic-indent 2)
+;; (setq c-default-style "linux")
+;; (setq tab-width 2)
+;; (setq-default indent-tabs-mode nil)
 
 
 ;;
 ;; Keybindings
 ;;
+
+;; separate into a different file?
 
 (map!
  (:leader
@@ -79,11 +86,6 @@
   (add-hook! 'evil-mc-after-cursors-deleted
     (remove-hook 'evil-insert-state-entry-hook #'evil-mc-resume-cursors t)))
 
-;; completion/helm
-(after! helm
-  ;; Hide header lines in helm. I don't like them
-  (set-face-attribute 'helm-source-header nil :height 0.1))
-
 ;; lang/org
 (after! org-bullets
   ;; The standard unicode characters are usually misaligned depending on the
@@ -139,4 +141,28 @@ if COUNT is negative.  A paragraph is defined by
 
 ;; set completion threshold
 (setq company-minimum-prefix-length 3)
+
+;; whitespace
+;; (setq-default whitespace-style
+;;               '(face indentation tabs tab-mark spaces space-mark newline
+;;                      newline-mark trailing lines-tail))
+(setq whitespace-line-column 80)
+;; (add-hook   'find-file-hook #'whitespace-mode)
+(add-hook! 'before-save-hook #'whitespace-cleanup)
+
+;; load header.el
+(load! +header)
+(autoload 'auto-update-file-header "header2")
+(add-hook 'write-file-hooks 'auto-update-file-header)
+(add-hook 'ess-mode-hook 'auto-make-header)
+(setq header-file-name 'buffer-file-name)
+(setq make-header-hook
+      '(header-end-line
+        header-file-name
+        header-description
+        header-author
+        header-creation-date
+        header-modification-date
+        header-end-line))
+
 
