@@ -152,9 +152,7 @@ if COUNT is negative.  A paragraph is defined by
 
 ;; load header.el
 (load! +header)
-(autoload 'auto-update-file-header "header2")
-(add-hook 'write-file-hooks 'auto-update-file-header)
-(add-hook 'ess-mode-hook 'auto-make-header)
+(setq header-date-format "%a %b %e %T %Y")
 (setq header-file-name 'buffer-file-name)
 (setq make-header-hook
       '(header-end-line
@@ -164,5 +162,8 @@ if COUNT is negative.  A paragraph is defined by
         header-creation-date
         header-modification-date
         header-end-line))
+(autoload 'auto-update-file-header "+header/header2")
+(add-hook! 'before-save-hook 'auto-update-file-header)
+(add-hook! 'ess-mode-hook 'auto-make-header)
 
 
