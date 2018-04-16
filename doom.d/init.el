@@ -10,7 +10,6 @@
 
 (setq doom-font (font-spec :family "Fira Mono" :size 12))
 
-
 ;; (setq doom-localleader-key ",")
 ;; (setq +default-repeat-forward-key ";")
 ;; (setq +default-repeat-backward-key ",")
