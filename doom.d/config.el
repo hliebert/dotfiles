@@ -115,8 +115,10 @@
   (setq ivy-extra-directories nil)
   ;; RET also completes directory and doesn't open dired (ivy-done before)
   (map! (:map ivy-minibuffer-map
-          ("RET"        #'ivy-alt-done)
-          ("<C-return>" #'ivy-done))))
+          ;; ("RET"        #'ivy-alt-done)
+          ;; ("<C-return>" #'ivy-done)
+          ;; ("<C-return>" #'ivy-immediate-done)
+          ("<C-return>" #'ivy-insert-current))))
 
 ;; feature/evil
 (after! evil-mc
