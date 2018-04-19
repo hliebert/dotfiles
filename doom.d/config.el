@@ -164,11 +164,6 @@
 (after! latex
   (setq TeX-view-program-selection '((output-pdf "Evince")))
   (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-  ;; (setq TeX-command-default "LatexMk")
-  (add-hook! 'doc-view-mode-hook #'auto-revert-mode)
-  ;; rather use latexmkrc file in folder
-  ;; (add-to-list 'TeX-command-list '("LatexMK --shell-escape" "%`latexmk  -pdf -pdflatex='pdflatex -interaction=nonstopmode -file-line-error -shell-escape -synctex=1' %t" TeX-run-TeX nil t))
-  ;; (add-to-list 'TeX-command-list '("LatexMK --shell-escape" "%`latexmk -pdflatex='pdflatex -file-line-error %(mode) --shell-escape -synctex=1' -pdf %t" TeX-run-TeX nil t))
 
   (map!
     (:map (TeX-mode-map LaTeX-mode-map)
