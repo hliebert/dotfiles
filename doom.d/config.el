@@ -208,9 +208,10 @@ if COUNT is negative.  A paragraph is defined by
 ;;                      newline-mark trailing lines-tail))
 (setq whitespace-line-column 80)
 ;; (add-hook   'find-file-hook #'whitespace-mode)
-(add-hook! 'before-save-hook #'whitespace-cleanup)
+;; (add-hook! 'before-save-hook #'whitespace-cleanup)
 
-;; load header.el
+;; load header.el (alternative: configure simple auto-insert)
+;; not on melpa, just use source file
 (load! +header)
 (setq header-date-format "%a %b %e %T %Y")
 (setq header-file-name 'buffer-file-name)
@@ -225,5 +226,49 @@ if COUNT is negative.  A paragraph is defined by
 (autoload 'auto-update-file-header "+header/header2")
 (add-hook! 'before-save-hook 'auto-update-file-header)
 (add-hook! 'ess-mode-hook 'auto-make-header)
+
+
+;; Magit rules
+;; Keeps it on the side
+;; Thanks to https://github.com/fuxialexander/doom-emacs-private-xfu
+(after! magit
+  (set! :popup "^\\(?: ?\\*\\)?magit.*: "
+    '((slot . -1) (side . right) (size . 80))
+    '((select . t) (quit . nil)))
+  (set! :popup "^\\*magit.*popup\\*"
+    '((slot . 0) (side . right))
+    '((select . t)))
+  (set! :popup "^\\(?: ?\\*\\)?magit-revision:.*"
+    '((slot . 2) (side . right) (window-height . 0.6))
+    '((select . t)))
+  (set! :popup "^\\(?: ?\\*\\)?magit-diff:.*"
+    '((slot . 2) (side . right) (window-height . 0.6))
+    '((select . nil)))
+  )
+
+
+;; Neotree
+(after! neotree
+  ;; When switching to a file in the current project, expand the directory
+  ;; tree to the new file buffer
+  (add-hook! 'find-file-hook
+    (if (and (buffer-file-name) (neo-global--window-exists-p))
+        ;; And only if the file is a child of the current neotree root
+        (if (neo-global--file-in-root-p (buffer-file-name))
+            ;; We need to trigger neotree-find then switch back to the buffer we just opened
+            (save-current-buffer (neotree-find))
+          ))
+    ))
+
+
+;; activate multiple dictionaries to avoid switching between German and English
+;; lifted this from emacs.stackexchange.com
+(after! ispell
+  (setq ispell-program-name "hunspell")
+  (setq ispell-dictionary "de_CH,en_US")
+  ;; ispell-set-spellchecker-params has to be called
+  ;; before ispell-hunspell-add-multi-dic will work
+  (ispell-set-spellchecker-params)
+  (ispell-hunspell-add-multi-dic "de_CH,en_US"))
 
 
