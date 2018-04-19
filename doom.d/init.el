@@ -1,26 +1,5 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
-(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-
-(setq user-mail-address "helge.liebert@gmail.com"
-      user-full-name    "Helge Liebert")
-
-      ; +org-dir (expand-file-name "~/work/org/")
-      ; org-ellipsis " ▼ "
-
-(setq doom-font (font-spec :family "Fira Mono" :size 12))
-
-;; (setq doom-localleader-key ",")
-;; (setq +default-repeat-forward-key ";")
-;; (setq +default-repeat-backward-key ",")
-
-;; Basic misc settings, probably a better solution available
-;; (setq-default split-width-threshold 80)
-;; (setq-default tab-width 2)
-;; (setq-default evil-shift-width 2)
-
-
-;;
 (doom! :feature
        (popup            ; tame sudden yet inevitable temporary windows
       ; +all             ; catch all popups that start with an asterix
