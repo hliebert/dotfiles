@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Tue 10 Apr 2018 09:27:28 PM CEST
+"" Last modified: Mon 16 Apr 2018 11:49:23 PM CEST
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -37,7 +37,8 @@ Plug 'justinmk/vim-sneak'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
 " Plug 'lifepillar/vim-mucomplete'
 " Plug 'roxma/nvim-completion-manager'
-Plug 'JR4er/nvim-completion-manager'
+" Plug 'JR4er/nvim-completion-manager'
+Plug 'ikalnytskyi/nvim-completion-manager'
 if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
@@ -574,6 +575,7 @@ nmap ga <Plug>(EasyAlign)
 " nvim-completion-manager, starts at min three chars
 " suppress |ins-completion-menu| messages
 set shortmess+=c
+let g:cm_refresh_length = 2
 " example for expanding snippet in the popup menu with <Enter> key. Suppose you use the <C-U> key for expanding snippet.
 " imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "")
 imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
