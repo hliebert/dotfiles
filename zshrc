@@ -2,6 +2,7 @@
 ZSH=$HOME/.oh-my-zsh
 
 export TERM="xterm-256color"
+export ALTERNATE_EDITOR=""
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
