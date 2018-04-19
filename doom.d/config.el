@@ -1,11 +1,38 @@
-;; Doom settings
-(setq +doom-modeline-buffer-file-name-style 'relative-from-project
-      show-trailing-whitespace t)
-(add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Filename: config.el
+;; Description: config file for doom-emacs
+;; Author: Helge Liebert
+;; Created: Mon Apr 16 23:56:45 2018
+;; Last-Updated: Wed Apr 18 21:01:59 2018
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
 ;; Basic settings
 ;;
+
+;; fix for lag bug due to double-buffering,
+;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=28695
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+
+(setq user-mail-address "helge.liebert@gmail.com"
+      user-full-name    "Helge Liebert")
+
+      ; +org-dir (expand-file-name "~/work/org/")
+      ; org-ellipsis " ▼ "
+
+
+;; Doom ui settings
+(setq doom-theme 'doom-vibrant)
+(setq doom-font (font-spec :family "Fira Mono" :size 12))
+(setq +doom-modeline-buffer-file-name-style 'relative-from-project
+      show-trailing-whitespace t)
+(add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
+
+;; localleader (try to designate both SPC m  and , as localleader at some point)
+;; (setq doom-localleader-key ",")
+;; (setq +default-repeat-forward-key ";")
+;; (setq +default-repeat-backward-key ",")
+
 ;; Basic misc settings, probably a better solution available
 (setq-default split-width-threshold 80)
 (setq-default tab-width 2)
