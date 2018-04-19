@@ -51,45 +51,58 @@
 ;; separate into a different file?
 
 (map!
+ "C-=" 'text-scale-increase ;; also SPC  ]]
+ "C--" 'text-scale-decrease ;; also SPC  [[, masks negative prefix
  (:leader
-   :desc "Comment"                     :nv ";"   #'evil-commentary
+   :desc "Comment"                      :nv ";"   #'evil-commentary
    ;; caution, remapping tab removes all workspace keybindings
-   :desc "Other buffer"                :n  "TAB" #'+helge/alternate-buffer
-   ;; :desc "Previous buffer"           :n  "TAB" #'previous-buffer
-   ;; :desc "Next buffer"               :n  "ESC" #'next-buffer
+   ;; :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
+   ;; :desc "Previous buffer"            :n  "TAB" #'previous-buffer
+   ;; :desc "Next buffer"                :n  "ESC" #'next-buffer
    (:prefix "f"
-     :desc "Save file"                 :n  "s"   #'save-buffer
-     :desc "Find file"                 :n  "f"   #'counsel-find-file
-     :desc "Find file rg"              :n  "g"   #'counsel-rg
-     :desc "Find file ag"              :n  "a"   #'counsel-ag
-     :desc "Find file in dotfiles"     :n  "t"   #'+neotree/open)
-     ;; :desc "Find file in dotfiles"     :n  "t"   #'+helge/find-in-dotfiles
-     ;; :desc "Browse dotfiles"           :n  "T"   #'+helge/browse-dotfiles)
+     :desc "Save file"                  :n  "s"   #'save-buffer
+     :desc "Save file as"               :n  "S"   #'write-file
+     :desc "Copy this file"             :n  "c"   #'doom/copy-this-file
+     :desc "Copy a file"                :n  "C"   #'copy-file
+     ;; :desc "Move this file"             :n  "m"   #'+helge/move-this-file
+     :desc "Move this file"             :n  "m"   #'doom/move-this-file
+     :desc "Find file"                  :n  "f"   #'counsel-find-file
+     :desc "Find file rg"               :n  "g"   #'counsel-rg
+     :desc "Find file rg"               :n  "a"   #'counsel-rg
+     ;; :desc "Find file ag"               :n  "a"   #'counsel-ag ;; broken?
+     :desc "Neotree"                    :n  "t"   #'+neotree/open)
+     ;; :desc "Find file in dotfiles"      :n  "t"   #'+helge/find-in-dotfiles
+     ;; :desc "Browse dotfiles"            :n  "T"   #'+helge/browse-dotfiles)
    (:prefix "b"
-     :desc "Save buffer"               :n  "s"   #'save-buffer
-     :desc "Switch buffer"             :n  "b"   #'ivy-switch-buffer
-     :desc "Switch workspace buffer"   :n  "B"   #'+ivy/switch-workspace-buffer
-     :desc "Kill buffer"               :n  "d"   #'kill-this-buffer
-     :desc "Kill other buffers"        :n  "m"   #'kill-other-buffers
-     :desc "Kill buffer and window"    :n  "q"   #'kill-buffer-and-window)
+     :desc "Save buffer"                :n  "s"   #'save-buffer
+     :desc "Save buffer as"             :n  "S"   #'write-file
+     ;; :desc "Switch buffer"              :n  "b"   #'ivy-switch-buffer
+     ;; :desc "Switch workspace buffer"    :n  "B"   #'+ivy/switch-workspace-buffer
+     :desc "Next buffer"                :n  "l"   #'next-buffer
+     :desc "Previous buffer"            :n  "h"   #'previous-buffer
+     :desc "Kill buffer"                :n  "d"   #'kill-this-buffer
+     :desc "Kill other buffers"         :n  "m"   #'kill-other-buffers
+     :desc "Kill buffer and window"     :n  "q"   #'kill-buffer-and-window)
    (:prefix "w"
-     :desc "Delete window"             :n  "d"   #'delete-window
-     :desc "Kill buffer and window"    :n  "q"   #'kill-buffer-and-window
-     :desc "Maximize buffer"           :n  "m"   #'+helge/toggle-maximize-buffer
-     :desc "Other window"              :n  "w"   #'other-window
-     :desc "Alternate window"          :n  "TAB" #'+helge/alternate-window
-     :desc "Split window vertically"   :n  "/"   #'split-window-right
-     :desc "Split window horizontally" :n  "-"   #'split-window-below)
+     :desc "Delete window"              :n  "d"   #'delete-window
+     :desc "Kill buffer and window"     :n  "q"   #'kill-buffer-and-window
+     :desc "Maximize buffer"            :n  "m"   #'+helge/toggle-maximize-buffer
+     :desc "Other window"               :n  "w"   #'other-window
+     :desc "Alternate window"           :n  "TAB" #'+helge/alternate-window
+     :desc "Split window vertically"    :n  "/"   #'split-window-right
+     :desc "Split window horizontally"  :n  "-"   #'split-window-below)
    (:prefix "p"
-     :desc "Projectile find file"      :n  "f"   #'counsel-projectile-find-file)
+     :desc "Projectile find file"       :n  "f"   #'counsel-projectile-find-file)
    (:prefix "t"
      ;; create toggle for this, lift from spacemacs
      ;; :desc "Toggle visual line mode"   :n  "L"   #'visual-line-mode
-     :desc "Toggle truncate lines"     :n  "l"   #'toggle-truncate-lines)
+     :desc "Toggle flyspell dictionary" :n  "l"   #'ispell-change-dictionary
+     :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines)
    (:prefix "/"
-     :desc "Find file"                 :n  "d"   #'counsel-find-file
-     :desc "Find file rg"              :n  "g"   #'counsel-rg
-     :desc "Find file ag"              :n  "a"   #'counsel-ag)))
+     :desc "Find file"                  :n  "d"   #'counsel-find-file
+     :desc "Find file rg"               :n  "g"   #'counsel-rg
+     :desc "Find file ag"               :n  "a"   #'counsel-ag)))
+
 
 
 ;;
