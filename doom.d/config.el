@@ -163,7 +163,30 @@
 ;; latex
 (after! latex
   (setq TeX-view-program-selection '((output-pdf "Evince")))
-  (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t)))
+  (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+  ;; (setq TeX-command-default "LatexMk")
+  (add-hook! 'doc-view-mode-hook #'auto-revert-mode)
+  ;; rather use latexmkrc file in folder
+  ;; (add-to-list 'TeX-command-list '("LatexMK --shell-escape" "%`latexmk  -pdf -pdflatex='pdflatex -interaction=nonstopmode -file-line-error -shell-escape -synctex=1' %t" TeX-run-TeX nil t))
+  ;; (add-to-list 'TeX-command-list '("LatexMK --shell-escape" "%`latexmk -pdflatex='pdflatex -file-line-error %(mode) --shell-escape -synctex=1' -pdf %t" TeX-run-TeX nil t))
+
+  (map!
+    (:map (TeX-mode-map LaTeX-mode-map)
+      (:localleader
+        :desc "TeX-command-master"         :n "," #'TeX-command-master          ;; C-c C-c
+        :desc "TeX-command-run-all"        :n "a" #'TeX-command-run-all         ;; C-c C-a
+        :desc "TeX-view"                   :n "v" #'TeX-view                    ;; C-c C-v
+        :desc "TeX-clean"                  :n "d" #'TeX-clean
+        :desc "TeX-kill-job"               :n "k" #'TeX-kill-job                ;; C-c C-k
+        :desc "TeX-recenter-output-buffer" :n "l" #'TeX-recenter-output-buffer  ;; C-c C-l
+        :desc "TeX-insert-macro"           :n "m" #'TeX-insert-macro            ;; C-c C-m
+
+        :desc "LaTeX-fill-paragraph"       :n "fp" #'LaTeX-fill-paragraph       ;; C-c C-q C-p
+        :desc "LaTeX-fill-region"          :n "fr" #'LaTeX-fill-region          ;; C-c C-q C-r
+
+        :desc "TeX-comment-or-uncomment-paragraph"  :n "%" #'TeX-comment-or-uncomment-paragraph   ;; C-c %
+        :desc "TeX-comment-or-uncomment-region"     :n ";" #'TeX-comment-or-uncomment-region))))     ;; C-c ; or C-c :
+
 
 ;; fix evil paragraph to behave like vim
 ;; works for latex, not for org-mode
