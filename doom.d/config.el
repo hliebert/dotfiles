@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Thu Apr 19 12:59:21 2018
+;; Last-Updated: Sat Apr 21 16:22:04 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -115,10 +115,7 @@
   (setq ivy-extra-directories nil)
   ;; RET also completes directory and doesn't open dired (ivy-done before)
   (map! (:map ivy-minibuffer-map
-          ;; ("RET"        #'ivy-alt-done)
-          ;; ("<C-return>" #'ivy-done)
-          ;; ("<C-return>" #'ivy-immediate-done)
-          ("<C-return>" #'ivy-insert-current))))
+          ("<C-return>" #'ivy-immediate-done))))
 
 ;; feature/evil
 (after! evil-mc
