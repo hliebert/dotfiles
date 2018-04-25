@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Sat Apr 21 16:22:04 2018
+;; Last-Updated: Wed Apr 25 16:41:30 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -14,11 +14,14 @@
 ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=28695
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
+;; user
 (setq user-mail-address "helge.liebert@gmail.com"
       user-full-name    "Helge Liebert")
 
-      ; +org-dir (expand-file-name "~/work/org/")
-      ; org-ellipsis " ▼ "
+;; org
+(setq +org-dir (expand-file-name "~/Dropbox/org/")
+      ;; org-projectile-file (expand-file-name "~/Dropbox/org/projects.org")
+      org-ellipsis " ▼ ")
 
 
 ;; Doom ui settings
@@ -74,12 +77,14 @@
      ;; :desc "Find file in dotfiles"      :n  "t"   #'+helge/find-in-dotfiles
      ;; :desc "Browse dotfiles"            :n  "T"   #'+helge/browse-dotfiles)
    (:prefix "b"
+     :desc "Open agenda file in buffer" :n  "a"   #'org-cycle-agenda-files
      :desc "Save buffer"                :n  "s"   #'save-buffer
      :desc "Save buffer as"             :n  "S"   #'write-file
      ;; :desc "Switch buffer"              :n  "b"   #'ivy-switch-buffer
      ;; :desc "Switch workspace buffer"    :n  "B"   #'+ivy/switch-workspace-buffer
      :desc "Next buffer"                :n  "l"   #'next-buffer
      :desc "Previous buffer"            :n  "h"   #'previous-buffer
+     :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
      :desc "Kill buffer"                :n  "d"   #'kill-this-buffer
      :desc "Kill other buffers"         :n  "m"   #'kill-other-buffers
      :desc "Kill buffer and window"     :n  "q"   #'kill-buffer-and-window)
@@ -139,13 +144,32 @@
                '("koma-article"
                  "\\documentclass[a4paper,oneside,
                                   headings=standardclasses,
-                                  egregdoesnotlikesansseriftitles,
+                                  %headings=normal,
+                                  %egregdoesnotlikesansseriftitles,
                                   parskip=full
                                   ]{scrartcl}
-                    \\usepackage{lmodern}
-                    \\usepackage{mathptmx}
+                    %\\usepackage{mathptmx}
+                    %\\usepackage{charter}
+                    \\usepackage[garamond]{mathdesign}
+                    \\renewcommand{\\familydefault}{\\sfdefault}
                     \\usepackage[T1]{fontenc}
                     \\usepackage[nswissgerman,english]{babel}"
+                 ;; \\usepackage{PTSans}
+                 ;; \usepackage[charter]{mathdesign}
+                 ;; \\usepackage[garamond]{mathdesign}
+                 ;; \\usepackage[full]{textcomp}
+                 ;; \\usepackage{garamondx}
+                 ;; \\usepackage[varqu,varl,var0,scaled=0.97]{inconsolata}
+                 ;; \\usepackage{FiraSans}
+                 ;; \\usepackage{newpxtext}
+                 ;; \\usepackage{newpxmath}
+                 ;; \\usepackage{roboto}
+                 ;; \\usepackage{charter}
+                 ;; \\renewcommand\sfdefault{\rmdefault}
+                 ;; \\usepackage{cmbright}
+                 ;; \\usepackage[sfdefault]{roboto}
+                 ;; \\usepackage{mathptmx}
+                 ;; \\usepackage{lmodern}
                  ;; \\usepackage[defaultsans]{droidsans}
                  ;; \\usepackage{titlesec}
                  ;; \\titleformat*{\section}{\large\bfseries}
@@ -268,4 +292,17 @@ if COUNT is negative.  A paragraph is defined by
   (ispell-set-spellchecker-params)
   (ispell-hunspell-add-multi-dic "de_CH,en_US"))
 
-
+;; org-projectile, preliminary
+(def-package! org-projectile
+  ;; :when (featurep! :feature evil)
+  :after (org projectile)
+  :bind (("C-c n p" . org-projectile-project-todo-completing-read)
+         ("C-c c" . org-capture))
+  :config
+  (progn
+    (setq org-projectile-projects-file
+          (expand-file-name "~/Dropbox/org/Arbeit.org")
+    (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
+    (push (org-projectile-project-todo-entry) org-capture-templates))
+  :ensure t))
+(package! org-projectile)
