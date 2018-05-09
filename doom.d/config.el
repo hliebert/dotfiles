@@ -69,10 +69,11 @@
      :desc "Copy a file"                :n  "C"   #'copy-file
      ;; :desc "Move this file"             :n  "m"   #'+helge/move-this-file
      :desc "Move this file"             :n  "m"   #'doom/move-this-file
+     :desc "Find file jump"             :n  "j"   #'counsel-file-jump
      :desc "Find file"                  :n  "f"   #'counsel-find-file
+     :desc "Find file fzf"              :n  "z"   #'counsel-fzf
      :desc "Find file rg"               :n  "g"   #'counsel-rg
-     :desc "Find file rg"               :n  "a"   #'counsel-rg
-     ;; :desc "Find file ag"               :n  "a"   #'counsel-ag ;; broken?
+     :desc "Find file ag"               :n  "a"   #'counsel-ag
      :desc "Neotree"                    :n  "t"   #'+neotree/open)
      ;; :desc "Find file in dotfiles"      :n  "t"   #'+helge/find-in-dotfiles
      ;; :desc "Browse dotfiles"            :n  "T"   #'+helge/browse-dotfiles)
@@ -105,6 +106,9 @@
      :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines)
    (:prefix "/"
      :desc "Find file"                  :n  "d"   #'counsel-find-file
+     :desc "Find file jump"             :n  "j"   #'counsel-file-jump
+     :desc "Find file fzf"              :n  "z"   #'counsel-fzf
+     :desc "Find file fzf"              :n  "/"   #'counsel-fzf
      :desc "Find file rg"               :n  "g"   #'counsel-rg
      :desc "Find file ag"               :n  "a"   #'counsel-ag)))
 
