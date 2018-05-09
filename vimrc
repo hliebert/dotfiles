@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Mon 16 Apr 2018 11:49:23 PM CEST
+"" Last modified: Wed 09 May 2018 11:06:42 AM CEST
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -709,7 +709,6 @@ let R_csv_delim = ";"
 " Stata do-file scripts
 fun! RunIt()
   w
-  "!sh "/home/helge/.rundo.sh" "%:p"
   !sh "/home/helge/dotfiles/rundo.sh" "%:p"
 endfun
 au FileType stata noremap <F8> :<C-U>call RunIt()<CR><CR>
@@ -723,8 +722,7 @@ fun! RunDoLines()
   endif
  let temp = tempname() . ".do"
  call writefile(selectedLines, temp)
-          "exec "!sh /home/helge/.rundo.sh " . temp
-          exec "!sh /home/helge/dotfiles/rundo.sh " . temp
+    exec "!sh /home/helge/dotfiles/rundo.sh " . temp
     au VimLeave * silent exe '!del /Q "'.$TEMP.'\*.tmp.do"'
 endfun
 au FileType stata noremap <F9> :<C-U>call RunDoLines()<CR><CR>
