@@ -36,13 +36,20 @@ Plug 'justinmk/vim-gtfo'
 Plug 'justinmk/vim-sneak'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
 " Plug 'lifepillar/vim-mucomplete'
-" Plug 'roxma/nvim-completion-manager'
-" Plug 'JR4er/nvim-completion-manager'
+" Plug 'roxma/nvim-completion-manager' " Unsupported now
 Plug 'ikalnytskyi/nvim-completion-manager'
 if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
 Plug 'gaalcaras/ncm-R'
+" if has('nvim')
+  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+  " Plug 'Shougo/deoplete.nvim'
+  " Plug 'roxma/nvim-yarp'
+  " Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" Plug 'zchee/deoplete-jedi'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
@@ -598,6 +605,9 @@ augroup my_cm_setup
         \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
         \ })
 augroup END
+
+" Deoplete, switch at some point, ncm is unsupported
+" let g:deoplete#enable_at_startup = 1
 
 " UtilSnips
 " for nvim completion manager
