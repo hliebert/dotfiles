@@ -19,7 +19,9 @@
        workspaces        ; tab emulation, persistence & separate workspaces
 
        :completion
-       (company +auto)   ; the ultimate code completion backend
+       (company          ; the ultimate code completion backend
+        +auto            ; enable completion by default
+        +childframe)     ; use childframes whenever possible. Only available on Emacs +26
       ;helm              ; the *other* search engine for love and life
       ;ido               ; the other *other* search engine...
        ivy               ; a search engine for love and life
@@ -40,6 +42,7 @@
 
        :tools
        dired             ; making dired pretty [functional]
+       ein               ; tame Jupyter notebooks with emacs
        electric-indent   ; smarter, keyword-based electric-indent
        eshell            ; a consistent, cross-platform shell (WIP)
       ;gist              ; interacting with github gists
