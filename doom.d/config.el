@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Wed Apr 25 16:41:30 2018
+;; Last-Updated: Fri Apr 27 14:20:31 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -134,6 +134,10 @@
   (add-hook! 'evil-mc-after-cursors-deleted
     (remove-hook 'evil-insert-state-entry-hook #'evil-mc-resume-cursors t)))
 
+;; dired
+;; enable `a' for dired-find-alternate-file
+(put 'dired-find-alternate-file 'disabled nil)
+
 ;; lang/org
 (after! org-bullets
   ;; The standard unicode characters are usually misaligned depending on the
@@ -154,8 +158,9 @@
                                   ]{scrartcl}
                     %\\usepackage{mathptmx}
                     %\\usepackage{charter}
-                    \\usepackage[garamond]{mathdesign}
-                    \\renewcommand{\\familydefault}{\\sfdefault}
+                    %\\usepackage[garamond]{mathdesign}
+                    \\usepackage[sfdefault,light]{roboto}
+                    %\\renewcommand{\\familydefault}{\\sfdefault}
                     \\usepackage[T1]{fontenc}
                     \\usepackage[nswissgerman,english]{babel}"
                  ;; \\usepackage{PTSans}
@@ -184,8 +189,9 @@
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 ;; crude fix for xdg-open not working from org-mode, probably breaks other things
+;; confirmed, this breaks counsel-ag and counsel-fzf
 ;; Use pipes for subprocess communication
-(setq process-connection-type nil)
+;; (setq process-connection-type nil)
 
 ;; latex
 (after! latex
