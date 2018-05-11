@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Fri Apr 27 14:20:31 2018
+;; Last-Updated: Wed May  9 11:32:12 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -262,20 +262,20 @@ if COUNT is negative.  A paragraph is defined by
 ;; Magit rules
 ;; Keeps it on the side
 ;; Thanks to https://github.com/fuxialexander/doom-emacs-private-xfu
-(after! magit
-  (set! :popup "^\\(?: ?\\*\\)?magit.*: "
-    '((slot . -1) (side . right) (size . 80))
-    '((select . t) (quit . nil)))
-  (set! :popup "^\\*magit.*popup\\*"
-    '((slot . 0) (side . right))
-    '((select . t)))
-  (set! :popup "^\\(?: ?\\*\\)?magit-revision:.*"
-    '((slot . 2) (side . right) (window-height . 0.6))
-    '((select . t)))
-  (set! :popup "^\\(?: ?\\*\\)?magit-diff:.*"
-    '((slot . 2) (side . right) (window-height . 0.6))
-    '((select . nil)))
-  )
+;; (after! magit
+;;   (set! :popup "^\\(?: ?\\*\\)?magit.*: "
+;;     '((slot . -1) (side . right) (size . 80))
+;;     '((select . t) (quit . nil)))
+;;   (set! :popup "^\\*magit.*popup\\*"
+;;     '((slot . 0) (side . right))
+;;     '((select . t)))
+;;   (set! :popup "^\\(?: ?\\*\\)?magit-revision:.*"
+;;     '((slot . 2) (side . right) (window-height . 0.6))
+;;     '((select . t)))
+;;   (set! :popup "^\\(?: ?\\*\\)?magit-diff:.*"
+;;     '((slot . 2) (side . right) (window-height . 0.6))
+;;     '((select . nil)))
+;;   )
 
 
 ;; Neotree
