@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Wed May  9 11:32:12 2018
+;; Last-Updated: Wed May 16 12:10:40 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -26,6 +26,7 @@
 
 ;; Doom ui settings
 (setq doom-theme 'doom-vibrant)
+(setq doom-org-special-tags nil)
 (setq doom-font (font-spec :family "Fira Mono" :size 12))
 (setq +doom-modeline-buffer-file-name-style 'relative-from-project
       show-trailing-whitespace t)
@@ -138,7 +139,23 @@
 ;; enable `a' for dired-find-alternate-file
 (put 'dired-find-alternate-file 'disabled nil)
 
+;; recentf
+;; should have agenda files as well, soon unnecessary
+(after! recentf
+  (setq recentf-exclude (delq '+org-is-agenda-file recentf-exclude)))
+
 ;; lang/org
+(after! org
+  (add-to-list 'org-modules 'org-habit t)
+  (setq org-file-apps
+        `(("pdf" . default)
+          ("\\.x?html?\\'" . default)
+          (auto-mode . emacs)
+          (directory . emacs)
+          (t . ,(cond (IS-MAC "open -R \"%s\"")
+                      (IS-LINUX "setsid -w xdg-open \"%s\"")))))
+  )
+
 (after! org-bullets
   ;; The standard unicode characters are usually misaligned depending on the
   ;; font. This bugs me. Personally, markdown #-marks for headlines are more
@@ -188,14 +205,10 @@
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
-;; crude fix for xdg-open not working from org-mode, probably breaks other things
-;; confirmed, this breaks counsel-ag and counsel-fzf
-;; Use pipes for subprocess communication
-;; (setq process-connection-type nil)
-
 ;; latex
 (after! latex
-  (setq TeX-view-program-selection '((output-pdf "Evince")))
+  ;; (setq TeX-view-program-selection '((output-pdf "Evince")))
+  (setq TeX-view-program-selection '((output-pdf "xdg-open")))
   (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 
   (map!
@@ -302,17 +315,3 @@ if COUNT is negative.  A paragraph is defined by
   (ispell-set-spellchecker-params)
   (ispell-hunspell-add-multi-dic "de_CH,en_US"))
 
-;; org-projectile, preliminary
-(def-package! org-projectile
-  ;; :when (featurep! :feature evil)
-  :after (org projectile)
-  :bind (("C-c n p" . org-projectile-project-todo-completing-read)
-         ("C-c c" . org-capture))
-  :config
-  (progn
-    (setq org-projectile-projects-file
-          (expand-file-name "~/Dropbox/org/Arbeit.org")
-    (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
-    (push (org-projectile-project-todo-entry) org-capture-templates))
-  :ensure t))
-(package! org-projectile)
