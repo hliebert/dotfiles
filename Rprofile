@@ -1,7 +1,6 @@
 # vim r plugin
 if(interactive()){
    library(colorout)
-   library(setwidth)
 }
 
 # set repo mirrors
