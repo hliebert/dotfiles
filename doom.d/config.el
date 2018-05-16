@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Wed May 16 12:10:40 2018
+;; Last-Updated: Wed May 16 18:37:04 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -139,14 +139,9 @@
 ;; enable `a' for dired-find-alternate-file
 (put 'dired-find-alternate-file 'disabled nil)
 
-;; recentf
-;; should have agenda files as well, soon unnecessary
-(after! recentf
-  (setq recentf-exclude (delq '+org-is-agenda-file recentf-exclude)))
-
 ;; lang/org
 (after! org
-  (add-to-list 'org-modules 'org-habit t)
+  ;; fix xdg-open for org
   (setq org-file-apps
         `(("pdf" . default)
           ("\\.x?html?\\'" . default)
