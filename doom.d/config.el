@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Wed May 16 18:37:04 2018
+;; Last-Updated: Mon May 28 12:03:15 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -148,8 +148,7 @@
           (auto-mode . emacs)
           (directory . emacs)
           (t . ,(cond (IS-MAC "open -R \"%s\"")
-                      (IS-LINUX "setsid -w xdg-open \"%s\"")))))
-  )
+                      (IS-LINUX "setsid -w xdg-open \"%s\""))))))
 
 (after! org-bullets
   ;; The standard unicode characters are usually misaligned depending on the
@@ -251,7 +250,7 @@ if COUNT is negative.  A paragraph is defined by
 
 ;; load header.el (alternative: configure simple auto-insert)
 ;; not on melpa, just use source file
-(load! +header)
+(load! "+header")
 (setq header-date-format "%a %b %e %T %Y")
 (setq header-file-name 'buffer-file-name)
 (setq make-header-hook

@@ -8,7 +8,6 @@
        (lookup           ; helps you navigate your code and documentation
         +devdocs         ; ...on devdocs.io online
         +docsets)        ; ...or in Dash docsets locally
-       services          ; TODO managing external services & code builders
        snippets          ; my elves. They type so I don't have to
        spellcheck        ; tasing you for misspelling mispelling
        (syntax-checker   ; tasing you for every semicolon you forget
@@ -26,9 +25,6 @@
         +childframe)     ; uses childframes for popups (Emacs 26+ only)
 
        :ui
-       (popup            ; tame sudden yet inevitable temporary windows
-      ; +all             ; catch all popups that start with an asterix
-        +defaults)       ; default popup rules
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
        doom-modeline     ; a snazzy Atom-inspired mode-line
@@ -37,27 +33,34 @@
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        nav-flash         ; blink the current line after jumping
        neotree           ; a project drawer, like NERDTree for vim
+       (popup            ; tame sudden yet inevitable temporary windows
+      ; +all             ; catch all popups that start with an asterix
+        +defaults)       ; default popup rules
       ;tabbar            ; FIXME an (incomplete) tab bar for Emacs
       ;unicode           ; extended unicode support for various languages
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
 
-       :tools
+       :emacs
        dired             ; making dired pretty [functional]
-      ;editorconfig      ; let someone else argue about tabs vs spaces
-       ein               ; tame Jupyter notebooks with emacs
+       ediff             ; comparing files in Emacs
        electric-indent   ; smarter, keyword-based electric-indent
        eshell            ; a consistent, cross-platform shell (WIP)
-      ;gist              ; interacting with github gists
        imenu             ; an imenu sidebar and searchable code index
+      ;term              ; terminals in Emacs
+
+       :tools
+      ;editorconfig      ; let someone else argue about tabs vs spaces
+       ein               ; tame Jupyter notebooks with emacs
+      ;gist              ; interacting with github gists
       ;macos             ; MacOS-specific commands
        make              ; run make tasks from Emacs
        magit             ;
       ;password-store    ; password manager for nerds
        pdf               ; pdf enhancements
+      ;prodigy           ; FIXME managing external services & code builders
        rgb               ; creating color strings
        rotate-text       ; cycle region at point between text candidates
-       term              ; terminals in Emacs
       ;tmux              ; an API for interacting with tmux
       ;upload            ; map local to remote projects via ssh/ftp
 
@@ -91,8 +94,7 @@
         +babel           ; running code in org
         +capture         ; org-capture in and outside of Emacs
         +export          ; Exporting org to whatever you want
-        +present         ; Emacs for presentations
-        +publish)        ; Emacs+Org as a static site generator
+        +present)        ; Emacs for presentations
       ;perl              ; write code no one else can comprehend
       ;php               ; perl's insecure younger brother
       ;plantuml          ; diagrams for confusing people more
@@ -103,8 +105,8 @@
       ;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
       ;scala             ; java, but good
        sh                ; she sells (ba|z)sh shells on the C xor
+      ;solidity          ; do you need a blockchain? No.
       ;swift             ; who asked for emoji variables?
-      ;typescript        ; javascript, but better
        web               ; the tubes
 
        ;; Applications are complex and opinionated modules that transform Emacs
@@ -120,6 +122,7 @@
         +langtool)       ; a proofreader (grammar/style check) for Emacs
 
        :collab
+      ;floobits          ; peer programming for a price
       ;impatient-mode    ; show off code over HTTP
 
        :config
