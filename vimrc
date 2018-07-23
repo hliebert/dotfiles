@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Wed 09 May 2018 11:06:42 AM CEST
+"" Last modified: Tue 17 Jul 2018 07:53:13 PM CEST
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -35,21 +35,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-gtfo'
 Plug 'justinmk/vim-sneak'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
-" Plug 'lifepillar/vim-mucomplete'
-" Plug 'roxma/nvim-completion-manager' " Unsupported now
-Plug 'ikalnytskyi/nvim-completion-manager'
-if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'gaalcaras/ncm-R'
-" if has('nvim')
-  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-  " Plug 'Shougo/deoplete.nvim'
-  " Plug 'roxma/nvim-yarp'
-  " Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" Plug 'zchee/deoplete-jedi'
+Plug 'lifepillar/vim-mucomplete'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
@@ -217,6 +203,8 @@ set showcmd
 set hidden
 set novisualbell
 set noerrorbells
+set shortmess+=c 
+set belloff+=ctrlg
 set cursorline
 set ttyfast
 " set lazyredraw
@@ -579,62 +567,33 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-" nvim-completion-manager, starts at min three chars
-" suppress |ins-completion-menu| messages
-set shortmess+=c
-let g:cm_refresh_length = 2
-" example for expanding snippet in the popup menu with <Enter> key. Suppose you use the <C-U> key for expanding snippet.
-" imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "")
-imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
-imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
-"When using CTRL-C key to leave insert mode, it does not trigger the autocmd InsertLeave. You should use CTRL-[, or map the <c-c> to <ESC>.
-inoremap <c-c> <ESC>
-"Use <TAB> to select the popup menu:
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" Configuration for vimtex
-augroup my_cm_setup
-  autocmd!
-  autocmd User CmSetup call cm#register_source({
-        \ 'name' : 'vimtex',
-        \ 'priority': 8,
-        \ 'scoping': 1,
-        \ 'scopes': ['tex'],
-        \ 'abbreviation': 'tex',
-        \ 'cm_refresh_patterns': g:vimtex#re#ncm,
-        \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
-        \ })
-augroup END
-
-" Deoplete, switch at some point, ncm is unsupported
-" let g:deoplete#enable_at_startup = 1
+" MUcomplete
+set completeopt+=longest,menuone,noinsert
+" set completeopt+=menuone
+" set completeopt+=noinsert
+" set completeopt-=preview
+" set completeopt+=longest,menuone,noselect
+let g:jedi#popup_on_dot = 0  " It may be 1 as well
+let g:mucomplete#enable_auto_at_startup = 1
+nnoremap <F7> :MUcompleteAutoToggle
 
 " UtilSnips
-" for nvim completion manager
-let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
-let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
-let g:UltiSnipsRemoveSelectModeMappings = 0
-" else
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger	= "<tab>"
-" let g:UltiSnipsJumpBackwardTrigger	= "<S-tab>"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger	= "<tab>"
+let g:UltiSnipsJumpBackwardTrigger	= "<S-tab>"
 " optional
 inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 " inoremap <silent> <Tab> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-
-
-"Ale
+" Ale
 " let g:airline#extensions#ale#enabled = 1
 nmap <F7> <Plug>(ale_toggle)
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
 let g:ale_enabled = 0
-
 
 " Latex/Vimtex
 let g:tex_flavor = "latex"
