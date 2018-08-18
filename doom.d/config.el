@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Wed Jun  6 08:56:26 2018
+;; Last-Updated: Thu Aug 16 20:45:45 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -75,7 +75,7 @@
      :desc "Find file fzf"              :n  "z"   #'counsel-fzf
      :desc "Find file rg"               :n  "g"   #'counsel-rg
      :desc "Find file ag"               :n  "a"   #'counsel-ag
-     :desc "Neotree"                    :n  "t"   #'+neotree/open)
+     :desc "Treemacs"                   :n  "t"   #'+treemacs/toggle)
      ;; :desc "Find file in dotfiles"      :n  "t"   #'+helge/find-in-dotfiles
      ;; :desc "Browse dotfiles"            :n  "T"   #'+helge/browse-dotfiles)
    (:prefix "b"
@@ -118,6 +118,11 @@
 ;;
 ;; Modules
 ;;
+
+;; helm delete whole directory
+;; (map! :after helm-files
+;;       :map helm-find-files-map
+;;       "<DEL>" #'helm-find-files-up-one-level)
 
 ;; ivy
 (after! ivy
