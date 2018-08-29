@@ -10,27 +10,27 @@
         +docsets)        ; ...or in Dash docsets locally
        snippets          ; my elves. They type so I don't have to
        spellcheck        ; tasing you for misspelling mispelling
-       (syntax-checker   ; tasing you for every semicolon you forget
-        +childframe)     ; use childframes for error popups (Emacs 26+ only)
+       (syntax-checker)  ; tasing you for every semicolon you forget
+      ; +childframe)     ; use childframes for error popups (Emacs 26+ only)
        workspaces        ; tab emulation, persistence & separate workspaces
 
        :completion
        (company          ; the ultimate code completion backend
-        +auto            ; as-you-type code completion
-        +childframe)     ; a nicer company UI (Emacs 26+ only)
+        +auto)           ; as-you-type code completion
+      ; +childframe)     ; a nicer company UI (Emacs 26+ only)
       ;(helm             ; the *other* search engine for love and life
       ; +fuzzy           ; enable fuzzy search backend for helm
       ; +childframe)     ; uses childframes for popups (Emacs 26+ only)
       ;ido               ; the other *other* search engine...
        (ivy              ; a search engine for love and life
-        +fuzzy           ; enable fuzzy search backend for ivy
-        +childframe)     ; uses childframes for popups (Emacs 26+ only)
+        +fuzzy)          ; enable fuzzy search backend for ivy
+      ; +childframe)     ; uses childframes for popups (Emacs 26+ only)
 
        :ui
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
        doom-modeline     ; a snazzy Atom-inspired mode-line
-      ;doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       doom-quit         ; DOOM quit-message prompts when you quit Emacs
        evil-goggles      ; display visual hints when editing in evil
        fci               ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE tags

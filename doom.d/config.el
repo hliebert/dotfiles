@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Thu Aug 16 20:45:45 2018
+;; Last-Updated: Mi Aug 29 19:01:48 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -27,7 +27,7 @@
 ;; Doom ui settings
 (setq doom-theme 'doom-vibrant)
 (setq doom-org-special-tags nil)
-(setq doom-font (font-spec :family "Fira Mono" :size 12))
+;; (setq doom-font (font-spec :family "Fura Mono Nerd Font" :size 12))
 (setq +doom-modeline-buffer-file-name-style 'relative-from-project
       show-trailing-whitespace t)
 (add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
@@ -59,6 +59,7 @@
  "C--" 'text-scale-decrease ;; also SPC  [[, masks negative prefix
  (:leader
    :desc "Comment"                      :nv ";"   #'evil-commentary
+   :desc "M-x"                          :nv "SPC" #'counsel-M-x
    ;; caution, remapping tab removes all workspace keybindings
    ;; :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
    ;; :desc "Previous buffer"            :n  "TAB" #'previous-buffer
@@ -75,6 +76,7 @@
      :desc "Find file fzf"              :n  "z"   #'counsel-fzf
      :desc "Find file rg"               :n  "g"   #'counsel-rg
      :desc "Find file ag"               :n  "a"   #'counsel-ag
+     :desc "Find file in project"       :n  "p"   #'counsel-projectile
      :desc "Treemacs"                   :n  "t"   #'+treemacs/toggle)
      ;; :desc "Find file in dotfiles"      :n  "t"   #'+helge/find-in-dotfiles
      ;; :desc "Browse dotfiles"            :n  "T"   #'+helge/browse-dotfiles)
@@ -109,7 +111,7 @@
      :desc "Find file"                  :n  "d"   #'counsel-find-file
      :desc "Find file jump"             :n  "j"   #'counsel-file-jump
      :desc "Find file fzf"              :n  "z"   #'counsel-fzf
-     :desc "Find file fzf"              :n  "/"   #'counsel-fzf
+     :desc "Swiper"                     :n  "/"   #'swiper
      :desc "Find file rg"               :n  "g"   #'counsel-rg
      :desc "Find file ag"               :n  "a"   #'counsel-ag)))
 
@@ -303,14 +305,105 @@ if COUNT is negative.  A paragraph is defined by
           ))
     ))
 
+;; disable emacs asking for confirmation on quit if there are no modified buffers
+;; (defun doom-quit-if-no-modified-buffers-p (&optional prompt)
+;;   (if (cl-find-if #'buffer-modified-p (buffer-list))
+;;       (or (yes-or-no-p (format "››› %s" (or prompt "Quit Emacs?")))
+;;           (ignore (message "Aborted")))
+;;     t))
+;; (setq confirm-kill-emacs #'doom-quit-if-no-modified-buffers-p)
+(setq confirm-kill-emacs nil)
+
+
+;; language tool location
+
+(setq langtool-language-tool-jar
+      "/snap/languagetool/13/usr/bin/languagetool-commandline.jar")
 
 ;; activate multiple dictionaries to avoid switching between German and English
 ;; lifted this from emacs.stackexchange.com
-(after! ispell
-  (setq ispell-program-name "hunspell")
-  (setq ispell-dictionary "de_CH,en_US")
-  ;; ispell-set-spellchecker-params has to be called
-  ;; before ispell-hunspell-add-multi-dic will work
-  (ispell-set-spellchecker-params)
-  (ispell-hunspell-add-multi-dic "de_CH,en_US"))
+;; broken due to upstream naming bug in hunspell
+; (after! ispell
+  ; (setq ispell-program-name "hunspell")
+  ; (setq ispell-dictionary "de_CH,en_US")
+  ; ;; ispell-set-spellchecker-params has to be called
+  ; ;; before ispell-hunspell-add-multi-dic will work
+  ; (ispell-set-spellchecker-params)
+  ; (ispell-hunspell-add-multi-dic "de_CH,en_US"))
 
+
+
+;; ado-mode for Stata
+(require 'ado-mode)
+;; send line to stata and move to next
+(defun ado-send-line-to-stata (&optional whole-buffer)
+  (interactive)
+  (ado-command-to-clip ado-submit-default whole-buffer)
+  (ado-send-clip-to-stata ado-submit-default ado-comeback-flag)
+  (forward-line 1))
+(define-key ado-mode-map [(control return)] 'ado-send-line-to-stata)
+(define-key ado-mode-map [(meta control return)] 'ado-send-buffer-to-stata)
+
+;; get rid of this annoying pop up buffer when sending to stata
+(set-popup-rule! "^\\*Async Shell Command\\*.*" :ignore t :ttl 0)
+;; (add-to-list 'display-buffer-alist
+;;   (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
+
+;; (defun async-shell-command-no-window
+;;     (command)
+;;   (interactive)
+;;   (let
+;;       ((display-buffer-alist
+;;         (list
+;;          (cons
+;;           "\\*Async Shell Command\\*.*"
+;;           (cons #'display-buffer-no-window nil)))))
+;;     (async-shell-command
+;;      command)))
+
+
+
+;; text mode wrap
+;; (add-hook 'text-mode-hook 'auto-fill-mode)
+;; (setq-default fill-column 80)
+;; use change-window-with function
+
+;; persistent undo
+;; disabled for now, corrupts undo history
+;; (global-undo-tree-mode)
+;; (setq undo-tree-auto-save-history t)
+;; (setq undo-tree-history-directory-alist '(("." . "~/.undo-emacs/")))
+;; (unless (file-exists-p "~/.undo-emacs/")
+;;   (make-directory "~/.undo-emacs/"))
+
+
+
+
+
+
+
+
+
+;; (after! org-projectile
+;;   (require 'org-projectile)
+;;   (org-projectile-per-project)
+;;   (setq org-projectile-per-project-filepath "todo.org")
+;;   (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
+;;   (global-set-key (kbd "C-c c") 'org-capture)
+;;   (global-set-key (kbd "C-c n p") 'org-projectile-project-todo-completing-read))
+
+
+;; ;;;; hledger mode
+;; (after! hledger-mode
+;;   ;; To open files with .journal extension in hledger-mode
+;;   (add-to-list 'auto-mode-alist '("\\.journal\\'" . hledger-mode))
+;;   ;; Provide the path to you journal file.
+;;   ;; The default location is too opinionated.
+;;   (setq hledger-jfile "~/Dropbox/org/hledger.journal")
+;;   ;;; Auto-completion for account names
+;;   ;; For company-mode users,
+;;   (add-to-list 'company-backends 'hledger-company))
+
+;; ;; Personal Accounting
+;; (global-set-key (kbd "C-c e") 'hledger-jentry)
+;; (global-set-key (kbd "C-c j") 'hledger-run-command)

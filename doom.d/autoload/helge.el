@@ -79,3 +79,21 @@ confirmation is required unless you supply a prefix argument."
       (write-file new-location confirm)
       (when (and old-location (file-exists-p new-location))
         (delete-file old-location)))))
+
+
+;;;###autoload
+(defun helge/change-window-width (width)
+  "Adjust margins so that window is centered.
+Allows editing text using fixed linewidth (80 char) without forcing
+linebreaks as in auto-fill-mode. "
+  (interactive "NWindow width: ")
+  (if (= 0 width)
+      (set-window-margins nil 0 0)
+    (let* ((cur-width (window-width))
+           (cur-m (window-margins))
+           (cur-l (if (and cur-m (car cur-m)) (car cur-m) 0))
+           (cur-r (if (and cur-m (cdr cur-m)) (cdr cur-m) 0))
+           (lr (- (+ cur-l cur-r cur-width) width))
+           (left (/ lr 2))
+           (right (if (= 0 (% lr 2)) left (1+ left))))
+      (set-window-margins nil (max left 0) (max right 0)))))
