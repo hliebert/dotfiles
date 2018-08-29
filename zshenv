@@ -13,3 +13,8 @@ if [[ ! "$PATH" == */home/helge/.fzf/bin* ]]; then
 fi
 
 
+# Ledger file
+export LEDGER_FILE=~/Dropbox/org/hledger.journal
+
+# pip local 
+export PATH="$PATH:/home/helge/.local/bin"
