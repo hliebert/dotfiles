@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mi Aug 29 19:01:48 2018
+;; Last-Updated: Mi Aug 29 19:19:11 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -46,7 +46,8 @@
 ;; (setq c-default-style "linux")
 ;; (setq tab-width 2)
 ;; (setq-default indent-tabs-mode nil)
-
+;; always delete trailing whitespace on save
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;;
 ;; Keybindings
@@ -345,10 +346,10 @@ if COUNT is negative.  A paragraph is defined by
 (define-key ado-mode-map [(meta control return)] 'ado-send-buffer-to-stata)
 
 ;; get rid of this annoying pop up buffer when sending to stata
-(set-popup-rule! "^\\*Async Shell Command\\*.*" :ignore t :ttl 0)
+;; none of this works
+;; (set-popup-rule! "^\\*Async Shell Command\\*.*" :ignore t :ttl 0)
 ;; (add-to-list 'display-buffer-alist
 ;;   (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
-
 ;; (defun async-shell-command-no-window
 ;;     (command)
 ;;   (interactive)
