@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Tue 17 Jul 2018 07:53:13 PM CEST
+"" Last modified: So 19 Aug 2018 21:47:39 CEST
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -187,9 +187,10 @@ syntax on
 
 set guioptions-=T
 set guioptions-=m
-set guioptions+=b
-set guioptions+=r
-set guioptions+=a
+" set guioptions+=b
+" set guioptions+=r
+" set guioptions+=a
+set guioptions+=P
 set stal=1
 set number
 set relativenumber
@@ -447,6 +448,22 @@ function ToggleHorizontalScrollbar_setKeys()
 endfunc
 au GUIEnter * call ToggleHorizontalScrollbar_setKeys()
 
+" Toggle vertical scrollbar
+function ToggleVerticalScrollbar()
+    "set guioptions+=b
+    if &go =~# "r"
+        set go-=r
+    else
+        set go+=r
+    endif
+endfunc
+function ToggleVerticalScrollbar_setKeys()
+    nnoremap <silent> <C-S-F11>      :call ToggleVerticalScrollbar()<CR>
+    vnoremap <silent> <C-S-F11> <C-C>:call ToggleVerticalScrollbar()<CR>
+    inoremap <silent> <C-S-F11> <C-O>:call ToggleVerticalScrollbar()<CR>
+endfunc
+au GUIEnter * call ToggleVerticalScrollbar_setKeys()
+
 " * and # search for next/previous of selected text when used in visual mode
 xno * :<c-u>cal<SID>VisualSearch()<cr>/<cr>
 xno # :<c-u>cal<SID>VisualSearch()<cr>?<cr>
@@ -567,20 +584,27 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
+
+" " Completor
+" " Use Tab to trigger completion (disable auto trigger)
+" let g:completor_auto_trigger = 0
+" inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
+" " Use Tab to select completion
+" " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+
 " MUcomplete
-set completeopt+=longest,menuone,noinsert
-" set completeopt+=menuone
-" set completeopt+=noinsert
-" set completeopt-=preview
-" set completeopt+=longest,menuone,noselect
+set completeopt+=menu,preview,menuone,noselect
 let g:jedi#popup_on_dot = 0  " It may be 1 as well
 let g:mucomplete#enable_auto_at_startup = 1
-nnoremap <F7> :MUcompleteAutoToggle
+" nnoremap <F7> :MUcompleteAutoToggle
 
 " UtilSnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger	= "<tab>"
-let g:UltiSnipsJumpBackwardTrigger	= "<S-tab>"
+let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger	= "<tab>"
+" let g:UltiSnipsJumpBackwardTrigger	= "<S-tab>"
 " optional
 inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 " inoremap <silent> <Tab> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
