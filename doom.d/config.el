@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mi Aug 29 19:19:11 2018
+;; Last-Updated: Fr Aug 31 20:28:18 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -371,11 +371,12 @@ if COUNT is negative.  A paragraph is defined by
 
 ;; persistent undo
 ;; disabled for now, corrupts undo history
-;; (global-undo-tree-mode)
-;; (setq undo-tree-auto-save-history t)
-;; (setq undo-tree-history-directory-alist '(("." . "~/.undo-emacs/")))
-;; (unless (file-exists-p "~/.undo-emacs/")
-;;   (make-directory "~/.undo-emacs/"))
+(global-undo-tree-mode)
+(setq undo-tree-enable-undo-in-region nil)
+(setq undo-tree-auto-save-history t)
+(setq undo-tree-history-directory-alist '(("." . "~/.undo-emacs/")))
+(unless (file-exists-p "~/.undo-emacs/")
+  (make-directory "~/.undo-emacs/"))
 
 
 
