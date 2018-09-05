@@ -141,4 +141,5 @@ if [ -e /opt/local/bin/fortune ]; then
 fi
 
 
+# fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
