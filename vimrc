@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: So 19 Aug 2018 21:47:39 CEST
+"" Last modified: Mi 05 Sep 2018 19:40:03 CEST
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -229,9 +229,9 @@ set showmatch
 set hlsearch
 set autowrite
 set mouse=a
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
 " set clipboard+=unnamedplus
-" set clipboard=unnamedplus,unnamed
+set clipboard=unnamedplus,unnamed
 set encoding=utf-8
 " format and wrap
 set wrap
@@ -514,6 +514,9 @@ command WC call WC()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Gundo
+if has('python3')
+    let g:gundo_prefer_python3 = 1
+endif
 nnoremap <F5> :GundoToggle<CR>
 
 " Nerdtree
