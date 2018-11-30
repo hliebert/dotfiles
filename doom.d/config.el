@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Fr Aug 31 20:28:18 2018
+;; Last-Updated: Fr Okt 12 17:45:48 2018
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -317,7 +317,6 @@ if COUNT is negative.  A paragraph is defined by
 
 
 ;; language tool location
-
 (setq langtool-language-tool-jar
       "/snap/languagetool/13/usr/bin/languagetool-commandline.jar")
 
@@ -332,10 +331,15 @@ if COUNT is negative.  A paragraph is defined by
   ; (ispell-set-spellchecker-params)
   ; (ispell-hunspell-add-multi-dic "de_CH,en_US"))
 
-
+;; center search results
+(advice-add 'evil-ex-search-next :after
+            (lambda (&rest x) (evil-scroll-line-to-center (line-number-at-pos))))
+(advice-add 'evil-ex-search-previous :after
+            (lambda (&rest x) (evil-scroll-line-to-center (line-number-at-pos))))
 
 ;; ado-mode for Stata
 (require 'ado-mode)
+(setq ado-submit-default "dofile")
 ;; send line to stata and move to next
 (defun ado-send-line-to-stata (&optional whole-buffer)
   (interactive)
