@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Mi 05 Sep 2018 19:40:03 CEST
+"" Last modified: Mi 28 Nov 2018 10:03:48 CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -35,9 +35,25 @@ Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-gtfo'
 Plug 'justinmk/vim-sneak'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
-Plug 'lifepillar/vim-mucomplete'
+" Plug 'lifepillar/vim-mucomplete'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'ncm2/ncm2'
+if !has('nvim')
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-tagprefix'
+Plug 'filipekiss/ncm2-look.vim'
+Plug 'ncm2/ncm2-syntax'
+Plug 'ncm2/ncm2-neoinclude'
+Plug 'yuki-ycino/ncm2-dictionary'
+Plug 'ncm2/ncm2-jedi'
+Plug 'ncm2/ncm2-vim'
+Plug 'gaalcaras/ncm-R'
+Plug 'ncm2/ncm2-ultisnips'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
 Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree'
@@ -229,9 +245,8 @@ set showmatch
 set hlsearch
 set autowrite
 set mouse=a
-" set clipboard=unnamedplus
-" set clipboard+=unnamedplus
-set clipboard=unnamedplus,unnamed
+set clipboard=unnamed
+" set clipboard=unnamedplus,unnamed
 set encoding=utf-8
 " format and wrap
 set wrap
@@ -370,10 +385,10 @@ endfunction
 nnoremap Y y$
 
 " preserve clipboard content after pasting over text in visual mode
-function! YRRunAfterMaps()
-    " From Steve Losh, Preserve the yank post selection/put.
-    vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
-endfunction
+" function! YRRunAfterMaps()
+    " " From Steve Losh, Preserve the yank post selection/put.
+    " vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
+" endfunction
 
 " find lines longer than 80
 nnoremap <leader>lo /\%>80v.\+<cr>
@@ -595,11 +610,46 @@ nmap ga <Plug>(EasyAlign)
 " " Use Tab to select completion
 " " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 
-" MUcomplete
-set completeopt+=menu,preview,menuone,noselect
-let g:jedi#popup_on_dot = 0  " It may be 1 as well
-let g:mucomplete#enable_auto_at_startup = 1
-" nnoremap <F7> :MUcompleteAutoToggle
+" " MUcomplete
+" set completeopt+=menu,preview,menuone,noselect
+" let g:jedi#popup_on_dot = 0  " It may be 1 as well
+" let g:mucomplete#enable_auto_at_startup = 1
+" " nnoremap <F7> :MUcompleteAutoToggle
+
+" NCM2
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+" IMPORTANT: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+" found' messages
+set shortmess+=c
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+inoremap <c-c> <ESC>
+" When the <Enter> key is pressed while the popup menu is visible, it only
+" hides the menu. Use this mapping to close the menu and also start a new
+" line.
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" wrap existing omnifunc
+" Note that omnifunc does not run in background and may probably block the
+" editor. If you don't want to be blocked by omnifunc too often, you could
+" add 180ms delay before the omni wrapper:
+"  'on_complete': ['ncm2#on_complete#delay', 180,
+"               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+au User Ncm2Plugin call ncm2#register_source({
+        \ 'name' : 'css',
+        \ 'priority': 9, 
+        \ 'subscope_enable': 1,
+        \ 'scope': ['css','scss'],
+        \ 'mark': 'css',
+        \ 'word_pattern': '[\w\-]+',
+        \ 'complete_pattern': ':\s*',
+        \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+        \ })
+
 
 " UtilSnips
 let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
