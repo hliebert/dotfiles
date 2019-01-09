@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Mi 28 Nov 2018 10:03:48 CET
+"" Last modified: Mi 09 Jan 2019 19:48:31 CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -47,13 +47,18 @@ Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-tagprefix'
 Plug 'filipekiss/ncm2-look.vim'
-Plug 'ncm2/ncm2-syntax'
-Plug 'ncm2/ncm2-neoinclude'
+" Plug 'Shougo/neco-vim'
+" Plug 'Shougo/neco-syntax'
+" Plug 'ncm2/ncm2-syntax'
+" Plug 'ncm2/ncm2-neoinclude'
 Plug 'yuki-ycino/ncm2-dictionary'
+" Plug 'fgrsnau/ncm2-aspell'
+Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2' }
 Plug 'ncm2/ncm2-jedi'
 Plug 'ncm2/ncm2-vim'
 Plug 'gaalcaras/ncm-R'
-Plug 'ncm2/ncm2-ultisnips'
+" Plug 'ncm2/ncm2-ultisnips'
+" Plug 'ncm2/ncm2-match-highlight'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
 Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree'
@@ -625,7 +630,7 @@ set completeopt=noinsert,menuone,noselect
 " found' messages
 set shortmess+=c
 " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
-inoremap <c-c> <ESC>
+inoremap <C-c> <ESC>
 " When the <Enter> key is pressed while the popup menu is visible, it only
 " hides the menu. Use this mapping to close the menu and also start a new
 " line.
@@ -637,29 +642,94 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " Note that omnifunc does not run in background and may probably block the
 " editor. If you don't want to be blocked by omnifunc too often, you could
 " add 180ms delay before the omni wrapper:
-"  'on_complete': ['ncm2#on_complete#delay', 180,
-"               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-au User Ncm2Plugin call ncm2#register_source({
-        \ 'name' : 'css',
-        \ 'priority': 9, 
-        \ 'subscope_enable': 1,
-        \ 'scope': ['css','scss'],
-        \ 'mark': 'css',
-        \ 'word_pattern': '[\w\-]+',
-        \ 'complete_pattern': ':\s*',
-        \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-        \ })
+" "  'on_complete': ['ncm2#on_complete#delay', 180,
+" "               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+" au User Ncm2Plugin call ncm2#register_source({
+        " \ 'name' : 'css',
+        " \ 'priority': 9, 
+        " \ 'subscope_enable': 1,
+        " \ 'scope': ['css','scss'],
+        " \ 'mark': 'css',
+        " \ 'word_pattern': '[\w\-]+',
+        " \ 'complete_pattern': ':\s*',
+        " \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+        " \ })
 
+" ncm2 match highlight
+" let g:ncm2#match_highlight = 'bold'
+
+" ncm2 setup for vimtex
+augroup my_cm_setup
+  autocmd!
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+  autocmd Filetype tex call ncm2#register_source({
+          \ 'name' : 'vimtex-cmds',
+          \ 'priority': 8, 
+          \ 'complete_length': -1,
+          \ 'scope': ['tex'],
+          \ 'matcher': {'name': 'prefix', 'key': 'word'},
+          \ 'word_pattern': '\w+',
+          \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
+          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          \ })
+  autocmd Filetype tex call ncm2#register_source({
+          \ 'name' : 'vimtex-labels',
+          \ 'priority': 8, 
+          \ 'complete_length': -1,
+          \ 'scope': ['tex'],
+          \ 'matcher': {'name': 'combine',
+          \             'matchers': [
+          \               {'name': 'substr', 'key': 'word'},
+          \               {'name': 'substr', 'key': 'menu'},
+          \             ]},
+          \ 'word_pattern': '\w+',
+          \ 'complete_pattern': g:vimtex#re#ncm2#labels,
+          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          \ })
+  autocmd Filetype tex call ncm2#register_source({
+          \ 'name' : 'vimtex-files',
+          \ 'priority': 8, 
+          \ 'complete_length': -1,
+          \ 'scope': ['tex'],
+          \ 'matcher': {'name': 'combine',
+          \             'matchers': [
+          \               {'name': 'abbrfuzzy', 'key': 'word'},
+          \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+          \             ]},
+          \ 'word_pattern': '\w+',
+          \ 'complete_pattern': g:vimtex#re#ncm2#files,
+          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          \ })
+  autocmd Filetype tex call ncm2#register_source({
+          \ 'name' : 'bibtex',
+          \ 'priority': 8, 
+          \ 'complete_length': -1,
+          \ 'scope': ['tex'],
+          \ 'matcher': {'name': 'combine',
+          \             'matchers': [
+          \               {'name': 'prefix', 'key': 'word'},
+          \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+          \               {'name': 'abbrfuzzy', 'key': 'menu'},
+          \             ]},
+          \ 'word_pattern': '\w+',
+          \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
+          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          \ })
+augroup END
 
 " UtilSnips
-let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+" Press enter key to trigger snippet expansion
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+" c-j c-k for moving in snippet
+" let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
 let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
 " let g:UltiSnipsExpandTrigger="<tab>"
 " let g:UltiSnipsJumpForwardTrigger	= "<tab>"
 " let g:UltiSnipsJumpBackwardTrigger	= "<S-tab>"
 " optional
-inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
+" inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 " inoremap <silent> <Tab> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
