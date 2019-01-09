@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Fr Okt 12 17:45:48 2018
+;; Last-Updated: Mi Jan  9 14:23:51 2019
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -39,8 +39,8 @@
 
 ;; Basic misc settings, probably a better solution available
 (setq-default split-width-threshold 80)
-(setq-default tab-width 2)
-(setq-default evil-shift-width 2)
+;; (setq-default tab-width 2)
+;; (setq-default evil-shift-width 2)
 ;; Spaces over tabs
 ;; (setq c-basic-indent 2)
 ;; (setq c-default-style "linux")
@@ -48,6 +48,7 @@
 ;; (setq-default indent-tabs-mode nil)
 ;; always delete trailing whitespace on save
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
+
 
 ;;
 ;; Keybindings
@@ -245,8 +246,6 @@ if COUNT is negative.  A paragraph is defined by
         ((> dir 0) (forward-paragraph))
         ((not (bobp)) (start-of-paragraph-text) (beginning-of-line)))))))
 
-;; set completion threshold
-(setq company-minimum-prefix-length 3)
 
 ;; whitespace
 ;; (setq-default whitespace-style
@@ -337,6 +336,18 @@ if COUNT is negative.  A paragraph is defined by
 (advice-add 'evil-ex-search-previous :after
             (lambda (&rest x) (evil-scroll-line-to-center (line-number-at-pos))))
 
+;; python
+;; (setq python-remove-cwd-from-path nil)
+;; (setq python-shell-interpreter "python3")
+ ;; (setq python-shell-interpreter "ipython"
+    ;; python-shell-interpreter-args "-i")
+;; (setq python-shell-interpreter "~/anaconda3/bin/ipython3"
+;;       python-shell-interpreter-args "-i --simple-prompt --pprint")
+    ;; python-shell-interpreter-args "-i --pprint")
+      ;; python-shell-interpreter-args "--simple-prompt --pprint")
+;; (setq python-shell-interpreter "jupyter"
+;;       python-shell-interpreter-args "console --simple-prompt")
+
 ;; ado-mode for Stata
 (require 'ado-mode)
 (setq ado-submit-default "dofile")
@@ -352,8 +363,8 @@ if COUNT is negative.  A paragraph is defined by
 ;; get rid of this annoying pop up buffer when sending to stata
 ;; none of this works
 ;; (set-popup-rule! "^\\*Async Shell Command\\*.*" :ignore t :ttl 0)
-;; (add-to-list 'display-buffer-alist
-;;   (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
+(add-to-list 'display-buffer-alist
+  (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
 ;; (defun async-shell-command-no-window
 ;;     (command)
 ;;   (interactive)
