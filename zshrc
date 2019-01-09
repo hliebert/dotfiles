@@ -73,4 +73,4 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vcs ssh root_indicator dir_writable backgrou
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
+export PATH=/home/helge/anaconda3/bin:$PATH
