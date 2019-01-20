@@ -57,8 +57,8 @@
 ;; separate into a different file?
 
 (map!
- "C-=" 'text-scale-increase ;; also SPC  ]]
- "C--" 'text-scale-decrease ;; also SPC  [[, masks negative prefix
+ :nv "C-=" 'text-scale-increase ;; also SPC  ]]
+ :nv "C--" 'text-scale-decrease ;; also SPC  [[, masks negative prefix
  (:leader
    :desc "Comment"                      :nv ";"   #'evil-commentary
    :desc "M-x"                          :nv "SPC" #'counsel-M-x
@@ -211,7 +211,7 @@
 ;; latex
 (after! latex
   ;; (setq TeX-view-program-selection '((output-pdf "Evince")))
-  (setq TeX-view-program-selection '((output-pdf "xdg-open")))
+  ;; (setq TeX-view-program-selection '((output-pdf "xdg-open")))
   (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 
   (map!
@@ -246,6 +246,8 @@ if COUNT is negative.  A paragraph is defined by
         ((> dir 0) (forward-paragraph))
         ((not (bobp)) (start-of-paragraph-text) (beginning-of-line)))))))
 
+;; set completion threshold
+(setq company-minimum-prefix-length 3)
 
 ;; whitespace
 ;; (setq-default whitespace-style
@@ -335,6 +337,8 @@ if COUNT is negative.  A paragraph is defined by
             (lambda (&rest x) (evil-scroll-line-to-center (line-number-at-pos))))
 (advice-add 'evil-ex-search-previous :after
             (lambda (&rest x) (evil-scroll-line-to-center (line-number-at-pos))))
+;; remove evil-ex-search-next from ;
+;; (map! :after evil-mode :n ";" nil)
 
 ;; python
 ;; (setq python-remove-cwd-from-path nil)
@@ -385,20 +389,38 @@ if COUNT is negative.  A paragraph is defined by
 ;; use change-window-with function
 
 ;; persistent undo
-;; disabled for now, corrupts undo history
-(global-undo-tree-mode)
-(setq undo-tree-enable-undo-in-region nil)
-(setq undo-tree-auto-save-history t)
-(setq undo-tree-history-directory-alist '(("." . "~/.undo-emacs/")))
-(unless (file-exists-p "~/.undo-emacs/")
-  (make-directory "~/.undo-emacs/"))
+;; still broken, disabled for now, corrupts undo history
+;; (global-undo-tree-mode)
+;; (setq undo-tree-enable-undo-in-region nil)
+;; (setq undo-tree-auto-save-history t)
+;; (setq undo-tree-history-directory-alist '(("." . "~/.undo-emacs/")))
+;; (unless (file-exists-p "~/.undo-emacs/")
+;;   (make-directory "~/.undo-emacs/"))
 
 
+;; rebox 2
+(setq rebox-style-loop '(24 16))
+(require 'rebox2)
+;; (global-set-key [(meta q)] 'rebox-dwim)
 
-
-
-
-
+;; simple comment box
+(defun full-comment-box (b e)
+  "Draw a box comment around the region but arrange for the region
+to extend to at least the fill column. Place the point after the
+comment box."
+  (interactive "r")
+  (let ((e (copy-marker e t)))
+    (goto-char b)
+    (end-of-line)
+    (insert-char ?  (- fill-column
+                       (current-column)
+                       (* 2 (+ comment-add
+                               (length comment-start)
+                               (length comment-padding)))))
+    (comment-box b e 1)
+    (goto-char e)
+    (set-marker e nil)))
+;; (global-set-key (kbd "C-c b b") 'full-comment-box)
 
 
 ;; (after! org-projectile
