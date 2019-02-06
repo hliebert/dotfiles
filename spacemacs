@@ -53,8 +53,8 @@ This function should only modify configuration layer settings."
      emacs-lisp
      ;; vimscript
      git
-     neotree
-     ;; treemacs
+     ;; neotree
+     treemacs
      (org :config
       (setq org-startup-indented t)
       :variables
@@ -79,13 +79,12 @@ This function should only modify configuration layer settings."
      ;; restclient
      (latex :variables
             latex-build-command "LatexMk"
-            latex-enable-magic t
             latex-enable-auto-fill t)
      bibtex
      python
      shell-scripts
      html
-     evil-snipe
+     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
      ranger
      pdf
      multiple-cursors
@@ -93,6 +92,7 @@ This function should only modify configuration layer settings."
      ;; (ibuffer :variables ibuffer-group-buffers-by 'projects)))
      (rebox :variables rebox-enable-in-text-mode t
                        rebox-min-fill-column 79)
+     yaml
      ;; prettier
      ;; lsp
      ;; xclipboard
@@ -117,6 +117,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(
                                       all-the-icons
                                       python-x
+                                      yasnippet-snippets
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -565,6 +566,10 @@ before packages are loaded."
   ;; (set-scroll-bar-mode 'right)
   ;; (toggle-horizontal-scroll-bar 1)
 
+  ;; ;; buffer not raised sometimes when starting via hotkey
+  ;; ;; (add-hook 'server-switch-hook #'raise-frame)
+  ;; (add-hook 'server-switch-hook (lambda () (select-frame-set-input-focus (selected-frame))))
+
   ;; enable visual line mode globally, SPC t L
   (global-visual-line-mode t)
 
@@ -600,11 +605,33 @@ before packages are loaded."
   ;; Do not mix Emacs kill ring and system clipboard
   ;; (setq x-select-enable-clipboard nil)
 
+  ;; kill-all-buffers function, also closes other windows and frames
+  ;; there is also the inbuilt kill-some-buffers
+  (defun kill-all-buffers ()
+    "Kill all buffers and close other windows and frames."
+    (interactive)
+    (mapc 'kill-buffer (buffer-list))
+    (delete-other-windows)
+    (delete-other-frames))
+
+  ;; kill all buffers except current one
+  (defun kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer (delq (current-buffer) (buffer-list)))
+    (delete-other-windows)
+    (delete-other-frames))
+
   ;; center search results
   (advice-add 'evil-ex-search-next :after
               (lambda (&rest x) (evil-scroll-line-to-center (line-number-at-pos))))
   (advice-add 'evil-ex-search-previous :after
               (lambda (&rest x) (evil-scroll-line-to-center (line-number-at-pos))))
+
+  ;; do not kill on visual paste over
+  ;; better solutition would be to reorganize kill-ring,
+  ;; i.e. reselect and paste again as in vim
+  (setq-default evil-kill-on-visual-paste nil)
 
   ;; set ipython as python executable
   ;; (setq python-shell-interpreter "python3")
@@ -644,13 +671,14 @@ before packages are loaded."
     (advice-add 'helm-ff-delete-char-backward :around #'fu/helm-find-files-navigate-back))
 
   ;; Latex/auctex
-  (setq TeX-auto-save nil)
+  ;; (setq TeX-auto-save nil)
+  (setq TeX-save-query nil)
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)
   ;; make auctex ask for tex master file
   ;; (setq-default TeX-master nil)
   (spacemacs/set-leader-keys-for-major-mode 'latex-mode "d" 'TeX-clean)
   ;; set pdf viewer if default isn't working
-  (setq TeX-view-program-selection '((output-pdf "xdg-open")))
+  ;; (setq TeX-view-program-selection '((output-pdf "xdg-open")))
   ;; set XeTeX mode in TeX/LaTeX
   ;; (add-hook 'LaTeX-mode-hook
   ;;           (lambda()
@@ -680,6 +708,18 @@ before packages are loaded."
             (auto-mode . emacs)))
     ;; pandoc export
     (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "xelatex"))))
+
+  ;; keywords
+  (setq
+    org-todo-keywords
+    '((sequence "TODO(T)" "|" "DONE(D)")
+      (sequence "NEXT(n)" "WAITING(w)" "LATER(l)" "|" "CANCELLED(c)")
+      (sequence "[ ](t)" "[-](p)" "[?](m)" "|" "[X](d)"))
+    org-todo-keyword-faces
+    '(("[-]" :inherit font-lock-constant-face :weight bold)
+      ("[?]" :inherit warning :weight bold)
+      ("WAITING" :inherit default :weight bold)
+      ("LATER" :inherit warning :weight bold)))
 
     ;; check for customization of export
     ;; https://orgmode.org/worg/org-faq.html#using-xelatex-for-pdf-export
@@ -721,6 +761,7 @@ if COUNT is negative.  A paragraph is defined by
            ((> dir 0) (forward-paragraph))
            ((not (bobp)) (start-of-paragraph-text) (beginning-of-line)))))))
 
+
   )
 
 
@@ -738,7 +779,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (spotify helm-spotify-plus multi yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unicode-fonts unfill toc-org tagedit symon string-inflection spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rebox2 ranger rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv python-x pytest pyenv-mode py-isort pug-mode prettier-js popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pandoc-mode ox-pandoc overseer orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless mwim multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow magic-latex-buffer macrostep lorem-ipsum live-py-mode link-hint json-navigator json-mode insert-shebang indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu ess-R-data-view eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline diminish diff-hl define-word cython-mode csv-mode counsel-projectile company-web company-statistics company-shell company-quickhelp company-auctex company-anaconda column-enforce-mode color-identifiers-mode clean-aindent-mode centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (treemacs-projectile treemacs-evil treemacs pfuture yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unicode-fonts unfill toc-org tagedit symon string-inflection spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rebox2 ranger rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv python-x pytest pyenv-mode py-isort pug-mode prettier-js popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pandoc-mode ox-pandoc overseer orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless mwim multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint json-navigator json-mode insert-shebang indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu ess-R-data-view eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline diminish diff-hl define-word cython-mode csv-mode counsel-projectile company-web company-statistics company-shell company-quickhelp company-auctex company-anaconda column-enforce-mode color-identifiers-mode clean-aindent-mode centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

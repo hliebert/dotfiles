@@ -31,7 +31,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git zsh-syntax-highlighting sudo python)
+plugins=(git zsh-syntax-highlighting sudo python ubuntu vim-interaction emacs)
 
 source $ZSH/oh-my-zsh.sh
 

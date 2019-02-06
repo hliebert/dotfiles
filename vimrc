@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Mi 09 Jan 2019 19:48:31 CET
+"" Last modified: Fr 25 Jan 2019 17:59:37 CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -395,6 +395,10 @@ nnoremap Y y$
     " vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
 " endfunction
 
+" similar mappings
+:xnoremap <expr> p 'pgv"'.v:register.'y`>' 
+"xnoremap p "_dP
+
 " find lines longer than 80
 nnoremap <leader>lo /\%>80v.\+<cr>
 
@@ -719,7 +723,7 @@ augroup END
 
 " UtilSnips
 " Press enter key to trigger snippet expansion
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+" inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 " c-j c-k for moving in snippet
 " let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
 let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
