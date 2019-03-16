@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Fr 25 Jan 2019 17:59:37 CET
+"" Last modified: Sa 16 Mär 2019 14:28:31 EDT
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -25,6 +25,9 @@ Plug 'mgee/lightline-bufferline'
 Plug 'ryanoasis/vim-devicons'
 """""""""""""""""""" Editing """"""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'vim-scripts/YankRing.vim'
+" Plug 'bfredl/nvim-miniyank'
+" Plug 'Shougo/neoyank.vim'
+" Plug 'svermeulen/vim-yoink'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
@@ -383,21 +386,18 @@ nnoremap <leader>q gwap
 nnoremap <leader>gq Vgq
 " TODO latex conscious rewrap
 
+" both mappings now configured with yankring
 " map Y to yank until end of line (different due to yankring)
-function! YRRunAfterMaps()
-    nnoremap Y   :<C-U>YRYankCount 'y$'<CR>
-endfunction
-nnoremap Y y$
+" nnoremap Y y$
 
-" preserve clipboard content after pasting over text in visual mode
-" function! YRRunAfterMaps()
-    " " From Steve Losh, Preserve the yank post selection/put.
-    " vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
-" endfunction
-
+" fix visual mode paste such that register is not overwritten
 " similar mappings
-:xnoremap <expr> p 'pgv"'.v:register.'y`>' 
-"xnoremap p "_dP
+" https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text
+" https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
+" xnoremap <expr> p 'pgv"'.v:register.'y`>' 
+" xnoremap p "_dP
+" xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>
+
 
 " find lines longer than 80
 nnoremap <leader>lo /\%>80v.\+<cr>
@@ -549,6 +549,20 @@ noremap <F2> :NERDTreeToggle %:p:h<CR>
 " Yankring
 nnoremap <silent> <F6> :YRShow<cr>
 inoremap <silent> <F6> <ESC>:YRShow<cr>
+let g:yankring_paste_visual_reset_default_register = 1
+function! YRRunAfterMaps()
+    " Make Y yank to end of line.
+    nnoremap Y :<C-U>YRYankCount 'y$'<CR>
+endfunction
+
+" Vim Yoink
+" nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+" nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+" nmap p <plug>(YoinkPaste_p)
+" nmap P <plug>(YoinkPaste_P)
+" nmap [y <plug>(YoinkRotateBack)
+" nmap ]y <plug>(YoinkRotateForward)
+" nnoremap <silent> <F6> :Yanks<cr>
 
 " Tagbar
 nnoremap <leader>tl :TagbarToggle<CR>
