@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Sa 16 Mär 2019 14:28:31 EDT
+"" Last modified: Sa 16 Mär 2019 14:30:14 EDT
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -25,9 +25,6 @@ Plug 'mgee/lightline-bufferline'
 Plug 'ryanoasis/vim-devicons'
 """""""""""""""""""" Editing """"""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'vim-scripts/YankRing.vim'
-" Plug 'bfredl/nvim-miniyank'
-" Plug 'Shougo/neoyank.vim'
-" Plug 'svermeulen/vim-yoink'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
@@ -554,15 +551,6 @@ function! YRRunAfterMaps()
     " Make Y yank to end of line.
     nnoremap Y :<C-U>YRYankCount 'y$'<CR>
 endfunction
-
-" Vim Yoink
-" nmap <c-n> <plug>(YoinkPostPasteSwapBack)
-" nmap <c-p> <plug>(YoinkPostPasteSwapForward)
-" nmap p <plug>(YoinkPaste_p)
-" nmap P <plug>(YoinkPaste_P)
-" nmap [y <plug>(YoinkRotateBack)
-" nmap ]y <plug>(YoinkRotateForward)
-" nnoremap <silent> <F6> :Yanks<cr>
 
 " Tagbar
 nnoremap <leader>tl :TagbarToggle<CR>
