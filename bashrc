@@ -145,4 +145,4 @@ fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # Anaconda3
-export PATH=/home/helge/anaconda3/bin:$PATH
+#export PATH=/home/helge/anaconda3/bin:$PATH

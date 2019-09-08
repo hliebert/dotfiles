@@ -20,5 +20,5 @@ export LEDGER_FILE=~/Dropbox/org/hledger.journal
 export PATH="$PATH:/home/helge/.local/bin"
 
 # Anaconda3
-export PATH=/home/helge/anaconda3/bin:$PATH
+# export PATH=/home/helge/anaconda3/bin:$PATH
 
