@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Sa 16 Mär 2019 14:30:14 EDT
+"" Last modified: Sa 11 Mai 2019 19:55:52 EDT
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -25,6 +25,9 @@ Plug 'mgee/lightline-bufferline'
 Plug 'ryanoasis/vim-devicons'
 """""""""""""""""""" Editing """"""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'vim-scripts/YankRing.vim'
+" Plug 'bfredl/nvim-miniyank'
+" Plug 'Shougo/neoyank.vim'
+" Plug 'svermeulen/vim-yoink'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
@@ -35,28 +38,28 @@ Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-gtfo'
 Plug 'justinmk/vim-sneak'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
-" Plug 'lifepillar/vim-mucomplete'
+Plug 'lifepillar/vim-mucomplete'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'ncm2/ncm2'
-if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-tagprefix'
-Plug 'filipekiss/ncm2-look.vim'
-" Plug 'Shougo/neco-vim'
-" Plug 'Shougo/neco-syntax'
-" Plug 'ncm2/ncm2-syntax'
-" Plug 'ncm2/ncm2-neoinclude'
-Plug 'yuki-ycino/ncm2-dictionary'
-" Plug 'fgrsnau/ncm2-aspell'
-Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2' }
-Plug 'ncm2/ncm2-jedi'
-Plug 'ncm2/ncm2-vim'
-Plug 'gaalcaras/ncm-R'
+" Plug 'ncm2/ncm2'
+" if !has('nvim')
+    " Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" Plug 'roxma/nvim-yarp'
+" Plug 'ncm2/ncm2-bufword'
+" Plug 'ncm2/ncm2-path'
+" Plug 'ncm2/ncm2-tagprefix'
+" Plug 'filipekiss/ncm2-look.vim'
+" " Plug 'Shougo/neco-vim'
+" " Plug 'Shougo/neco-syntax'
+" " Plug 'ncm2/ncm2-syntax'
+" " Plug 'ncm2/ncm2-neoinclude'
+" Plug 'yuki-ycino/ncm2-dictionary'
+" " Plug 'fgrsnau/ncm2-aspell'
+" Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2' }
+" Plug 'ncm2/ncm2-jedi'
+" Plug 'ncm2/ncm2-vim'
+" Plug 'gaalcaras/ncm-R'
 " Plug 'ncm2/ncm2-ultisnips'
 " Plug 'ncm2/ncm2-match-highlight'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
@@ -71,7 +74,7 @@ Plug 'yegappan/mru'
 Plug 'andymass/vim-matchup'
 Plug 'chrisbra/csv.vim'
 """""""""""""""""""" Language support """""""""""""""""""""""""""""""""""""""""
-Plug 'thinca/vim-quickrun'
+" Plug 'thinca/vim-quickrun'
 Plug 'lervag/vimtex'
 Plug 'gauteh/vim-evince-synctex'
 Plug 'jalvesaq/Nvim-R'
@@ -250,7 +253,8 @@ set showmatch
 set hlsearch
 set autowrite
 set mouse=a
-set clipboard=unnamed
+" set clipboard=unnamed
+" set clipboard=unnamedplus
 " set clipboard=unnamedplus,unnamed
 set encoding=utf-8
 " format and wrap
@@ -544,13 +548,30 @@ nnoremap <F5> :GundoToggle<CR>
 noremap <F2> :NERDTreeToggle %:p:h<CR>
 
 " Yankring
-nnoremap <silent> <F6> :YRShow<cr>
-inoremap <silent> <F6> <ESC>:YRShow<cr>
+" nnoremap <silent> <F6> :YRShow<cr>
+" inoremap <silent> <F6> <ESC>:YRShow<cr>
 let g:yankring_paste_visual_reset_default_register = 1
 function! YRRunAfterMaps()
     " Make Y yank to end of line.
     nnoremap Y :<C-U>YRYankCount 'y$'<CR>
 endfunction
+
+" Vim Yoink
+" nmap <C-n> <plug>(YoinkPostPasteSwapBack)
+" nmap <C-p> <plug>(YoinkPostPasteSwapForward)
+" nmap p <plug>(YoinkPaste_p)
+" nmap P <plug>(YoinkPaste_P)
+" nmap [y <plug>(YoinkRotateBack)
+" nmap ]y <plug>(YoinkRotateForward)
+" nnoremap <silent> <F6> :Yanks<cr>
+
+" miniyank
+" map p <Plug>(miniyank-autoput)
+" map P <Plug>(miniyank-autoPut)
+" " map <leader>p <Plug>(miniyank-startput)
+" " map <leader>P <Plug>(miniyank-startPut)
+" map <C-n> <Plug>(miniyank-cycle)
+" map <C-p> <Plug>(miniyank-cycleback)
 
 " Tagbar
 nnoremap <leader>tl :TagbarToggle<CR>
@@ -622,106 +643,106 @@ nmap ga <Plug>(EasyAlign)
 " " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 
 " " MUcomplete
-" set completeopt+=menu,preview,menuone,noselect
-" let g:jedi#popup_on_dot = 0  " It may be 1 as well
-" let g:mucomplete#enable_auto_at_startup = 1
-" " nnoremap <F7> :MUcompleteAutoToggle
+set completeopt+=menu,preview,menuone,noselect
+let g:jedi#popup_on_dot = 0  " It may be 1 as well
+let g:mucomplete#enable_auto_at_startup = 1
+" nnoremap <F7> :MUcompleteAutoToggle
 
-" NCM2
-" enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
-" IMPORTANT: :help Ncm2PopupOpen for more information
-set completeopt=noinsert,menuone,noselect
-" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
-" found' messages
-set shortmess+=c
-" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
-inoremap <C-c> <ESC>
-" When the <Enter> key is pressed while the popup menu is visible, it only
-" hides the menu. Use this mapping to close the menu and also start a new
-" line.
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-" Use <TAB> to select the popup menu:
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" wrap existing omnifunc
-" Note that omnifunc does not run in background and may probably block the
-" editor. If you don't want to be blocked by omnifunc too often, you could
-" add 180ms delay before the omni wrapper:
-" "  'on_complete': ['ncm2#on_complete#delay', 180,
-" "               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-" au User Ncm2Plugin call ncm2#register_source({
-        " \ 'name' : 'css',
-        " \ 'priority': 9, 
-        " \ 'subscope_enable': 1,
-        " \ 'scope': ['css','scss'],
-        " \ 'mark': 'css',
-        " \ 'word_pattern': '[\w\-]+',
-        " \ 'complete_pattern': ':\s*',
-        " \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-        " \ })
+" " NCM2
+" " enable ncm2 for all buffers
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+" " IMPORTANT: :help Ncm2PopupOpen for more information
+" set completeopt=noinsert,menuone,noselect
+" " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+" " found' messages
+" set shortmess+=c
+" " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+" inoremap <C-c> <ESC>
+" " When the <Enter> key is pressed while the popup menu is visible, it only
+" " hides the menu. Use this mapping to close the menu and also start a new
+" " line.
+" inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+" " Use <TAB> to select the popup menu:
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" " wrap existing omnifunc
+" " Note that omnifunc does not run in background and may probably block the
+" " editor. If you don't want to be blocked by omnifunc too often, you could
+" " add 180ms delay before the omni wrapper:
+" " "  'on_complete': ['ncm2#on_complete#delay', 180,
+" " "               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+" " au User Ncm2Plugin call ncm2#register_source({
+        " " \ 'name' : 'css',
+        " " \ 'priority': 9, 
+        " " \ 'subscope_enable': 1,
+        " " \ 'scope': ['css','scss'],
+        " " \ 'mark': 'css',
+        " " \ 'word_pattern': '[\w\-]+',
+        " " \ 'complete_pattern': ':\s*',
+        " " \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+        " " \ })
 
-" ncm2 match highlight
-" let g:ncm2#match_highlight = 'bold'
+" " ncm2 match highlight
+" " let g:ncm2#match_highlight = 'bold'
 
-" ncm2 setup for vimtex
-augroup my_cm_setup
-  autocmd!
-  autocmd BufEnter * call ncm2#enable_for_buffer()
-  autocmd Filetype tex call ncm2#register_source({
-          \ 'name' : 'vimtex-cmds',
-          \ 'priority': 8, 
-          \ 'complete_length': -1,
-          \ 'scope': ['tex'],
-          \ 'matcher': {'name': 'prefix', 'key': 'word'},
-          \ 'word_pattern': '\w+',
-          \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
-          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-          \ })
-  autocmd Filetype tex call ncm2#register_source({
-          \ 'name' : 'vimtex-labels',
-          \ 'priority': 8, 
-          \ 'complete_length': -1,
-          \ 'scope': ['tex'],
-          \ 'matcher': {'name': 'combine',
-          \             'matchers': [
-          \               {'name': 'substr', 'key': 'word'},
-          \               {'name': 'substr', 'key': 'menu'},
-          \             ]},
-          \ 'word_pattern': '\w+',
-          \ 'complete_pattern': g:vimtex#re#ncm2#labels,
-          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-          \ })
-  autocmd Filetype tex call ncm2#register_source({
-          \ 'name' : 'vimtex-files',
-          \ 'priority': 8, 
-          \ 'complete_length': -1,
-          \ 'scope': ['tex'],
-          \ 'matcher': {'name': 'combine',
-          \             'matchers': [
-          \               {'name': 'abbrfuzzy', 'key': 'word'},
-          \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-          \             ]},
-          \ 'word_pattern': '\w+',
-          \ 'complete_pattern': g:vimtex#re#ncm2#files,
-          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-          \ })
-  autocmd Filetype tex call ncm2#register_source({
-          \ 'name' : 'bibtex',
-          \ 'priority': 8, 
-          \ 'complete_length': -1,
-          \ 'scope': ['tex'],
-          \ 'matcher': {'name': 'combine',
-          \             'matchers': [
-          \               {'name': 'prefix', 'key': 'word'},
-          \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-          \               {'name': 'abbrfuzzy', 'key': 'menu'},
-          \             ]},
-          \ 'word_pattern': '\w+',
-          \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
-          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-          \ })
-augroup END
+" " ncm2 setup for vimtex
+" augroup my_cm_setup
+  " autocmd!
+  " autocmd BufEnter * call ncm2#enable_for_buffer()
+  " autocmd Filetype tex call ncm2#register_source({
+          " \ 'name' : 'vimtex-cmds',
+          " \ 'priority': 8, 
+          " \ 'complete_length': -1,
+          " \ 'scope': ['tex'],
+          " \ 'matcher': {'name': 'prefix', 'key': 'word'},
+          " \ 'word_pattern': '\w+',
+          " \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
+          " \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          " \ })
+  " autocmd Filetype tex call ncm2#register_source({
+          " \ 'name' : 'vimtex-labels',
+          " \ 'priority': 8, 
+          " \ 'complete_length': -1,
+          " \ 'scope': ['tex'],
+          " \ 'matcher': {'name': 'combine',
+          " \             'matchers': [
+          " \               {'name': 'substr', 'key': 'word'},
+          " \               {'name': 'substr', 'key': 'menu'},
+          " \             ]},
+          " \ 'word_pattern': '\w+',
+          " \ 'complete_pattern': g:vimtex#re#ncm2#labels,
+          " \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          " \ })
+  " autocmd Filetype tex call ncm2#register_source({
+          " \ 'name' : 'vimtex-files',
+          " \ 'priority': 8, 
+          " \ 'complete_length': -1,
+          " \ 'scope': ['tex'],
+          " \ 'matcher': {'name': 'combine',
+          " \             'matchers': [
+          " \               {'name': 'abbrfuzzy', 'key': 'word'},
+          " \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+          " \             ]},
+          " \ 'word_pattern': '\w+',
+          " \ 'complete_pattern': g:vimtex#re#ncm2#files,
+          " \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          " \ })
+  " autocmd Filetype tex call ncm2#register_source({
+          " \ 'name' : 'bibtex',
+          " \ 'priority': 8, 
+          " \ 'complete_length': -1,
+          " \ 'scope': ['tex'],
+          " \ 'matcher': {'name': 'combine',
+          " \             'matchers': [
+          " \               {'name': 'prefix', 'key': 'word'},
+          " \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+          " \               {'name': 'abbrfuzzy', 'key': 'menu'},
+          " \             ]},
+          " \ 'word_pattern': '\w+',
+          " \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
+          " \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          " \ })
+" augroup END
 
 " UtilSnips
 " Press enter key to trigger snippet expansion
@@ -839,6 +860,7 @@ fun! RunDoLines()
 endfun
 au FileType stata noremap <F9> :<C-U>call RunDoLines()<CR><CR>
 au FileType stata noremap <leader>se :<C-U>call RunDoLines()<CR><CR>
+au FileType stata noremap <C-Return> :<C-U>call RunDoLines()<CR><CR>
 au FileType stata noremap <leader>l <S-v>:<C-U>call RunDoLines()<CR><CR>
 
 " Python-mode

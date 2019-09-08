@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mi Jan  9 14:23:51 2019
+;; Last-Updated: Mo Sep  2 19:16:14 2019
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -19,28 +19,30 @@
       user-full-name    "Helge Liebert")
 
 ;; org
-(setq +org-dir (expand-file-name "~/Dropbox/org/")
+(setq +org-dir (expand-file-name "~/Dropbox/Org/")
       ;; org-projectile-file (expand-file-name "~/Dropbox/org/projects.org")
       org-ellipsis " ▼ ")
 
 
 ;; Doom ui settings
-(setq doom-theme 'doom-vibrant)
+;; (setq doom-theme 'doom-vibrant)
 (setq doom-org-special-tags nil)
-;; (setq doom-font (font-spec :family "Fura Mono Nerd Font" :size 12))
+;; (setq doom-font (font-spec :family "FuraMono Nerd Font"))
+(setq doom-font (font-spec :family "UbuntuMono Nerd Font"))
 (setq +doom-modeline-buffer-file-name-style 'relative-from-project
       show-trailing-whitespace t)
 (add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
 
-;; localleader (try to designate both SPC m  and , as localleader at some point)
+;; leader keys (get , to be shortcut for SPC-m?)
 ;; (setq doom-localleader-key ",")
 ;; (setq +default-repeat-forward-key ";")
 ;; (setq +default-repeat-backward-key ",")
 
 ;; Basic misc settings, probably a better solution available
 (setq-default split-width-threshold 80)
-;; (setq-default tab-width 2)
-;; (setq-default evil-shift-width 2)
+(setq-default tab-width 2)
+(setq-default evil-shift-width 2)
+(setq-default evil-kill-on-visual-paste nil)
 ;; Spaces over tabs
 ;; (setq c-basic-indent 2)
 ;; (setq c-default-style "linux")
@@ -62,6 +64,7 @@
  (:leader
    :desc "Comment"                      :nv ";"   #'evil-commentary
    :desc "M-x"                          :nv "SPC" #'counsel-M-x
+   ;; :desc "M-x"                          :nv "SPC" #'helm-M-x
    ;; caution, remapping tab removes all workspace keybindings
    ;; :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
    ;; :desc "Previous buffer"            :n  "TAB" #'previous-buffer
@@ -79,11 +82,16 @@
      :desc "Find file rg"               :n  "g"   #'counsel-rg
      :desc "Find file ag"               :n  "a"   #'counsel-ag
      :desc "Find file in project"       :n  "p"   #'counsel-projectile
+     ;; :desc "Find file jump"             :n  "j"   #'helm-file-jump
+     ;; :desc "Find file"                  :n  "f"   #'helm-find-files
+     ;; :desc "Find file ag"               :n  "a"   #'helm-ag
+     ;; :desc "Find file in project"       :n  "p"   #'helm-projectile
      :desc "Treemacs"                   :n  "t"   #'+treemacs/toggle)
      ;; :desc "Find file in dotfiles"      :n  "t"   #'+helge/find-in-dotfiles
      ;; :desc "Browse dotfiles"            :n  "T"   #'+helge/browse-dotfiles)
    (:prefix "b"
      :desc "Open agenda file in buffer" :n  "a"   #'org-cycle-agenda-files
+     :desc "Open ibuffer"               :n  "I"   #'ibuffer
      :desc "Save buffer"                :n  "s"   #'save-buffer
      :desc "Save buffer as"             :n  "S"   #'write-file
      ;; :desc "Switch buffer"              :n  "b"   #'ivy-switch-buffer
@@ -103,19 +111,25 @@
      :desc "Split window vertically"    :n  "/"   #'split-window-right
      :desc "Split window horizontally"  :n  "-"   #'split-window-below)
    (:prefix "p"
-     :desc "Projectile find file"       :n  "f"   #'counsel-projectile-find-file)
+     :desc "Projectile find file"       :n  "f"   #'projectile-find-file)
    (:prefix "t"
      ;; create toggle for this, lift from spacemacs
      ;; :desc "Toggle visual line mode"   :n  "L"   #'visual-line-mode
      :desc "Toggle flyspell dictionary" :n  "l"   #'ispell-change-dictionary
      :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines)
+   (:prefix "i"
+     :desc "Org-capture"                         :n  "c"   #'org-capture
+     :desc "Org-projectile todo current project" :n  "t"   #'org-projectile-capture-for-current-project
+     :desc "Org-projectile todo any project"     :n  "i"   #'org-projectile-project-todo-completing-read
+     :desc "Banner-comment"                      :n  "h"   #'banner-comment)
    (:prefix "/"
-     :desc "Find file"                  :n  "d"   #'counsel-find-file
-     :desc "Find file jump"             :n  "j"   #'counsel-file-jump
-     :desc "Find file fzf"              :n  "z"   #'counsel-fzf
-     :desc "Swiper"                     :n  "/"   #'swiper
-     :desc "Find file rg"               :n  "g"   #'counsel-rg
-     :desc "Find file ag"               :n  "a"   #'counsel-ag)))
+     ;; :desc "Find file"                  :n  "d"   #'counsel-find-file
+     ;; :desc "Find file jump"             :n  "j"   #'counsel-file-jump
+     ;; :desc "Find file fzf"              :n  "z"   #'counsel-fzf
+     ;; :desc "Swiper"                     :n  "/"   #'swiper
+     ;; :desc "Find file rg"               :n  "g"   #'counsel-rg
+     ;; :desc "Find file ag"               :n  "a"   #'counsel-ag
+     )))
 
 
 
@@ -123,12 +137,19 @@
 ;; Modules
 ;;
 
+;; turn off creating a new workspace when opening a new frame
+(after! persp-mode
+  ;; for emacsclient spawned frames:
+  (setq persp-emacsclient-init-frame-behaviour-override t))
+  ;; for interactively created frames:
+  ;; (setq persp-interactive-init-frame-behaviour-override t))
+
 ;; helm delete whole directory
 ;; (map! :after helm-files
 ;;       :map helm-find-files-map
 ;;       "<DEL>" #'helm-find-files-up-one-level)
 
-;; ivy
+;; ;; ivy
 (after! ivy
   ;; do not display ./ and ../ in counsel
   (setq ivy-extra-directories nil)
@@ -146,7 +167,11 @@
 
 ;; dired
 ;; enable `a' for dired-find-alternate-file
-(put 'dired-find-alternate-file 'disabled nil)
+
+;; ranger
+;; (after! dired
+;;   (put 'dired-find-alternate-file 'disabled nil)
+;;   (define-key ranger-normal-mode-map (kbd "+") #'dired-create-directory))
 
 ;; lang/org
 (after! org
@@ -159,11 +184,22 @@
           (t . ,(cond (IS-MAC "open -R \"%s\"")
                       (IS-LINUX "setsid -w xdg-open \"%s\""))))))
 
+;; (after! org
+;;   (setq org-directory "~/Dropbox/org")
+;;   (setq org-default-notes-file (concat org-directory "/capture.org")))
+
 (after! org-bullets
   ;; The standard unicode characters are usually misaligned depending on the
   ;; font. This bugs me. Personally, markdown #-marks for headlines are more
   ;; elegant, so we use those.
   (setq org-bullets-bullet-list '("#")))
+
+;; deft
+(setq deft-extensions '("txt" "org"))
+(setq deft-directory "~/Dropbox/Org/Notes")
+(setq deft-recursive t)
+;; (setq deft-use-filename-as-title t)
+
 
 ;; org export custom article using koma class scrartcl
 (after! ox-latex
@@ -210,7 +246,7 @@
 
 ;; latex
 (after! latex
-  ;; (setq TeX-view-program-selection '((output-pdf "Evince")))
+  (setq TeX-view-program-selection '((output-pdf "Evince")))
   ;; (setq TeX-view-program-selection '((output-pdf "xdg-open")))
   (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 
@@ -317,20 +353,32 @@ if COUNT is negative.  A paragraph is defined by
 (setq confirm-kill-emacs nil)
 
 
+;; ess
+(after! ess-mode
+  (set-company-backend! 'company-files 'company-capf 'company-keywords 'company-yasnippet)
+  (map!
+   (:map (ess-mode)
+     :nv "<C-return>" 'ess-eval-region-or-line-visibly-and-step
+      ;; (:localleader
+      ;;   :desc "TeX-command-master"         :n "," #'TeX-command-master))))
+)))
+
 ;; language tool location
 (setq langtool-language-tool-jar
       "/snap/languagetool/13/usr/bin/languagetool-commandline.jar")
 
+;; dictionaries
+(setq ispell-dictionary "american")
 ;; activate multiple dictionaries to avoid switching between German and English
 ;; lifted this from emacs.stackexchange.com
 ;; broken due to upstream naming bug in hunspell
-; (after! ispell
-  ; (setq ispell-program-name "hunspell")
-  ; (setq ispell-dictionary "de_CH,en_US")
-  ; ;; ispell-set-spellchecker-params has to be called
-  ; ;; before ispell-hunspell-add-multi-dic will work
-  ; (ispell-set-spellchecker-params)
-  ; (ispell-hunspell-add-multi-dic "de_CH,en_US"))
+;; (after! ispell
+;;   (setq ispell-program-name "hunspell")
+;;   (setq ispell-dictionary "de_CH,en_US")
+;;   ;; ispell-set-spellchecker-params has to be called
+;;   ;; before ispell-hunspell-add-multi-dic will work
+;;   (ispell-set-spellchecker-params)
+;;   (ispell-hunspell-add-multi-dic "de_CH,en_US"))
 
 ;; center search results
 (advice-add 'evil-ex-search-next :after
@@ -361,8 +409,10 @@ if COUNT is negative.  A paragraph is defined by
   (ado-command-to-clip ado-submit-default whole-buffer)
   (ado-send-clip-to-stata ado-submit-default ado-comeback-flag)
   (forward-line 1))
-(define-key ado-mode-map [(control return)] 'ado-send-line-to-stata)
-(define-key ado-mode-map [(meta control return)] 'ado-send-buffer-to-stata)
+;; (define-key ado-mode-map [(control return)] 'ado-send-line-to-stata)
+;; (define-key ado-mode-map [(meta control return)] 'ado-send-buffer-to-stata)
+(define-key ado-mode-map [(control return)] 'stata-rundolines)
+(define-key ado-mode-map [(meta control return)] 'stata-rundo)
 
 ;; get rid of this annoying pop up buffer when sending to stata
 ;; none of this works
@@ -423,13 +473,12 @@ comment box."
 ;; (global-set-key (kbd "C-c b b") 'full-comment-box)
 
 
-;; (after! org-projectile
-;;   (require 'org-projectile)
-;;   (org-projectile-per-project)
-;;   (setq org-projectile-per-project-filepath "todo.org")
-;;   (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
-;;   (global-set-key (kbd "C-c c") 'org-capture)
-;;   (global-set-key (kbd "C-c n p") 'org-projectile-project-todo-completing-read))
+(after! org-projectile
+  (setq org-projectile-projects-file "~/Dropbox/org/projects.org")
+  (push (org-projectile-project-todo-entry) org-capture-templates)
+  (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files))))
+  ;; (global-set-key (kbd "C-c c") 'org-capture)
+  ;; (global-set-key (kbd "C-c n p") 'org-projectile-project-todo-completing-read))
 
 
 ;; ;;;; hledger mode
@@ -446,3 +495,79 @@ comment box."
 ;; ;; Personal Accounting
 ;; (global-set-key (kbd "C-c e") 'hledger-jentry)
 ;; (global-set-key (kbd "C-c j") 'hledger-run-command)
+
+
+;; (defun rundo (beg end)
+;;   "Wrapper of ~/dotfiles/rundo.sh."
+;;   (interactive
+;;    ;; 1. If the region is highlighted
+;;    (if (use-region-p)
+;;        ;; the region
+;;        (list (region-beginning) (region-end))
+;;      ;; the line
+;;      (list (line-beginning-position) (line-end-position))))
+;;   ;; 2. create a temp file
+;;   (let ((tempfile (make-temp-file nil nil ".do")))
+;;     ;; 3. save text to the file
+;;     (write-region beg end tempfile)
+;;     (write-region "\n" nil tempfile t)
+;;     ;; 4. run the command asynchronously
+;;     ;; (remove '&' to run it synchronously, i.e., blocking Emacs)
+;;     ;; (shell-command (format "~/dotfiles/rundo.sh %s &" tempfile))))
+;;     (start-process-shell-command "rundo" nil (format "~/dotfiles/rundo.sh %s" tempfile))))
+
+
+;; (defun stata-rundolines (beg end)
+;;   "Wrapper of ~/dotfiles/rundo.sh."
+;;   (interactive
+;;    ;; 1. If the region is highlighted
+;;    (if (use-region-p)
+;;        ;; the region
+;;        (list (region-beginning) (region-end))
+;;      ;; the line
+;;      (list (line-beginning-position) (line-end-position))))
+;;   ;; Unselect region, move cursor down one line
+;;   (deactivate-mark)
+;;   ;; (forward-line 1)
+;;   (next-logical-line)
+;;   (beginning-of-line)
+;;   ;; 2. create a temp file
+;;   (let ((tempfile (make-temp-file nil nil ".do")))
+;;     ;; 3. save text to the file
+;;     (write-region beg end tempfile)
+;;     (write-region "\n" nil tempfile t)
+;;     ;; 4. run the command asynchronously
+;;     ;; (remove '&' to run it synchronously, i.e., blocking Emacs)
+;;     ;; (shell-command (format "~/dotfiles/rundo.sh %s &" tempfile))))
+;;     (start-process-shell-command "rundo" nil (format "~/dotfiles/rundo.sh %s" tempfile))))
+
+(defun stata-rundo ()
+  "Wrapper of ~/dotfiles/rundo.sh."
+  (interactive)
+  (save-buffer)
+  (start-process-shell-command "rundo" nil (format "~/dotfiles/rundo.sh %s" buffer-file-name)))
+
+(defun stata-rundolines (beg end)
+  "Wrapper of ~/dotfiles/rundo.sh."
+  (interactive
+   ;; 1. If the region is highlighted
+   (if (use-region-p)
+       ;; the region
+       (list (region-beginning) (region-end))
+     ;; the line
+     (list (line-beginning-position) (line-end-position))))
+  ;; 2. move cursor
+  (deactivate-mark)
+  (goto-char end)
+  (backward-char)
+  (beginning-of-line)
+  (next-logical-line)
+  ;; 3. create a temp file
+  (let ((tempfile (make-temp-file nil nil ".do")))
+    ;; 4. save text to the file
+    (write-region beg end tempfile)
+    (write-region "\n" nil tempfile t)
+    ;; 5. run the command asynchronously
+    ;; (remove '&' to run it synchronously, i.e., blocking Emacs)
+    ;; (shell-command (format "~/dotfiles/rundo.sh %s &" tempfile))))
+    (start-process-shell-command "rundo" nil (format "~/dotfiles/rundo.sh %s" tempfile))))

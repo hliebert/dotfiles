@@ -97,3 +97,80 @@ linebreaks as in auto-fill-mode. "
            (left (/ lr 2))
            (right (if (= 0 (% lr 2)) left (1+ left))))
       (set-window-margins nil (max left 0) (max right 0)))))
+
+
+;; kill-all-buffers function, also closes other windows and frames
+;; there is also the inbuilt kill-some-buffers
+;;;###autoload
+(defun kill-all-buffers ()
+  "Kill all buffers and close other windows and frames."
+  (interactive)
+  (mapc 'kill-buffer (buffer-list))
+  (delete-other-windows)
+  (delete-other-frames))
+
+  ;; kill all buffers except current one
+;;;###autoload
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list)))
+  (delete-other-windows)
+  (delete-other-frames))
+
+
+;; ;;;###autoload
+;; (defun stata-rundolines (beg end)
+;;   "Wrapper of ~/dotfiles/rundo.sh."
+;;   (interactive
+;;    ;; 1. If the region is highlighted
+;;    (if (use-region-p)
+;;        ;; the region
+;;        (progn
+;;          (list (region-beginning) (region-end))
+;;          (goto-char (region-end))
+;;          (deactivate-mark))
+;;      ;; the line
+;;      (progn
+;;       (list (line-beginning-position) (line-end-position))
+;;       (next-logical-line))))
+;;   ;; 2. create a temp file
+;;   (let ((tempfile (make-temp-file nil nil ".do")))
+;;     ;; 3. save text to the file
+;;     (write-region beg end tempfile)
+;;     (write-region "\n" nil tempfile t)
+;;     ;; 4. run the command asynchronously
+;;     ;; (remove '&' to run it synchronously, i.e., blocking Emacs)
+;;     ;; (shell-command (format "~/dotfiles/rundo.sh %s &" tempfile))))
+;;     (start-process-shell-command "rundo" nil (format "~/dotfiles/rundo.sh %s" tempfile))))
+
+
+;; ;;;###autoload
+;; (defun stata-rundo ()
+;;   "Runs current buffer in Stata. Wrapper of ~/dotfiles/rundo.sh."
+;;   (interactive)
+;;   (save-buffer)
+;;   (start-process-shell-command "rundo" nil (format "~/dotfiles/rundo.sh %s" buffer-file-name)))
+
+
+
+;; ;; original
+;; ;;;###autoload
+;; ;; (defun rundo (beg end)
+;; ;;   "Wrapper of ~/dotfiles/rundo.sh."
+;; ;;   (interactive
+;; ;;    ;; 1. If the region is highlighted
+;; ;;    (if (use-region-p)
+;; ;;        ;; the region
+;; ;;        (list (region-beginning) (region-end))
+;; ;;      ;; the line
+;; ;;      (list (line-beginning-position) (line-end-position))))
+;; ;;   ;; 2. create a temp file
+;; ;;   (let ((tempfile (make-temp-file nil nil ".do")))
+;; ;;     ;; 3. save text to the file
+;; ;;     (write-region beg end tempfile)
+;; ;;     (write-region "\n" nil tempfile t)
+;; ;;     ;; 4. run the command asynchronously
+;; ;;     ;; (remove '&' to run it synchronously, i.e., blocking Emacs)
+;; ;;     ;; (shell-command (format "~/dotfiles/rundo.sh %s &" tempfile))))
+;; ;;     (start-process-shell-command "rundo" nil (format "~/dotfiles/rundo.sh %s" tempfile))))

@@ -40,6 +40,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
+     ;; ivy
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
@@ -51,7 +52,7 @@ This function should only modify configuration layer settings."
                         company-yasnippet))
      better-defaults
      emacs-lisp
-     ;; vimscript
+     vimscript
      git
      ;; neotree
      treemacs
@@ -78,8 +79,8 @@ This function should only modify configuration layer settings."
      json
      ;; restclient
      (latex :variables
-            latex-build-command "LatexMk")
-            ;; latex-enable-auto-fill t)
+            latex-build-command "LatexMk"
+            latex-enable-auto-fill t)
      bibtex
      python
      shell-scripts
@@ -118,6 +119,12 @@ This function should only modify configuration layer settings."
                                       all-the-icons
                                       python-x
                                       yasnippet-snippets
+                                      transpose-frame
+                                      banner-comment
+                                      ;; line-comment-banner ;; maybe from github
+                                      ;; (ado-mode
+                                      ;;  :location (recipe :fetcher github
+                                      ;;                    :repo "louabill/ado-mode"))
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -287,16 +294,10 @@ It should only modify the values of Spacemacs settings."
    ;;                             :size 13
    ;;                             :weight normal
    ;;                             :width normal)
-   dotspacemacs-default-font '("Ubuntu Mono"
+   dotspacemacs-default-font '("Consolas"
                                :size 16
                                :weight normal
                                :width normal)
-   ;; dotspacemacs-default-font '("UbuntuMono NF"
-   ;;                             ;; "FuraMono Nerd Font"
-   ;;                             ;; "DejaVu Sans Mono Nerd Font"
-   ;;                             :size 17
-   ;;                             :weight extra-light
-   ;;                             :width expanded)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -599,6 +600,8 @@ before packages are loaded."
   ;; make SPC q q kill frame instead of emacsclient instance
   (spacemacs/set-leader-keys "qq" 'spacemacs/frame-killer)
   ;; (evil-leader/set-key “q q” 'spacemacs/frame-killer)
+  ;; insert banner comment
+  (spacemacs/set-leader-keys "ih" 'banner-comment)
 
   ;; Save clipboard strings into kill ring before replacing them, now default
   ;; (setq save-interprogram-paste-before-kill t)
@@ -653,22 +656,26 @@ before packages are loaded."
    '(company-tooltip-common-selection
      ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
 
-  ;; helm, get standard behavior
-  ;; https://emacs.stackexchange.com/questions/3798/how-do-i-make-pressing-ret-in-helm-find-files-open-the-directory
-  (with-eval-after-load 'helm-files
-  ;;   (defun fu/helm-find-files-navigate-forward (orig-fun &rest args)
-  ;;     (if (and (equal "Find Files" (assoc-default 'name (helm-get-current-source)))
-  ;;             (equal args nil)
-  ;;             (stringp (helm-get-selection))
-  ;;             (not (file-directory-p (helm-get-selection))))
-  ;;         (helm-maybe-exit-minibuffer)
+  ;; ;; helm, get standard behavior
+  ;; ;; https://emacs.stackexchange.com/questions/3798/how-do-i-make-pressing-ret-in-helm-find-files-open-the-directory
+  ;; (with-eval-after-load 'helm-files
+  ;; ;;   (defun fu/helm-find-files-navigate-forward (orig-fun &rest args)
+  ;; ;;     (if (and (equal "Find Files" (assoc-default 'name (helm-get-current-source)))
+  ;; ;;             (equal args nil)
+  ;; ;;             (stringp (helm-get-selection))
+  ;; ;;             (not (file-directory-p (helm-get-selection))))
+  ;; ;;         (helm-maybe-exit-minibuffer)
+  ;; ;;       (apply orig-fun args)))
+  ;; ;;   (advice-add 'helm-execute-persistent-action :around #'fu/helm-find-files-navigate-forward)
+  ;;   (defun fu/helm-find-files-navigate-back (orig-fun &rest args)
+  ;;     (if (= (length helm-pattern) (length (helm-find-files-initial-input)))
+  ;;         (helm-find-files-up-one-level 1)
   ;;       (apply orig-fun args)))
-  ;;   (advice-add 'helm-execute-persistent-action :around #'fu/helm-find-files-navigate-forward)
-    (defun fu/helm-find-files-navigate-back (orig-fun &rest args)
-      (if (= (length helm-pattern) (length (helm-find-files-initial-input)))
-          (helm-find-files-up-one-level 1)
-        (apply orig-fun args)))
-    (advice-add 'helm-ff-delete-char-backward :around #'fu/helm-find-files-navigate-back))
+  ;;   (advice-add 'helm-ff-delete-char-backward :around #'fu/helm-find-files-navigate-back))
+
+  ;; Projectile windows fix
+  (setq explicit-shell-file-name "c:/Users/liebert/AppData/Local/Programs/Git/bin/bash.exe")
+  (setq projectile-generic-command "find . -type f -print0")
 
   ;; Latex/auctex
   ;; (setq TeX-auto-save nil)
@@ -679,6 +686,17 @@ before packages are loaded."
   (spacemacs/set-leader-keys-for-major-mode 'latex-mode "d" 'TeX-clean)
   ;; set pdf viewer if default isn't working
   ;; (setq TeX-view-program-selection '((output-pdf "xdg-open")))
+  ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+  ;;       TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+  ;;       TeX-source-correlate-start-server t)
+  ;; (setq TeX-PDF-mode t)
+  ;; (setq TeX-source-correlate-mode t)
+  ;; (setq TeX-source-correlate-method 'synctex)
+  (setq TeX-view-program-list
+        '(("SumatraPDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
+                          (mode-io-correlate " -forward-search %b %n -inverse-search \"C:/Users/liebert/emacs/bin/emacsclientw.exe -n +%l %f\"") " %o"))))
+  (setq TeX-view-program-selection '((output-pdf "SumatraPDF")))
+
   ;; set XeTeX mode in TeX/LaTeX
   ;; (add-hook 'LaTeX-mode-hook
   ;;           (lambda()
@@ -708,6 +726,12 @@ before packages are loaded."
             (auto-mode . emacs)))
     ;; pandoc export
     (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "xelatex"))))
+
+  ;; set pandoc exe explicitly, otherwise old anaconda version is recognized
+  ;; (setq pandoc-binary "c:/Users/liebert/AppData/Local/Pandoc/pandoc.exe")
+
+  ;; tramp on windows
+  (setq tramp-default-method "plink")
 
   ;; keywords
   (setq
@@ -761,16 +785,61 @@ if COUNT is negative.  A paragraph is defined by
            ((> dir 0) (forward-paragraph))
            ((not (bobp)) (start-of-paragraph-text) (beginning-of-line)))))))
 
-  ;; open current file in vim
-  (defun my-open-current-file-in-vim ()
-    (interactive)
-    (async-shell-command
-     (format "gvim +%d %s"
-             (+ (if (bolp) 1 0) (count-lines 1 (point)))
-             (shell-quote-argument buffer-file-name))))
+
+  ;; ado-mode for Stata
+  (add-to-list 'load-path "C:/Users/liebert/.emacs.d/.cache/quelpa/build/ado-mode/lisp")
+  (require 'ado-mode)
+  (setq ado-submit-default "dofile")
+  (setq ado-stata-home "C:/Program Files (x86)/Stata15/")
+  (setq ado-comeback-flag t)
+  ;; send line to stata and move to next
+  (defun ado-send-line-to-stata (&optional whole-buffer)
+   (interactive)
+   (ado-command-to-clip ado-submit-default whole-buffer)
+   (ado-send-clip-to-stata ado-submit-default ado-comeback-flag)
+   (forward-line 1))
+  (define-key ado-mode-map [(control return)] 'ado-send-line-to-stata)
+  (define-key ado-mode-map [(meta control return)] 'ado-send-buffer-to-stata)
+
+  ;; add other minor modes to ado-mode
+  ;; (add-hook 'ado-mode-hook #'smartparens-mode)
+  (add-hook 'ado-mode-hook #'linum-mode)
+  ;; (add-hook 'ado-mode-hook #'auto-fill-mode)
+
+  ;; to skip of certain buffers when going to next/previous buffer
+  ;; more extensive definition of useless buffers
+  (setq spacemacs-useless-buffers-regexp '("^ ?\\*.*\\*\\(<[0-9]+>\\)?$"))
+
+  ;; and also skip dired buffers which have no * in the buffer name
+  (defun my-buffer-file-name (oldfun buffer)
+    "Advise spacemacs/useful-buffer-p to exclude dired buffers"
+    (if (funcall oldfun buffer)
+        (not (with-current-buffer buffer
+               (derived-mode-p 'dired-mode)))))
+  (advice-add 'spacemacs/useful-buffer-p :around #'my-buffer-file-name)
+
+  ;; dired open multiple files but in background w/o splitting window
+  ;; (define-key dired-mode-map (kbd "F")
+  ;;   (lambda ()
+  ;;     (interactive)
+  ;;     (mapc #'find-file (reverse (dired-get-marked-files)))))
+
+  ;; visual block is super slow
+  (define-key evil-visual-state-map "I" 'string-insert-rectangle)
+
+  ;; Windows path
+  (when (eq system-type 'windows-nt)
+    ;; Make sure Unix tools are in front of `exec-path'
+    (let ((bash (executable-find "bash")))
+      (when bash
+        (push (file-name-directory bash) exec-path)))
+    ;; Update PATH from exec-path
+    (let ((path (mapcar 'file-truename
+                        (append exec-path
+                                (split-string (getenv "PATH") path-separator t)))))
+      (setenv "PATH" (mapconcat 'identity (delete-dups path) path-separator))))
 
   )
-
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -786,7 +855,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (treemacs-projectile treemacs-evil treemacs pfuture yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unicode-fonts unfill toc-org tagedit symon string-inflection spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rebox2 ranger rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv python-x pytest pyenv-mode py-isort pug-mode prettier-js popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pandoc-mode ox-pandoc overseer orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless mwim multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode link-hint json-navigator json-mode insert-shebang indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu ess-R-data-view eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline diminish diff-hl define-word cython-mode csv-mode counsel-projectile company-web company-statistics company-shell company-quickhelp company-auctex company-anaconda column-enforce-mode color-identifiers-mode clean-aindent-mode centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (vimrc-mode dactyl-mode yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unicode-fonts unfill treemacs-projectile treemacs-evil transpose-frame toc-org tagedit symon string-inflection spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rebox2 ranger rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv python-x pytest pyenv-mode py-isort pug-mode prettier-js popwin pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pandoc-mode ox-pandoc overseer orgit org-ref org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file nameless mwim multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint less-css-mode json-navigator json-mode insert-shebang indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu ess-R-data-view eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline diminish diff-hl define-word cython-mode csv-mode counsel-projectile company-web company-statistics company-shell company-quickhelp company-auctex company-anaconda column-enforce-mode color-identifiers-mode clean-aindent-mode centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

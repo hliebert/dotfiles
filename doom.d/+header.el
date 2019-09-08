@@ -13,9 +13,9 @@
 ;; Created: Tue Aug  4 17:06:46 1987
 ;; Version: 0
 ;; Package-Requires: ()
-;; Last-Updated: Mon Apr 16 18:41:06 2018 (+0200)
+;; Last-Updated: Mi Apr 24 14:55:59 2019
 ;;           By: Helge Liebert
-;;     Update #: 1957
+;;     Update #: 1959
 ;; URL: https://www.emacswiki.org/emacs/download/header2.el
 ;; Doc URL: https://emacswiki.org/emacs/AutomaticFileHeaders
 ;; Keywords: tools, docs, maint, abbrev, local
@@ -776,9 +776,11 @@ environment variable, the SHELL environment variable, or
   "Insert a divider line."
   (insert (cond ((nonempty-comment-end))
                 ((and comment-start (= 1 (length comment-start)))
-                 (make-string 70 (aref comment-start 0)))
+                 ;; (make-string 70 (aref comment-start 0)))
+                 (make-string 80 (aref comment-start 0)))
                 ((nonempty-comment-start))
-                (t (make-string 70 ?\;)))
+                ;; (t (make-string 70 ?\;)))
+                (t (make-string 80 ?\;)))
           "\n"))
 
 
