@@ -22,3 +22,6 @@ export PATH="$PATH:/home/helge/.local/bin"
 # Anaconda3
 # export PATH=/home/helge/anaconda3/bin:$PATH
 
+# trying to get rid of gh-pages warnings
+export JEKYLL_GITHUB_TOKEN=
+export SSL_CERT_FILE=/home/helge/cacert.pem
