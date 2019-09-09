@@ -2,9 +2,12 @@ source ~/antigen.zsh
 antigen use oh-my-zsh
 antigen bundle command-not-found
 antigen bundle common-aliases
+antigen bundle alias-finder
+antigen bundle fzf
 antigen bundle git
 antigen bundle python
 antigen bundle zsh-syntax-highlighting
+antigen bundle zsh-completions
 antigen bundle sudo
 antigen bundle ubuntu
 antigen bundle emacs
@@ -16,13 +19,13 @@ antigen apply
 # other stuff
 export ALTERNATE_EDITOR=""
 
-# # Shell Aliases
-# ## Emacs Aliases
-# alias vim="vim --servername VIM"
-# alias emc='emacsclient -nc -a ""'
-# alias emt='emacsclient -t -a ""'
-# #alias emt="emacsclient -nw --alternate-editor="""
-# ## Git Aliases
+## Shell Aliases
+# Emacs Aliases
+alias vim="vim --servername VIM"
+alias emc='emacsclient -nc -a ""'
+alias emt='emacsclient -t -a ""'
+
+# Git Aliases
 # alias gs='git status '
 # alias ga='git add '
 # alias gb='git branch '
@@ -34,7 +37,7 @@ export ALTERNATE_EDITOR=""
 # alias got='git '
 # alias get='git '
 
-# ## Miscellaneous Aliases
+# Miscellaneous Aliases
 # alias htop='sudo htop'
 
 # Shell Functions
@@ -44,8 +47,8 @@ qfind () {
   return 0
 }
 
-# # fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
