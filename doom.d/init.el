@@ -122,6 +122,7 @@
        ;;julia               ; a better, faster MATLAB
        ;;kotlin              ; a better, slicker Java(Script)
        (latex +latexmk)      ; writing papers in Emacs has never been so fun
+       ;;lean
        ;;ledger              ; an accounting system in Emacs
        ;;lua                 ; one-based indices? one-based indices
        markdown              ; writing docs for people to ignore
@@ -180,3 +181,19 @@
        ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
        ;; config. Use it as a reference for your own modules.
        (default +bindings +smartparens +snippets +evil-commands))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values
+   '((TeX-command-master . latexmk)
+     (TeX-command-extra-options . "--shell-escape")
+     (TeX-command-master . "LatexMk")
+     (header-auto-update-enabled))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
