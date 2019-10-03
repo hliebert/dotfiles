@@ -1,8 +1,8 @@
 source ~/antigen.zsh
 antigen use oh-my-zsh
 antigen bundle command-not-found
-antigen bundle common-aliases
-antigen bundle alias-finder
+# antigen bundle common-aliases
+# antigen bundle alias-finder
 antigen bundle fzf
 antigen bundle git
 antigen bundle python

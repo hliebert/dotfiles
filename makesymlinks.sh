@@ -41,11 +41,8 @@ done
 install_zsh () {
 # Test to see if zshell is installed.  If it is:
 if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
-    # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-    if [[ ! -d ${HOME}/.oh-my-zsh/ ]]; then
-        mkdir ${HOME}/.oh-my-zsh
-        git clone https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh/
-    fi
+    # install antigen
+    curl -L git.io/antigen > antigen.zsh
     # Set the default shell to zsh if it isn't currently set to zsh
     if [[ ! $(echo $SHELL) == $(which zsh) ]]; then
         chsh -s $(which zsh)
