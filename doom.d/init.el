@@ -35,7 +35,7 @@
        ;;+all                ; catch all popups that start with an asterix
         +defaults)           ; default popup rules
        ;;pretty-code         ; replace bits of code with pretty symbols
-       tabs                  ; an tab bar for Emacs
+       ;; tabs               ; an tab bar for Emacs
        treemacs              ; a project drawer, like neotree but cooler
        ;;unicode             ; extended unicode support for various languages
        vc-gutter             ; vcs diff in the fringe
@@ -186,9 +186,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
-   '((TeX-command-master . latexmk)
-     (TeX-command-extra-options . "--shell-escape")
-     (TeX-command-master . "LatexMk")
+   '((TeX-command-extra-options . "--shell-escape")
      (header-auto-update-enabled))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mo Sep  2 19:16:14 2019
+;; Last-Updated: Fr Okt 18 15:28:47 2019
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -26,9 +26,11 @@
 
 ;; Doom ui settings
 ;; (setq doom-theme 'doom-vibrant)
+(setq doom-theme 'rebecca)
 (setq doom-org-special-tags nil)
 ;; (setq doom-font (font-spec :family "FuraMono Nerd Font"))
-(setq doom-font (font-spec :family "UbuntuMono Nerd Font"))
+;; (setq doom-font (font-spec :family "UbuntuMono Nerd Font"))
+(setq doom-font (font-spec :family "MesloLGS NF"))
 (setq +doom-modeline-buffer-file-name-style 'relative-from-project
       show-trailing-whitespace t)
 (add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
@@ -62,7 +64,7 @@
  :nv "C-=" 'text-scale-increase ;; also SPC  ]]
  :nv "C--" 'text-scale-decrease ;; also SPC  [[, masks negative prefix
  (:leader
-   :desc "Comment"                      :nv ";"   #'evil-commentary
+   :desc "Comment"                      :nv ";"   #'evilnc-comment-operator
    :desc "M-x"                          :nv "SPC" #'counsel-M-x
    ;; :desc "M-x"                          :nv "SPC" #'helm-M-x
    ;; caution, remapping tab removes all workspace keybindings
@@ -246,6 +248,7 @@
 
 ;; latex
 (after! latex
+  ;; pdf viewer
   (setq TeX-view-program-selection '((output-pdf "Evince")))
   ;; (setq TeX-view-program-selection '((output-pdf "xdg-open")))
   (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
@@ -267,6 +270,14 @@
         :desc "TeX-comment-or-uncomment-paragraph"  :n "%" #'TeX-comment-or-uncomment-paragraph   ;; C-c %
         :desc "TeX-comment-or-uncomment-region"     :n ";" #'TeX-comment-or-uncomment-region))))     ;; C-c ; or C-c :
 
+(after! bibtex
+  ;; bibliography
+  ;; (setq reftex-default-bibliography "~/Zotero/bib.bib")
+  ;; Optionally specifying a location for the corresponding PDFs
+  ;; (setq bibtex-completion-library-path (list "/your/bib/pdfs"))
+  ;; dialect, bibtex vs biblatex
+  (setq bibtex-dialect 'BibTeX)
+)
 
 ;; fix evil paragraph to behave like vim
 ;; works for latex, not for org-mode

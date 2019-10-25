@@ -9,6 +9,7 @@
 (package! transpose-frame)
 (package! banner-comment)
 (package! org-projectile)
+(package! rebecca-theme)
 ;; (package! company-files)
 ;; (package! company-capf)
 ;; (package! company-keywords)
