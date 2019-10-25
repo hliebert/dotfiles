@@ -1,4 +1,5 @@
 source ~/antigen.zsh
+antigen theme romkatv/powerlevel10k
 antigen use oh-my-zsh
 antigen bundle command-not-found
 # antigen bundle common-aliases
@@ -12,7 +13,6 @@ antigen bundle sudo
 antigen bundle ubuntu
 antigen bundle emacs
 antigen bundle vim-interaction
-antigen theme romkatv/powerlevel10k
 antigen apply
 
 
