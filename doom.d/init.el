@@ -186,7 +186,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
-   '((TeX-command-extra-options . "--shell-escape")
+   '((TeX-command-master . "LatexMk")
+     (TeX-command-extra-options . "--shell-escape")
      (header-auto-update-enabled))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

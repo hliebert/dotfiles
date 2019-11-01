@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Fr Okt 18 15:28:47 2019
+;; Last-Updated: Mi Okt 30 23:54:28 2019
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -53,6 +53,8 @@
 ;; always delete trailing whitespace on save
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
+;; try to prevent splitting in new frame
+(setq inhibit-startup-screen t)
 
 ;;
 ;; Keybindings
@@ -142,7 +144,7 @@
 ;; turn off creating a new workspace when opening a new frame
 (after! persp-mode
   ;; for emacsclient spawned frames:
-  (setq persp-emacsclient-init-frame-behaviour-override t))
+  (setq persp-emacsclient-init-frame-behaviour-override nil))
   ;; for interactively created frames:
   ;; (setq persp-interactive-init-frame-behaviour-override t))
 
