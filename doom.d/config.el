@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mi Okt 30 23:54:28 2019
+;; Last-Updated: Di Dez  3 16:19:04 2019
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;
@@ -42,9 +42,10 @@
 
 ;; Basic misc settings, probably a better solution available
 (setq-default split-width-threshold 80)
-(setq-default tab-width 2)
-(setq-default evil-shift-width 2)
+;; (setq-default tab-width 2)
+;; (setq-default evil-shift-width 2)
 (setq-default evil-kill-on-visual-paste nil)
+
 ;; Spaces over tabs
 ;; (setq c-basic-indent 2)
 ;; (setq c-default-style "linux")
@@ -53,8 +54,8 @@
 ;; always delete trailing whitespace on save
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
-;; try to prevent splitting in new frame
-(setq inhibit-startup-screen t)
+;; delete things by moving them to trash
+(setq delete-by-moving-to-trash t)
 
 ;;
 ;; Keybindings
@@ -67,7 +68,7 @@
  :nv "C--" 'text-scale-decrease ;; also SPC  [[, masks negative prefix
  (:leader
    :desc "Comment"                      :nv ";"   #'evilnc-comment-operator
-   :desc "M-x"                          :nv "SPC" #'counsel-M-x
+   ;; :desc "M-x"                          :nv "SPC" #'counsel-M-x
    ;; :desc "M-x"                          :nv "SPC" #'helm-M-x
    ;; caution, remapping tab removes all workspace keybindings
    ;; :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
@@ -114,8 +115,10 @@
      :desc "Alternate window"           :n  "TAB" #'+helge/alternate-window
      :desc "Split window vertically"    :n  "/"   #'split-window-right
      :desc "Split window horizontally"  :n  "-"   #'split-window-below)
-   (:prefix "p"
-     :desc "Projectile find file"       :n  "f"   #'projectile-find-file)
+   (:prefix "s"
+     :desc "Search clear"               :n  "c"   #'evil-ex-nohighlight)
+   ;; (:prefix "p"
+   ;;   :desc "Projectile find file"       :n  "f"   #'projectile-find-file)
    (:prefix "t"
      ;; create toggle for this, lift from spacemacs
      ;; :desc "Toggle visual line mode"   :n  "L"   #'visual-line-mode
@@ -142,9 +145,9 @@
 ;;
 
 ;; turn off creating a new workspace when opening a new frame
-(after! persp-mode
+;; (after! persp-mode
   ;; for emacsclient spawned frames:
-  (setq persp-emacsclient-init-frame-behaviour-override nil))
+  ;; (setq persp-emacsclient-init-frame-behaviour-override nil))
   ;; for interactively created frames:
   ;; (setq persp-interactive-init-frame-behaviour-override t))
 
@@ -176,6 +179,8 @@
 ;; (after! dired
 ;;   (put 'dired-find-alternate-file 'disabled nil)
 ;;   (define-key ranger-normal-mode-map (kbd "+") #'dired-create-directory))
+;; (after! ranger
+;;   (setq ranger-override-dired-mode nil))
 
 ;; lang/org
 (after! org
@@ -251,7 +256,7 @@
 ;; latex
 (after! latex
   ;; pdf viewer
-  (setq TeX-view-program-selection '((output-pdf "Evince")))
+  ;; (setq TeX-view-program-selection '((output-pdf "Evince")))
   ;; (setq TeX-view-program-selection '((output-pdf "xdg-open")))
   (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 
@@ -295,8 +300,50 @@ if COUNT is negative.  A paragraph is defined by
         ((> dir 0) (forward-paragraph))
         ((not (bobp)) (start-of-paragraph-text) (beginning-of-line)))))))
 
+;; company settings
 ;; set completion threshold
 (setq company-minimum-prefix-length 3)
+;; global backends
+(setq company-backends '(company-dabbrev
+                         company-files          ; files & directory
+                         company-keywords       ; keywords
+                         ;; company-capf
+                         company-yasnippet))
+
+;; (after! ess-mode
+;;   (set-company-backend! 'ess-mode
+;;     'company-capf
+;;     'company-lsp
+;;     'company-files
+;;     'company-dabbrev
+;;     'company-keywords
+;;     'company-yasnippet))
+
+(after! ess-mode
+  (setq ess-use-company nil)
+  (defun my-ess-config ()
+    (make-variable-buffer-local 'company-backends)
+    (add-to-list 'company-backends
+                 '(company-R-args
+                   company-R-objects
+                   company-R-library
+                   company-lsp
+                   company-capf
+                   company-dabbrev-code
+                   company-files
+                   company-dabbrev
+                   company-keywords
+                   company-yasnippet
+                   :separate)))
+(add-hook 'ess-mode-hook #'my-ess-config))
+
+(after! ado-mode
+  (set-company-backend! 'ado-mode
+    'company-files
+    'company-capf
+    'company-dabbrev
+    'company-keywords
+    'company-yasnippet))
 
 ;; whitespace
 ;; (setq-default whitespace-style
@@ -368,13 +415,21 @@ if COUNT is negative.  A paragraph is defined by
 
 ;; ess
 (after! ess-mode
-  (set-company-backend! 'company-files 'company-capf 'company-keywords 'company-yasnippet)
-  (map!
-   (:map (ess-mode)
-     :nv "<C-return>" 'ess-eval-region-or-line-visibly-and-step
-      ;; (:localleader
-      ;;   :desc "TeX-command-master"         :n "," #'TeX-command-master))))
-)))
+  (ess-set-style 'RStudio))
+;;   (map!
+;;    (:map (ess-mode)
+;;      :nv "<C-return>" 'ess-eval-region-or-line-visibly-and-step
+;;       ;; (:localleader
+;;       ;;   :desc "TeX-command-master"         :n "," #'TeX-command-master))))
+;; )))
+
+;; lsp server for R
+(after! lsp-mode
+  (lsp-register-client
+      (make-lsp-client :new-connection
+          (lsp-stdio-connection '("R" "--slave" "-e" "languageserver::run()"))
+          :major-modes '(ess-r-mode inferior-ess-r-mode)
+          :server-id 'lsp-R)))
 
 ;; language tool location
 (setq langtool-language-tool-jar

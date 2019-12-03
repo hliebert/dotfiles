@@ -109,7 +109,7 @@ linebreaks as in auto-fill-mode. "
   (delete-other-windows)
   (delete-other-frames))
 
-  ;; kill all buffers except current one
+;; kill all buffers except current one
 ;;;###autoload
 (defun kill-other-buffers ()
   "Kill all other buffers."
@@ -117,6 +117,18 @@ linebreaks as in auto-fill-mode. "
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list)))
   (delete-other-windows)
   (delete-other-frames))
+
+;; copby buffer filename to clipboard
+;;;###autoload
+(defun copy-file-name-to-clipboard ()
+  "Copy the current buffer file name to the clipboard."
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (kill-new filename)
+      (message "Copied buffer file name '%s' to the clipboard." filename))))
 
 
 ;; ;;;###autoload

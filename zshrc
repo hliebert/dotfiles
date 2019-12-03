@@ -24,6 +24,7 @@ export ALTERNATE_EDITOR=""
 alias vim="vim --servername VIM"
 alias emc='emacsclient -nc -a ""'
 alias emt='emacsclient -t -a ""'
+alias fd='fdfind'
 
 # Git Aliases
 # alias gs='git status '

@@ -10,11 +10,14 @@
 
 (doom! :completion
        (company            ; the ultimate code completion backend
-        +auto
-        +tng)
+        +childframe
+        ;; +auto
+        ;; +tng
+        )
        ;; helm             ; the *other* search engine for love and life
        ;; ido              ; the other *other* search engine...
        (ivy                ; a search engine for love and life
+        +childframe
         +fuzzy
         +icons)
 
@@ -49,7 +52,8 @@
        fold                  ; (nigh) universal code folding
        format                ; automated prettiness
        ;; (format +onsave)   ; automated prettiness
-       ;;lispy               ; vim for lisp, for people who dont like vim
+       ;;god                 ; run Emacs commands without modifier keys
+       ;;lispy               ; vim for lisp, for people who don't like vim
        multiple-cursors      ; editing in many places at once
        ;;objed               ; text object editing for the innocent
        ;;parinfer            ; turn lisp into python, sort of
@@ -62,6 +66,7 @@
         +ranger              ; bringing the goodness of ranger to dired
         +icons)              ; colorful icons for dired-mode
        electric              ; smarter, keyword-based electric-indent
+       ibuffer               ; interactive buffer management
        vc                    ; version-control and Emacs, sitting in a tree
 
        :term
@@ -77,13 +82,15 @@
        ;;docker
        ;; editorconfig       ; let someone else argue about tabs vs spaces
        ;;ein                 ; tame Jupyter notebooks with emacs
-       eval                  ; run code, run (also, repls)
+       (eval +overlay)       ; run code, run (also, repls)
        flycheck              ; tasing you for every semicolon you forget
-       flyspell              ; tasing you for misspelling mispelling
+       ;; flyspell           ; tasing you for misspelling mispelling
+       (flycheck             ; tasing you for every semicolon you forget
+        +childframe)
        ;;gist                ; interacting with github gists
        (lookup               ; helps you navigate your code and documentation
         +docsets)            ; ...or in Dash docsets locally
-       ;;lsp
+       lsp
        ;;macos               ; MacOS-specific commands
        magit                 ; a git porcelain for Emacs
        ;;make                ; run make tasks from Emacs
@@ -94,7 +101,6 @@
        ;;terraform           ; infrastructure as code
        ;;tmux                ; an API for interacting with tmux
        ;;upload              ; map local to remote projects via ssh/ftp
-       ;;wakatime
 
        :lang
        ;;agda                ; types of types of types of types...
@@ -106,11 +112,12 @@
        ;;crystal             ; ruby at the speed of c
        ;;csharp              ; unity, .NET, and mono shenanigans
        data                  ; config/data formats
-       ;;erlang              ; an elegant language for a more civilized age
        ;;elixir              ; erlang done right
        ;;elm                 ; care for a cup of TEA?
        emacs-lisp            ; drown in parentheses
+       ;;erlang              ; an elegant language for a more civilized age
        ess                   ; emacs speaks statistics
+       ;;faust               ; dsp, but you get to keep your soul
        ;;fsharp              ; ML stands for Microsoft's Language
        ;;go                  ; the hipster dialect
        ;;(haskell +intero)   ; a language that's lazier than I am
@@ -130,8 +137,10 @@
        ;;ocaml               ; an objective camel
        (org                  ; organize your plain life in plain text
         +dragndrop           ; drag & drop files/images into org buffers
+        ;;+hugo              ; use Emacs for hugo blogging
         +ipython             ; ipython/jupyter support for babel
         +pandoc              ; export-with-pandoc support
+        ;;+pomodoro          ; be fruitful with the tomato technique
         +present)            ; using org-mode for presentations
        ;;perl                ; write code no one else can comprehend
        ;;php                 ; perl's insecure younger brother
@@ -141,6 +150,7 @@
        ;;qt                  ; the 'cutest' gui framework ever
        ;;racket              ; a DSL for DSLs
        ;;rest                ; Emacs as a REST client
+       ;;rst                 ; ReST in peace
        ;;ruby                ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        ;;rust                ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala               ; java, but good
@@ -152,16 +162,12 @@
        (web                  ; the tubes
         +css                 ;
         +html)               ;
-       ;;vala                ; GObjective-C
 
        :email
-       ;;(mu4e +gmail)       ; WIP
-       ;;notmuch             ; WIP
-       ;;(wanderlust +gmail) ; WIP
+       ;;(mu4e +gmail)
+       ;;notmuch
+       ;;(wanderlust +gmail)
 
-       ;; Applications are complex and opinionated modules that transform Emacs
-       ;; toward a specific purpose. They may have additional dependencies and
-       ;; should be loaded late.
        :app
        ;;calendar
        ;;irc                 ; how neckbeards socialize
@@ -186,9 +192,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
-   '((TeX-command-master . "LatexMk")
-     (TeX-command-extra-options . "--shell-escape")
-     (header-auto-update-enabled))))
+   (quote
+    ((TeX-command-extra-options . "--shell-escape")
+     (TeX-command-master . latexmk)
+     (header-auto-update-enabled)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Sa 11 Mai 2019 19:55:52 EDT
+"" Last modified: So 01 Dez 2019 12:42:14 EST
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -860,7 +860,7 @@ fun! RunDoLines()
 endfun
 au FileType stata noremap <F9> :<C-U>call RunDoLines()<CR><CR>
 au FileType stata noremap <leader>se :<C-U>call RunDoLines()<CR><CR>
-au FileType stata noremap <C-Return> :<C-U>call RunDoLines()<CR><CR>
+au FileType stata noremap <C-Enter> :<C-U>call RunDoLines()<CR><CR>
 au FileType stata noremap <leader>l <S-v>:<C-U>call RunDoLines()<CR><CR>
 
 " Python-mode
