@@ -21,10 +21,9 @@
        :completion
        (company            ; the ultimate code completion backend
         +childframe)
-        ;; +auto
         ;; +tng
-       ;; helm               ; the *other* search engine for love and life
-       ;; ido                ; the other *other* search engine...
+        ;;helm               ; the *other* search engine for love and life
+        ;;ido                ; the other *other* search engine...
        (ivy                  ; a search engine for love and life
         +childframe
         +fuzzy
@@ -62,7 +61,6 @@
        file-templates        ; auto-snippets for empty files
        fold                  ; (nigh) universal code folding
        format                ; automated prettiness
-       ;; (format +onsave)   ; automated prettiness
        ;;god                 ; run Emacs commands without modifier keys
        ;;lispy               ; vim for lisp, for people who don't like vim
        multiple-cursors      ; editing in many places at once
@@ -196,23 +194,7 @@
        ;; The default module sets reasonable defaults for Emacs. It also
        ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
        ;; config. Use it as a reference for your own modules.
-       (default +bindings +smartparens +snippets +evil-commands))
+       (default +bindings +smartparens +snippets))
 
 (setq evil-respect-visual-line-mode t)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(safe-local-variable-values
-   (quote
-    ((TeX-command-extra-options . "--shell-escape")
-     (TeX-command-master . latexmk)
-     (header-auto-update-enabled)))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
