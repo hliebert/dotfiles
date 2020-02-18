@@ -1,10 +1,10 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;===============================================================================
 ;; Filename: config.el
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Di Dez  3 16:19:04 2019
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Last-Updated: Do Feb 13 16:31:51 2020
+;===============================================================================
 
 ;;
 ;; Basic settings
@@ -25,9 +25,10 @@
 
 
 ;; Doom ui settings
+;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-vibrant)
 (setq doom-theme 'rebecca)
-(setq doom-org-special-tags nil)
+;; (setq doom-org-special-tags nil)
 ;; (setq doom-font (font-spec :family "FuraMono Nerd Font"))
 ;; (setq doom-font (font-spec :family "UbuntuMono Nerd Font"))
 (setq doom-font (font-spec :family "MesloLGS NF"))
@@ -57,6 +58,12 @@
 ;; delete things by moving them to trash
 (setq delete-by-moving-to-trash t)
 
+;; ediff
+;; (setq-default ediff-auto-refine 'on)
+;; ediff whitespace/newline settings
+;; (setq-default ediff-ignore-similar-regions t)
+;; (setq ediff-diff-options "-w")
+
 ;;
 ;; Keybindings
 ;;
@@ -81,7 +88,8 @@
      :desc "Copy a file"                :n  "C"   #'copy-file
      ;; :desc "Move this file"             :n  "m"   #'+helge/move-this-file
      :desc "Move this file"             :n  "m"   #'doom/move-this-file
-     :desc "Find file jump"             :n  "j"   #'counsel-file-jump
+     ;; :desc "Find file jump"             :n  "j"   #'counsel-file-jump
+     :desc "Find file jump"             :n  "j"   #'dired-jump
      :desc "Find file"                  :n  "f"   #'counsel-find-file
      :desc "Find file fzf"              :n  "z"   #'counsel-fzf
      :desc "Find file rg"               :n  "g"   #'counsel-rg
@@ -129,14 +137,14 @@
      :desc "Org-projectile todo current project" :n  "t"   #'org-projectile-capture-for-current-project
      :desc "Org-projectile todo any project"     :n  "i"   #'org-projectile-project-todo-completing-read
      :desc "Banner-comment"                      :n  "h"   #'banner-comment)
-   (:prefix "/"
+   ;; (:prefix "/"
      ;; :desc "Find file"                  :n  "d"   #'counsel-find-file
      ;; :desc "Find file jump"             :n  "j"   #'counsel-file-jump
      ;; :desc "Find file fzf"              :n  "z"   #'counsel-fzf
      ;; :desc "Swiper"                     :n  "/"   #'swiper
      ;; :desc "Find file rg"               :n  "g"   #'counsel-rg
-     ;; :desc "Find file ag"               :n  "a"   #'counsel-ag
-     )))
+     ;; :desc "Find file ag"               :n  "a"   #'counsel-ag)
+     ))
 
 
 
@@ -164,23 +172,30 @@
   (map! (:map ivy-minibuffer-map
           ("<C-return>" #'ivy-immediate-done))))
 
-;; feature/evil
-(after! evil-mc
-  ;; Make evil-mc resume its cursors when I switch to insert mode
-  (add-hook! 'evil-mc-before-cursors-created
-    (add-hook 'evil-insert-state-entry-hook #'evil-mc-resume-cursors nil t))
-  (add-hook! 'evil-mc-after-cursors-deleted
-    (remove-hook 'evil-insert-state-entry-hook #'evil-mc-resume-cursors t)))
-
 ;; dired
 ;; enable `a' for dired-find-alternate-file
 
+;; disable ranger in init.el, load as package
 ;; ranger
 ;; (after! dired
 ;;   (put 'dired-find-alternate-file 'disabled nil)
 ;;   (define-key ranger-normal-mode-map (kbd "+") #'dired-create-directory))
-;; (after! ranger
-;;   (setq ranger-override-dired-mode nil))
+;; (after! dired
+;;   (setq ranger-override-dired nil))
+
+;; ;; dired-x
+;; (add-hook 'dired-load-hook
+;;                (lambda ()
+;;                  (load "dired-x")
+;;                  ;; Set dired-x global variables here.  For example:
+;;                  ;; (setq dired-guess-shell-gnutar "gtar")
+;;                  ;; (setq dired-x-hands-off-my-keys nil)
+;;                  ))
+;;      (add-hook 'dired-mode-hook
+;;                (lambda ()
+;;                  ;; Set dired-x buffer-local variables here.  For example:
+;;                  ;; (dired-omit-mode 1)
+;;                  ))
 
 ;; lang/org
 (after! org
@@ -255,10 +270,14 @@
 
 ;; latex
 (after! latex
+  ;; works better with minted environments
+  (setq TeX-parse-self t)
+  (add-to-list 'LaTeX-verbatim-environments "minted")
   ;; pdf viewer
-  ;; (setq TeX-view-program-selection '((output-pdf "Evince")))
+  (setq TeX-view-program-selection '((output-pdf "Evince")))
   ;; (setq TeX-view-program-selection '((output-pdf "xdg-open")))
   (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+  ;; (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' --shell-escape %t" TeX-run-TeX nil t))
 
   (map!
     (:map (TeX-mode-map LaTeX-mode-map)
@@ -310,6 +329,19 @@ if COUNT is negative.  A paragraph is defined by
                          ;; company-capf
                          company-yasnippet))
 
+
+(after! LaTeX-mode
+  (set-company-backend!
+    'latex-mode
+    'company-auctex
+    'company-capf
+    'company-lsp
+    'company-files
+    'company-dabbrev
+    'company-keywords
+    'company-yasnippet))
+
+
 ;; (after! ess-mode
 ;;   (set-company-backend! 'ess-mode
 ;;     'company-capf
@@ -336,6 +368,22 @@ if COUNT is negative.  A paragraph is defined by
                    company-yasnippet
                    :separate)))
 (add-hook 'ess-mode-hook #'my-ess-config))
+
+
+
+
+;; Henrik will upstream this at some point - done
+;; but only eval-line - PR this at some point
+(map! :after ess
+      :map ess-mode-map
+      :n [C-return] #'ess-eval-line-visibly-and-step)
+
+(after! flycheck
+(customize-set-variable 'flycheck-lintr-linters
+                        "with_defaults(commented_code_linter = NULL,
+                                       snake_case_linter     = NULL,
+                                       object_name_linter    = dotted.case,
+                                       line_length_linter    = NULL)"))
 
 (after! ado-mode
   (set-company-backend! 'ado-mode
@@ -413,9 +461,10 @@ if COUNT is negative.  A paragraph is defined by
 (setq confirm-kill-emacs nil)
 
 
-;; ess
+;; ;; ess
 (after! ess-mode
-  (ess-set-style 'RStudio))
+  (ess-set-style 'RStudio)
+  (setq inferior-R-args "--no-restore-history --no-save " ))
 ;;   (map!
 ;;    (:map (ess-mode)
 ;;      :nv "<C-return>" 'ess-eval-region-or-line-visibly-and-step
@@ -423,13 +472,13 @@ if COUNT is negative.  A paragraph is defined by
 ;;       ;;   :desc "TeX-command-master"         :n "," #'TeX-command-master))))
 ;; )))
 
-;; lsp server for R
-(after! lsp-mode
-  (lsp-register-client
-      (make-lsp-client :new-connection
-          (lsp-stdio-connection '("R" "--slave" "-e" "languageserver::run()"))
-          :major-modes '(ess-r-mode inferior-ess-r-mode)
-          :server-id 'lsp-R)))
+;; lsp server for R - works without setting it up here now?
+;; (after! lsp-mode
+;;   (lsp-register-client
+;;       (make-lsp-client :new-connection
+;;           (lsp-stdio-connection '("R" "--slave" "-e" "languageserver::run()"))
+;;           :major-modes '(ess-r-mode inferior-ess-r-mode)
+;;           :server-id 'lsp-R)))
 
 ;; language tool location
 (setq langtool-language-tool-jar
@@ -479,8 +528,11 @@ if COUNT is negative.  A paragraph is defined by
   (forward-line 1))
 ;; (define-key ado-mode-map [(control return)] 'ado-send-line-to-stata)
 ;; (define-key ado-mode-map [(meta control return)] 'ado-send-buffer-to-stata)
-(define-key ado-mode-map [(control return)] 'stata-rundolines)
-(define-key ado-mode-map [(meta control return)] 'stata-rundo)
+;; (define-key ado-mode-map [(control return)] 'stata-rundolines)
+;; (define-key ado-mode-map [(meta control return)] 'stata-rundo)
+(map! (:map ado-mode-map
+        ("<C-return>"   #'stata-rundolines
+         "<C-M-return>" #'stata-rundo)))
 
 ;; get rid of this annoying pop up buffer when sending to stata
 ;; none of this works
@@ -498,7 +550,6 @@ if COUNT is negative.  A paragraph is defined by
 ;;           (cons #'display-buffer-no-window nil)))))
 ;;     (async-shell-command
 ;;      command)))
-
 
 
 ;; text mode wrap
@@ -541,12 +592,12 @@ comment box."
 ;; (global-set-key (kbd "C-c b b") 'full-comment-box)
 
 
-(after! org-projectile
-  (setq org-projectile-projects-file "~/Dropbox/org/projects.org")
-  (push (org-projectile-project-todo-entry) org-capture-templates)
-  (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files))))
-  ;; (global-set-key (kbd "C-c c") 'org-capture)
-  ;; (global-set-key (kbd "C-c n p") 'org-projectile-project-todo-completing-read))
+;; (after! org-projectile
+;;   (setq org-projectile-projects-file "~/Dropbox/Org/projects.org")
+;;   (push (org-projectile-project-todo-entry) org-capture-templates)
+;;   (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files))))
+;;   ;; (global-set-key (kbd "C-c c") 'org-capture)
+;;   ;; (global-set-key (kbd "C-c n p") 'org-projectile-project-todo-completing-read))
 
 
 ;; ;;;; hledger mode
