@@ -109,17 +109,6 @@
 
 
 
-;;
-;; Modules
-;;
-
-;; turn off creating a new workspace when opening a new frame
-;; (after! persp-mode
-  ;; for emacsclient spawned frames:
-  ;; (setq persp-emacsclient-init-frame-behaviour-override nil))
-  ;; for interactively created frames:
-  ;; (setq persp-interactive-init-frame-behaviour-override t))
-
 ;; helm delete whole directory
 ;; (map! :after helm-files
 ;;       :map helm-find-files-map
