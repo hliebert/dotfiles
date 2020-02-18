@@ -10,10 +10,10 @@
 (package! banner-comment)
 (package! org-projectile)
 (package! rebecca-theme)
-;; (package! company-files)
-;; (package! company-capf)
-;; (package! company-keywords)
-;; (package! company-yasnippet)
+(package! dired-hacks)
+(package! poly-R)
+;; (package! rebox2)
+;; (package! ranger)
 (package! eterm-256color)
 
 (package! ado-mode :recipe (:host github :repo "louabill/ado-mode"
