@@ -3,66 +3,31 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Do Feb 13 16:31:51 2020
+;; Last-Updated: Mo Feb 17 22:31:41 2020
 ;===============================================================================
 
-;;
-;; Basic settings
-;;
-
-;; user
+;; User
 (setq user-mail-address "helge.liebert@gmail.com"
       user-full-name    "Helge Liebert")
 
-;; org
+;; Org
 (setq +org-dir (expand-file-name "~/Dropbox/Org/")
-      ;; org-projectile-file (expand-file-name "~/Dropbox/org/projects.org")
-      org-ellipsis " ▼ ")
+      org-projectile-file (expand-file-name "~/Dropbox/Org/projects.org"))
 
-
-;; Doom ui settings
-;; (setq doom-theme 'doom-one)
+;; Doom UI settings
+(setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-vibrant)
-(setq doom-theme 'rebecca)
-;; (setq doom-org-special-tags nil)
-;; (setq doom-font (font-spec :family "FuraMono Nerd Font"))
-;; (setq doom-font (font-spec :family "UbuntuMono Nerd Font"))
+;; (setq doom-theme 'rebecca)
 (setq doom-font (font-spec :family "MesloLGS NF"))
-(setq +doom-modeline-buffer-file-name-style 'relative-from-project
-      show-trailing-whitespace t)
-(add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
 
-;; leader keys (get , to be shortcut for SPC-m?)
-;; (setq doom-localleader-key ",")
-;; (setq +default-repeat-forward-key ";")
-;; (setq +default-repeat-backward-key ",")
+;; Localleader (SPC-m) alternative key
+(setq doom-localleader-alt-key ",")
 
-;; Basic misc settings, probably a better solution available
-(setq-default split-width-threshold 80)
-;; (setq-default tab-width 2)
-;; (setq-default evil-shift-width 2)
+;; Do not replace element in kill ring after pasting over
 (setq-default evil-kill-on-visual-paste nil)
 
-;; Spaces over tabs
-;; (setq c-basic-indent 2)
-;; (setq c-default-style "linux")
-;; (setq tab-width 2)
-;; (setq-default indent-tabs-mode nil)
-;; always delete trailing whitespace on save
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
-
-;; delete things by moving them to trash
+;; Delete things by moving them to trash
 (setq delete-by-moving-to-trash t)
-
-;; ediff
-;; (setq-default ediff-auto-refine 'on)
-;; ediff whitespace/newline settings
-;; (setq-default ediff-ignore-similar-regions t)
-;; (setq ediff-diff-options "-w")
-
-;;
-;; Keybindings
-;;
 
 ;; separate into a different file?
 
