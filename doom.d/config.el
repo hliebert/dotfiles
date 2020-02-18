@@ -10,10 +10,6 @@
 ;; Basic settings
 ;;
 
-;; fix for lag bug due to double-buffering,
-;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=28695
-(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-
 ;; user
 (setq user-mail-address "helge.liebert@gmail.com"
       user-full-name    "Helge Liebert")
