@@ -12,11 +12,10 @@ if [[ ! "$PATH" == */home/helge/.fzf/bin* ]]; then
   export PATH="$PATH:/home/helge/.fzf/bin"
 fi
 
-
 # Ledger file
-export LEDGER_FILE=~/Dropbox/org/hledger.journal
+# export LEDGER_FILE=~/Dropbox/org/hledger.journal
 
-# pip local 
+# pip local
 export PATH="$PATH:/home/helge/.local/bin"
 
 # Anaconda3
