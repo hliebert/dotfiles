@@ -11,7 +11,7 @@
 
 dir=${HOME}/dotfiles                    # dotfiles directory
 olddir=${HOME}/.dotfiles-old            # old dotfiles backup directory
-files="bashrc bash_profile vimrc zshrc zshenv doom.d spacemacs xprofile rundo.sh Rprofile latexmkrc"    # list of files/folders to symlink in homedir
+files="bashrc bash_profile vimrc zshrc zshenv doom.d spacemacs xprofile rundo.sh Rprofile latexmkrc editorconfig"    # list of files/folders to symlink in homedir
 
 ##########
 
