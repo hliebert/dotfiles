@@ -1,29 +1,6 @@
 ;;; private/helge.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
-(defun +helge/find-in-dotfiles ()
-  "Open a file somewhere in ~/.dotfiles via a fuzzy filename search."
-  (interactive)
-  (doom-project-find-file (expand-file-name "~/dotfiles")))
-
-;;;###autoload
-(defun +helge/browse-dotfiles ()
-  "Browse the files in ~/dotfiles."
-  (interactive)
-  (doom-project-browse (expand-file-name "~/dotfiles")))
-
-;;;###autoload
-(defun +helge/toggle-maximize-buffer ()
-  "Maximize buffer"
-  (interactive)
-  (if (and (= 1 (length (window-list)))
-           (assoc ?_ register-alist))
-      (jump-to-register ?_)
-    (progn
-      (window-configuration-to-register ?_)
-      (delete-other-windows))))
-
-;;;###autoload
 (defun +helge/alternate-buffer (&optional window)
   "Switch back and forth between current and last buffer in the
 current window."
