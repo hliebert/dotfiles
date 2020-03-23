@@ -3,41 +3,41 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mo Feb 17 23:14:22 2020
+;; Last-Updated: So Mär 15 18:07:03 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
 
 ;; User
-(setq user-mail-address "helge.liebert@gmail.com"
-      user-full-name    "Helge Liebert")
-
-;; Org
-(setq +org-dir (expand-file-name "~/Dropbox/Org/")
-      org-projectile-file (expand-file-name "~/Dropbox/Org/projects.org"))
+(setq user-full-name    "Helge Liebert"
+      user-mail-address "helge.liebert@gmail.com")
 
 ;; Doom UI settings
-(setq doom-theme 'doom-one)
-;; (setq doom-theme 'doom-vibrant)
-;; (setq doom-theme 'rebecca)
 (setq doom-font (font-spec :family "MesloLGS NF"))
+;; (setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-vibrant)
+(setq doom-theme 'doom-snazzy)
+;; (setq doom-theme 'doom-dracula)
+;; (setq doom-theme 'doom-dark+)
+;; (setq doom-theme 'rebecca)
 
-;; Disable emacs asking for confirmation on quit if there are no modified buffers
-;; (setq confirm-kill-emacs t)
+;; Org
+(setq org-directory (expand-file-name "~/Dropbox/Org/")
+      org-projectile-file (expand-file-name "~/Dropbox/Org/projects.org"))
+
+;; Display absolute line numbers
+(setq display-line-numbers-type t)
 
 
 ;================================== Dictionary =================================
 
 ;; dictionaries
-;; (setq ispell-dictionary "american")
 ;; activate multiple dictionaries to avoid switching between German and English
 (after! ispell
   (setq ispell-program-name "hunspell")
-  (setq ispell-dictionary "de_CH,en_US")
-  ;; ispell-set-spellchecker-params has to be called
-  ;; before ispell-hunspell-add-multi-dic will work
+  (setq ispell-dictionary "en_US,de_CH")
   (ispell-set-spellchecker-params)
-  (ispell-hunspell-add-multi-dic "de_CH,en_US"))
+  (ispell-hunspell-add-multi-dic "en_US,de_CH"))
 
 ;; language tool location
 (setq langtool-language-tool-jar
@@ -51,6 +51,15 @@
 
 ;; Delete things by moving them to trash
 (setq delete-by-moving-to-trash t)
+
+;; Recenter after search (used to be the default)
+(advice-add #'doom-preserve-window-position-a :override
+            (lambda (orig-fn &rest args)
+              (apply orig-fn args)
+              (doom-recenter-a)))
+
+;; Fix search behavior bug
+;; (setq evil-search-wrap nil)
 
 ;; Fix evil paragraph to behave like vim
 ;; Works for latex, not for org-mode
@@ -66,66 +75,42 @@ if COUNT is negative.  A paragraph is defined by
         ((> dir 0) (forward-paragraph))
         ((not (bobp)) (start-of-paragraph-text) (beginning-of-line)))))))
 
-;; Center search results
-;; (advice-add 'evil-ex-search-next :after
-;;             (lambda (&rest x) (evil-scroll-line-to-center (line-number-at-pos))))
-;; (advice-add 'evil-ex-search-previous :after
-;;             (lambda (&rest x) (evil-scroll-line-to-center (line-number-at-pos))))
-
 
 ;================================= Key mappings ================================
 
 ;; These are old, set before doom moved to general.el.
 ;; Probably need fixing. Try without them?
 (map!
- :nv "C-=" 'text-scale-increase ;; also SPC  ]]
- :nv "C--" 'text-scale-decrease ;; also SPC  [[, masks negative prefix
  (:leader
    :desc "Comment"                      :nv ";"   #'evilnc-comment-operator
    (:prefix "f"
-     :desc "Save file"                  :n  "s"   #'save-buffer
-     :desc "Save file as"               :n  "S"   #'write-file
      :desc "Copy this file"             :n  "c"   #'doom/copy-this-file
-     :desc "Copy a file"                :n  "C"   #'copy-file
-     :desc "Move this file"             :n  "m"   #'doom/move-this-file
-     ;; :desc "Find file jump"             :n  "j"   #'counsel-file-jump
+   ;;   :desc "Move this file"             :n  "m"   #'doom/move-this-file
+   ;;   :desc "Find file in project"       :n  "p"   #'counsel-projectile
+   ;;   :desc "Treemacs"                   :n  "t"   #'+treemacs/toggle
      :desc "Find file jump"             :n  "j"   #'dired-jump
-     :desc "Find file"                  :n  "f"   #'counsel-find-file
      :desc "Find file fzf"              :n  "z"   #'counsel-fzf
-     :desc "Find file rg"               :n  "g"   #'counsel-rg
-     :desc "Find file ag"               :n  "a"   #'counsel-ag
-     :desc "Find file in project"       :n  "p"   #'counsel-projectile
-     :desc "Treemacs"                   :n  "t"   #'+treemacs/toggle)
+     :desc "Find file rg"               :n  "g"   #'counsel-rg)
    (:prefix "b"
-     :desc "Open agenda file in buffer" :n  "a"   #'org-cycle-agenda-files
-     :desc "Open ibuffer"               :n  "I"   #'ibuffer
-     :desc "Save buffer"                :n  "s"   #'save-buffer
-     :desc "Save buffer as"             :n  "S"   #'write-file
-     :desc "Next buffer"                :n  "l"   #'next-buffer
-     :desc "Previous buffer"            :n  "h"   #'previous-buffer
      :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
-     :desc "Kill buffer"                :n  "d"   #'kill-this-buffer
-     :desc "Kill other buffers"         :n  "m"   #'kill-other-buffers
      :desc "Kill buffer and window"     :n  "q"   #'kill-buffer-and-window)
    (:prefix "w"
-     :desc "Delete window"              :n  "d"   #'delete-window
-     :desc "Kill buffer and window"     :n  "q"   #'kill-buffer-and-window
-     :desc "Maximize buffer"            :n  "m"   #'+helge/toggle-maximize-buffer
+     :desc "Maximize window"            :n  "m"   #'doom/window-maximize-buffer
      :desc "Other window"               :n  "w"   #'other-window
-     :desc "Alternate window"           :n  "TAB" #'+helge/alternate-window
-     :desc "Split window vertically"    :n  "/"   #'split-window-right
-     :desc "Split window horizontally"  :n  "-"   #'split-window-below)
+     :desc "Alternate window"           :n  "TAB" #'+helge/alternate-window)
    (:prefix "s"
      :desc "Search clear"               :n  "c"   #'evil-ex-nohighlight)
    (:prefix "t"
-     :desc "Toggle flyspell dictionary" :n  "l"   #'ispell-change-dictionary
-     :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines)
+     ;; :desc "Toggle flyspell dictionary" :n  "d"   #'ispell-change-dictionary
+     ;; :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines
+     :desc "Toggle visual lines"        :n  "l"   #'visual-line-mode
+     :desc "Toggle line numbers"        :n  "L"   #'doom/toggle-line-numbers)
    (:prefix "i"
-     :desc "Org-capture"                         :n  "c"   #'org-capture
-     :desc "Org-projectile todo current project" :n  "t"   #'org-projectile-capture-for-current-project
-     :desc "Org-projectile todo any project"     :n  "i"   #'org-projectile-project-todo-completing-read
+     ;; :desc "Org-projectile todo current project" :n  "t"   #'org-projectile-capture-for-current-project
+     ;; :desc "Org-projectile todo any project"     :n  "i"   #'org-projectile-project-todo-completing-read
      :desc "Banner-comment"                      :n  "h"   #'banner-comment)
      ))
+
 
 ;================================= Dired/ranger ================================
 
@@ -136,40 +121,38 @@ if COUNT is negative.  A paragraph is defined by
 
 ;===================================== Ivy =====================================
 
-;; (after! ivy
+(after! ivy
 ;;   ;; do not display ./ and ../ in counsel
 ;;   (setq ivy-extra-directories nil)
-;;   ;; RET also completes directory and doesn't open dired (ivy-done before)
-;;   (map! (:map ivy-minibuffer-map
-;;           ("<C-return>" #'ivy-immediate-done))))
+;;   add mapping for ivy-immediate-done (C-M-j)
+  (map! (:map ivy-minibuffer-map
+          ("<C-return>" #'ivy-immediate-done))))
 
 
 ;=================================== Company ===================================
 
 ;; company settings
-;; set completion threshold
-(setq company-minimum-prefix-length 3)
+;; set completion threshold (default 2)
+;; (setq company-minimum-prefix-length 3)
 ;; global backends
 (setq company-backends '(company-dabbrev
-                         company-files          ; files & directory
-                         company-keywords       ; keywords
-                         ;; company-capf
+                         company-files
+                         company-keywords
                          company-yasnippet))
 
 
 ;===================================== Org =====================================
 
 ;; lang/org
-(after! org
-  ;; fix xdg-open for org
-  (setq org-file-apps
-        `(("pdf" . default)
-          ("\\.x?html?\\'" . default)
-          (auto-mode . emacs)
-          (directory . emacs)
-          (t . ,(cond (IS-MAC "open -R \"%s\"")
-                      (IS-LINUX "setsid -w xdg-open \"%s\""))))))
-
+;; (after! org
+;;   ;; fix xdg-open for org
+;;   (setq org-file-apps
+;;         `(("pdf" . default)
+;;           ("\\.x?html?\\'" . default)
+;;           (auto-mode . emacs)
+;;           (directory . emacs)
+;;           (t . ,(cond (IS-MAC "open -R \"%s\"")
+;;                       (IS-LINUX "setsid -w xdg-open \"%s\""))))))
 
 ;; deft
 (setq deft-extensions '("txt" "org"))
@@ -225,33 +208,35 @@ if COUNT is negative.  A paragraph is defined by
 
 ;==================================== Latex ====================================
 
-;; latex
+;; pdf viewer (if pdf enabled, pdf-tools is used otherwise)
+(setq +latex-viewers '(Evince))
+
 (after! latex
+  ;; turn of auto-fill-mode (better way?)
+  (add-hook 'latex-mode-hook 'turn-off-auto-fill)
   ;; works better with minted environments
   (setq TeX-parse-self t)
   (add-to-list 'LaTeX-verbatim-environments "minted")
-  ;; pdf viewer
-  ;; (setq TeX-view-program-selection '((output-pdf "Evince")))
+  (add-to-list 'LaTeX-verbatim-environments "Verbatim")
   ;; xetex
   (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' --shell-escape %t" TeX-run-TeX nil t))
 
   ;; Lifted from spacemacs
   (map!
-    (:map (TeX-mode-map LaTeX-mode-map)
-      (:localleader
-        :desc "TeX-command-master"         :n "," #'TeX-command-master          ;; C-c C-c
-        :desc "TeX-command-run-all"        :n "a" #'TeX-command-run-all         ;; C-c C-a
-        :desc "TeX-view"                   :n "v" #'TeX-view                    ;; C-c C-v
-        :desc "TeX-clean"                  :n "d" #'TeX-clean
-        :desc "TeX-kill-job"               :n "k" #'TeX-kill-job                ;; C-c C-k
-        :desc "TeX-recenter-output-buffer" :n "l" #'TeX-recenter-output-buffer  ;; C-c C-l
-        :desc "TeX-insert-macro"           :n "m" #'TeX-insert-macro            ;; C-c C-m
-
-        :desc "LaTeX-fill-paragraph"       :n "fp" #'LaTeX-fill-paragraph       ;; C-c C-q C-p
-        :desc "LaTeX-fill-region"          :n "fr" #'LaTeX-fill-region          ;; C-c C-q C-r
-
-        :desc "TeX-comment-or-uncomment-paragraph"  :n "%" #'TeX-comment-or-uncomment-paragraph   ;; C-c %
-        :desc "TeX-comment-or-uncomment-region"     :n ";" #'TeX-comment-or-uncomment-region))))     ;; C-c ; or C-c :
+   (:map (TeX-mode-map LaTeX-mode-map)
+     (:localleader
+       :desc "TeX-command-master"         :n "," #'TeX-command-master          ;; C-c C-c
+       :desc "TeX-command-run-all"        :n "a" #'TeX-command-run-all         ;; C-c C-a
+       :desc "TeX-view"                   :n "v" #'TeX-view                    ;; C-c C-v
+       :desc "TeX-clean"                  :n "d" #'TeX-clean
+       :desc "TeX-kill-job"               :n "k" #'TeX-kill-job                ;; C-c C-k
+       :desc "TeX-recenter-output-buffer" :n "l" #'TeX-recenter-output-buffer  ;; C-c C-l
+       :desc "TeX-insert-macro"           :n "m" #'TeX-insert-macro            ;; C-c C-m
+       :desc "LaTeX-fill-paragraph"       :n "fp" #'LaTeX-fill-paragraph       ;; C-c C-q C-p
+       :desc "LaTeX-fill-region"          :n "fr" #'LaTeX-fill-region          ;; C-c C-q C-r
+       ;; :desc "TeX-comment-or-uncomment-paragraph"  :n "%" #'TeX-comment-or-uncomment-paragraph   ;; C-c %
+       ;; :desc "TeX-comment-or-uncomment-region"     :n ";" #'TeX-comment-or-uncomment-region      ;; C-c ; or C-c :
+       ))))
 
 (after! bibtex
   ;; bibliography
@@ -275,6 +260,12 @@ if COUNT is negative.  A paragraph is defined by
 
 
 ;===================================== ESS =====================================
+
+(after! ess-mode
+  ;; Style convention to RStudio
+  (ess-set-style 'RStudio)
+  ;; Disable asking for saving the history on exit and do not restore it
+  (setq inferior-R-args "--no-restore-history --no-save " ))
 
 ;; (after! ess-mode
 ;;   (set-company-backend! 'ess-mode
@@ -306,7 +297,8 @@ if COUNT is negative.  A paragraph is defined by
 ;; Upstream this is only ess-eval-line - PR this at some point
 (map! :after ess
       :map ess-mode-map
-      :n [C-return] #'ess-eval-line-visibly-and-step)
+      ;; :map ess-r-mode-map
+      :n [C-return] #'ess-eval-region-or-line-visibly-and-step)
 
 ;; lintr
 (after! flycheck
@@ -316,16 +308,11 @@ if COUNT is negative.  A paragraph is defined by
                                        object_name_linter    = dotted.case,
                                        line_length_linter    = NULL)"))
 
-(after! ess-mode
-  ;; Style convention to RStudio
-  (ess-set-style 'RStudio)
-  ;; Disable asking for saving the history on exit and do not restore it
-  (setq inferior-R-args "--no-restore-history --no-save " ))
-
 
 ;==================================== Stata ====================================
 
-;; Messy, ado-mode on Windows, own functions and shell scripts on Linux
+;; Messy, ado-mode on Windows, ado-mode + own functions and shell scripts on Linux
+;; Switch to own functions in ESS on Linux?
 
 (after! ado-mode
   (set-company-backend! 'ado-mode
@@ -336,7 +323,7 @@ if COUNT is negative.  A paragraph is defined by
     'company-yasnippet))
 
 ;; ado-mode for Stata
-;; (require 'ado-mode)
+(require 'ado-mode)
 (setq ado-submit-default "dofile")
 ;; send line to stata and move to next
 (defun ado-send-line-to-stata (&optional whole-buffer)
@@ -348,9 +335,13 @@ if COUNT is negative.  A paragraph is defined by
 ;; (define-key ado-mode-map [(meta control return)] 'ado-send-buffer-to-stata)
 ;; (define-key ado-mode-map [(control return)] 'stata-rundolines)
 ;; (define-key ado-mode-map [(meta control return)] 'stata-rundo)
-(map! (:map ado-mode-map
-        ("<C-return>"   #'stata-rundolines
-         "<C-M-return>" #'stata-rundo)))
+;; (map! (:map ado-mode-map
+;;         ("<C-return>"   #'stata-rundolines
+;;          "<C-M-return>" #'stata-rundo)))
+(map! :after ado-mode
+      :map ado-mode-map
+      :n [C-return]   #'stata-rundolines
+      :n [C-M-return] #'stata-rundo)
 
 ;; get rid of this annoying pop up buffer when sending to stata
 (add-to-list 'display-buffer-alist
@@ -409,5 +400,110 @@ if COUNT is negative.  A paragraph is defined by
 (add-hook! 'ess-mode-hook 'auto-make-header)
 
 
+;=================================== Flycheck ==================================
 
+;; ;; region ignore markers
+;; ;; https://emacs.stackexchange.com/questions/48587/have-flycheck-skip-certain-regions
 
+;; (defun noflycheck--region-regexp (&optional symbol value)
+;;   "Set `noflycheck--region-regexp' from customization of `noflycheck-region-regexps'."
+;;   (when (prog1
+;;         (or symbol value)
+;;       (unless symbol (setq symbol 'noflycheck-region-regexps))
+;;       (unless value (setq value (default-value 'noflycheck-region-regexps))))
+;;     (set-default symbol value))
+;;   (setq noflycheck--region-regexp
+;;     (concat "\\(?:\\(" (car value) "\\)\\|" (cadr value) "\\)")
+;;     noflycheck--where (cddr value)))
+
+;; (defcustom noflycheck-region-regexps '("\\[BEGIN_FLYCHECK_IGNORE\\]" "\\[END_FLYCHECK_IGNORE\\]" comment)
+;;   "Cons of markers to mark the beginning and the end of a noflycheck region.
+;; The two regexps may not match the same string."
+;;   :type '(cons :tag ""
+;;            (regexp :tag "Begin marker")
+;;            (cons :tag ""
+;;              (regexp :tag "End marker")
+;;              (set
+;;               (const nostring :tag "Don't match in strings.")
+;;               (choice (const comment :tag "Only match in comments.")
+;;                   (const code :tag "Only match in code.")))))
+;;   :set #'noflycheck--region-regexp
+;;   :group 'flycheck)
+
+;; (defvar noflycheck--region-regexp nil
+;;   "Regular expression for matching beginning and end of noflycheck regions.
+;; The regular expression is generated from `noflycheck-region-regexps'
+;; by function `noflycheck--region-regexp'.
+;; If the regular expression matches the beginning of a noflycheck region
+;; it is captured in group 1.
+;; If it matches the end of a noflycheck region group 1 does not match,
+;; i.e., (match-beginning 1) gives nil.")
+
+;; (defvar noflycheck--where nil
+;;   "Set by function `noflycheck--region-regexp'.
+;; Possible members:
+;; comment Match beginning and end of noflycheck regions only in comments.
+;; code")
+
+;; (noflycheck--region-regexp)
+
+;; (defsubst noflycheck-in-comment-p ()
+;;   "Non-nil if point is in comment."
+;;   (nth 4 (syntax-ppss)))
+
+;; (defsubst noflycheck-in-string-p ()
+;;   "Non-nil if point is in comment."
+;;   (nth 3 (syntax-ppss)))
+
+;; (defun noflycheck-re-search-backward (&rest args)
+;;   "Do `re-search-forward' but consider `noflycheck--where'."
+;;   (let (found)
+;;     (while (and
+;;         (setq found (apply #'re-search-backward args))
+;;         (cond
+;;          ((memq 'comment noflycheck--where)
+;;           (null (noflycheck-in-comment-p)))
+;;          ((memq 'nostring noflycheck--where)
+;;           (or (noflycheck-in-string-p) ;; strings only occur in code
+;;           (and (memq 'code noflycheck--where)
+;;                (noflycheck-in-comment-p))))
+;;          (memq 'code noflycheck--where)
+;;                (noflycheck-in-comment-p))))
+;;     found))
+
+;; (defun noflycheck-region (err)
+;;   "Ignore flycheck if ERR is in region marked with regexps from `noflycheck-regions'."
+;;   (save-excursion
+;;     (goto-char (car (flycheck-error-line-region err)))
+;;     (and (noflycheck-re-search-backward noflycheck--region-regexp nil 'noError)
+;;      (match-beginning 1))))
+
+;; (defvar noflycheck-process-error-functions nil
+;;   "Like `flycheck-process-error-functions'.
+;; But should only include the filters and not the actual action.")
+
+;; (defun noflycheck-hook-fun ()
+;;   "Add the noflycheck markers to ."
+;;   (require 'flycheck)
+;;   (add-hook 'noflycheck-process-error-functions #'noflycheck-region)
+;;   (add-hook 'flycheck-process-error-functions
+;;         (lambda (err)
+;;           (run-hook-with-args-until-success 'noflycheck-process-error-functions err))
+;;         nil t))
+
+;; (defvar flycheck-error-list-source-buffer)
+
+;; (defun noflycheck-error-list-filter (errors)
+;;   "Only let through ERRORS accepted by `error-list-process-error-functions'.
+;; Works as :filter-args advice if FILTER-ARGS is non-nil."
+;;   (cl-loop for err in errors
+;;        unless
+;;        (let ((buf (flycheck-error-buffer err)))
+;;          (when (buffer-live-p buf)
+;;            (with-current-buffer buf
+;;          (run-hook-with-args-until-success 'noflycheck-process-error-functions err))))
+;;        collect err))
+
+;; (advice-add 'flycheck-filter-errors :filter-return #'noflycheck-error-list-filter)
+
+;; (add-hook 'LaTeX-mode-hook #'noflycheck-hook-fun)

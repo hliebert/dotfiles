@@ -21,13 +21,12 @@
        :completion
        (company            ; the ultimate code completion backend
         +childframe)
-        ;; +tng
         ;;helm               ; the *other* search engine for love and life
         ;;ido                ; the other *other* search engine...
        (ivy                  ; a search engine for love and life
         +childframe
         +fuzzy
-        ;; +prescient
+        +prescient
         +icons)
 
        :ui
@@ -43,11 +42,9 @@
        nav-flash             ; blink the current line after jumping
        ;;neotree             ; a project drawer, like NERDTree for vim
        ophints               ; highlight the region an operation acts on
-       (popup                ; tame sudden yet inevitable temporary windows
-       ;;+all                ; catch all popups that start with an asterix
-        +defaults)           ; default popup rules
+       (popup +defaults)     ; tame sudden yet inevitable temporary windows
        ;;pretty-code         ; replace bits of code with pretty symbols
-       ;; tabs               ; an tab bar for Emacs
+       ;;tabs                ; an tab bar for Emacs
        treemacs              ; a project drawer, like neotree but cooler
        ;;unicode             ; extended unicode support for various languages
        vc-gutter             ; vcs diff in the fringe
@@ -59,28 +56,28 @@
        :editor
        (evil +everywhere)    ; come to the dark side, we have cookies
        file-templates        ; auto-snippets for empty files
-       fold                  ; (nigh) universal code folding
+       ;;fold                ; (nigh) universal code folding
        format                ; automated prettiness
        ;;god                 ; run Emacs commands without modifier keys
        ;;lispy               ; vim for lisp, for people who don't like vim
-       multiple-cursors      ; editing in many places at once
+       ;;multiple-cursors    ; editing in many places at once
        ;;objed               ; text object editing for the innocent
        ;;parinfer            ; turn lisp into python, sort of
        rotate-text           ; cycle region at point between text candidates
        snippets              ; my elves. They type so I don't have to
-       ;;word-wrap           ; soft wrapping with language-aware indent
+       word-wrap             ; soft wrapping with language-aware indent
 
        :emacs
        (dired                ; making dired pretty [functional]
         +ranger              ; bringing the goodness of ranger to dired
         +icons)              ; colorful icons for dired-mode
        electric              ; smarter, keyword-based electric-indent
-       ibuffer               ; interactive buffer management
+       (ibuffer +icons)      ; interactive buffer management
        vc                    ; version-control and Emacs, sitting in a tree
 
        :term
        eshell                ; a consistent, cross-platform shell (WIP)
-       shell                 ; a terminal REPL for Emacs
+       ;; shell              ; a terminal REPL for Emacs
        term                  ; terminals in Emacs
        ;; vterm              ; another terminals in Emacs
 
@@ -95,12 +92,14 @@
        ;;debugger            ; FIXME stepping through code, to help you add bugs
        ;;direnv
        ;;docker
-       ;; editorconfig       ; let someone else argue about tabs vs spaces
+       ;;editorconfig        ; let someone else argue about tabs vs spaces
        ;;ein                 ; tame Jupyter notebooks with emacs
        (eval +overlay)       ; run code, run (also, repls)
        ;;gist                ; interacting with github gists
        (lookup               ; helps you navigate your code and documentation
-        +docsets)            ; ...or in Dash docsets locally
+        +dictionary
+        +offline
+        +docsets)           
        lsp
        ;;macos               ; MacOS-specific commands
        magit                 ; a git porcelain for Emacs
@@ -130,6 +129,7 @@
        (ess +lsp)            ; emacs speaks statistics
        ;;faust               ; dsp, but you get to keep your soul
        ;;fsharp              ; ML stands for Microsoft's Language
+       ;;fstar               ; (dependent) types and (monadic) effects and Z3
        ;;go                  ; the hipster dialect
        ;;(haskell +dante)    ; a language that's lazier than I am
        ;;hy                  ; readability of scheme w/ speed of python
@@ -138,7 +138,9 @@
        ;;javascript          ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia               ; a better, faster MATLAB
        ;;kotlin              ; a better, slicker Java(Script)
-       (latex +latexmk)      ; writing papers in Emacs has never been so fun
+       (latex                ; writing papers in Emacs has never been so fun
+        +latexmk
+        +cdlatex)
        ;;lean
        ;;factor
        ;;ledger              ; an accounting system in Emacs
@@ -187,14 +189,7 @@
        ;;twitter           ; twitter client https://twitter.com/vnought
 
        :config
-       ;; For literate config users. This will tangle+compile a config.org
-       ;; literate config in your `doom-private-dir' whenever it changes.
        ;;literate
-
-       ;; The default module sets reasonable defaults for Emacs. It also
-       ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
-       ;; config. Use it as a reference for your own modules.
-       (default +bindings +smartparens +snippets))
+       (default +bindings +smartparens))
 
 (setq evil-respect-visual-line-mode t)
-
