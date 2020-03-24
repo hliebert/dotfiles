@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: So Mär 15 18:07:03 2020
+;; Last-Updated: Di Mär 24 11:26:09 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -13,7 +13,7 @@
       user-mail-address "helge.liebert@gmail.com")
 
 ;; Doom UI settings
-(setq doom-font (font-spec :family "MesloLGS NF"))
+(setq doom-font (font-spec :family "MesloLGS Nerd Font"))
 ;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-vibrant)
 (setq doom-theme 'doom-snazzy)
@@ -173,30 +173,10 @@ if COUNT is negative.  A paragraph is defined by
                                   %egregdoesnotlikesansseriftitles,
                                   parskip=full
                                   ]{scrartcl}
-                    %\\usepackage{mathptmx}
-                    %\\usepackage{charter}
-                    %\\usepackage[garamond]{mathdesign}
                     \\usepackage[sfdefault,light]{roboto}
                     %\\renewcommand{\\familydefault}{\\sfdefault}
                     \\usepackage[T1]{fontenc}
                     \\usepackage[nswissgerman,english]{babel}"
-                 ;; \\usepackage{PTSans}
-                 ;; \usepackage[charter]{mathdesign}
-                 ;; \\usepackage[garamond]{mathdesign}
-                 ;; \\usepackage[full]{textcomp}
-                 ;; \\usepackage{garamondx}
-                 ;; \\usepackage[varqu,varl,var0,scaled=0.97]{inconsolata}
-                 ;; \\usepackage{FiraSans}
-                 ;; \\usepackage{newpxtext}
-                 ;; \\usepackage{newpxmath}
-                 ;; \\usepackage{roboto}
-                 ;; \\usepackage{charter}
-                 ;; \\renewcommand\sfdefault{\rmdefault}
-                 ;; \\usepackage{cmbright}
-                 ;; \\usepackage[sfdefault]{roboto}
-                 ;; \\usepackage{mathptmx}
-                 ;; \\usepackage{lmodern}
-                 ;; \\usepackage[defaultsans]{droidsans}
                  ;; \\usepackage{titlesec}
                  ;; \\titleformat*{\section}{\large\bfseries}
                  ("\\section{%s}" . "\\section*{%s}")
