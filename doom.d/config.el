@@ -267,14 +267,6 @@ if COUNT is negative.  A paragraph is defined by
       ;; :map ess-r-mode-map
       :n [C-return] #'ess-eval-region-or-line-visibly-and-step)
 
-;; lintr
-(after! flycheck
-(customize-set-variable 'flycheck-lintr-linters
-                        "with_defaults(commented_code_linter = NULL,
-                                       snake_case_linter     = NULL,
-                                       object_name_linter    = dotted.case,
-                                       line_length_linter    = NULL)"))
-
 
 ;==================================== Stata ====================================
 
