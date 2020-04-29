@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Di Mär 24 11:26:09 2020
+;; Last-Updated: Mi Apr 29 12:34:53 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -16,8 +16,8 @@
 (setq doom-font (font-spec :family "MesloLGS Nerd Font"))
 ;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-vibrant)
-(setq doom-theme 'doom-snazzy)
-;; (setq doom-theme 'doom-dracula)
+;; (setq doom-theme 'doom-snazzy)
+(setq doom-theme 'doom-dracula)
 ;; (setq doom-theme 'doom-dark+)
 ;; (setq doom-theme 'rebecca)
 
@@ -63,6 +63,12 @@ if COUNT is negative.  A paragraph is defined by
         ((not (bobp)) (start-of-paragraph-text) (beginning-of-line)))))))
 
 
+;=================================== Editing ===================================
+
+;; disable smartparens
+(after! smartparens (smartparens-global-mode -1))
+
+
 ;================================= Key mappings ================================
 
 ;; These are old, set before doom moved to general.el.
@@ -90,6 +96,7 @@ if COUNT is negative.  A paragraph is defined by
    (:prefix "t"
      ;; :desc "Toggle flyspell dictionary" :n  "d"   #'ispell-change-dictionary
      ;; :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines
+     :desc "Toggle auto-fill-mode"      :n  "a"   #'auto-fill-mode
      :desc "Toggle visual lines"        :n  "l"   #'visual-line-mode
      :desc "Toggle line numbers"        :n  "L"   #'doom/toggle-line-numbers)
    (:prefix "i"
@@ -98,6 +105,15 @@ if COUNT is negative.  A paragraph is defined by
      :desc "Banner-comment"                      :n  "h"   #'banner-comment)
      ))
 
+
+;================================== Workspaces =================================
+
+;; turn off creating a new workspace when opening a new frame
+(after! persp-mode
+  ;; for emacsclient spawned frames:
+  (setq persp-emacsclient-init-frame-behaviour-override nil)
+  ;; for interactively created frames:
+  (setq persp-interactive-init-frame-behaviour-override nil))
 
 ;================================= Dired/ranger ================================
 
@@ -230,7 +246,11 @@ if COUNT is negative.  A paragraph is defined by
 
 (after! ess-mode
   ;; Style convention to RStudio
-  (ess-set-style 'RStudio)
+  ;; (ess-set-style 'RStudio)
+  (setq ess-style 'RStudio)
+  (setq ess-r-backend 'lsp)
+  (setq ess-use-flymake nil)
+  ;; (setq ess-set-style 'RStudio)
   ;; Disable asking for saving the history on exit and do not restore it
   (setq inferior-R-args "--no-restore-history --no-save " ))
 
@@ -243,23 +263,23 @@ if COUNT is negative.  A paragraph is defined by
 ;;     'company-keywords
 ;;     'company-yasnippet))
 
-(after! ess-mode
-  (setq ess-use-company nil)
-  (defun my-ess-config ()
-    (make-variable-buffer-local 'company-backends)
-    (add-to-list 'company-backends
-                 '(company-R-args
-                   company-R-objects
-                   company-R-library
-                   company-lsp
-                   company-capf
-                   company-dabbrev-code
-                   company-files
-                   company-dabbrev
-                   company-keywords
-                   company-yasnippet
-                   :separate)))
-(add-hook 'ess-mode-hook #'my-ess-config))
+;; (after! ess-mode
+;;   (setq ess-use-company nil)
+;;   (defun my-ess-config ()
+;;     (make-variable-buffer-local 'company-backends)
+;;     (add-to-list 'company-backends
+;;                  '(company-R-args
+;;                    company-R-objects
+;;                    company-R-library
+;;                    company-lsp
+;;                    company-capf
+;;                    company-dabbrev-code
+;;                    company-files
+;;                    company-dabbrev
+;;                    company-keywords
+;;                    company-yasnippet
+;;                    :separate)))
+;; (add-hook 'ess-mode-hook #'my-ess-config))
 
 ;; Upstream this is only ess-eval-line - PR this at some point
 (map! :after ess
