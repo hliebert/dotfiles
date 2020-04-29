@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mi Apr 29 12:34:53 2020
+;; Last-Updated: Mi Apr 29 12:35:54 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -229,28 +229,26 @@ if COUNT is negative.  A paragraph is defined by
   ;; dialect, bibtex vs biblatex
   (setq bibtex-dialect 'BibTeX))
 
-(after! LaTeX-mode
-  (set-company-backend!
-    'latex-mode
-    'company-auctex
-    'company-reftex
-    'company-capf
-    'company-lsp
-    'company-files
-    'company-dabbrev
-    'company-keywords
-    'company-yasnippet))
+;; (after! LaTeX-mode
+;;   (set-company-backend!
+;;     'latex-mode
+;;     'company-auctex
+;;     'company-reftex
+;;     'company-capf
+;;     'company-lsp
+;;     'company-files
+;;     'company-dabbrev
+;;     'company-keywords
+;;     'company-yasnippet))
 
 
 ;===================================== ESS =====================================
 
 (after! ess-mode
   ;; Style convention to RStudio
-  ;; (ess-set-style 'RStudio)
   (setq ess-style 'RStudio)
   (setq ess-r-backend 'lsp)
   (setq ess-use-flymake nil)
-  ;; (setq ess-set-style 'RStudio)
   ;; Disable asking for saving the history on exit and do not restore it
   (setq inferior-R-args "--no-restore-history --no-save " ))
 
@@ -288,7 +286,7 @@ if COUNT is negative.  A paragraph is defined by
       :n [C-return] #'ess-eval-region-or-line-visibly-and-step)
 
 
-;==================================== Stata ====================================
+;; ==================================== Stata ====================================
 
 ;; Messy, ado-mode on Windows, ado-mode + own functions and shell scripts on Linux
 ;; Switch to own functions in ESS on Linux?
