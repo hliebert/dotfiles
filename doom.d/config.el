@@ -39,10 +39,6 @@
   (ispell-set-spellchecker-params)
   (ispell-hunspell-add-multi-dic "en_US,de_CH"))
 
-;; language tool location
-(setq langtool-language-tool-jar
-      "/snap/languagetool/13/usr/bin/languagetool-commandline.jar")
-
 
 ;===================================== Evil ====================================
 
