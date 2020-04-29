@@ -57,6 +57,15 @@
             (lambda (orig-fn &rest args)
               (apply orig-fn args)
               (doom-recenter-a)))
+(dolist (fn '(evil-visualstar/begin-search-forward
+              evil-visualstar/begin-search-backward
+              evil-ex-search-word-forward
+              evil-ex-search-word-backward
+              evil-ex-search-next
+              evil-ex-search-previous
+              evil-ex-search-forward
+              evil-ex-search-backward))
+  (advice-add fn :around #'doom-preserve-window-position-a))
 
 ;; Fix search behavior bug
 ;; (setq evil-search-wrap nil)
