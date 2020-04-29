@@ -369,108 +369,108 @@ if COUNT is negative.  A paragraph is defined by
 
 ;=================================== Flycheck ==================================
 
-;; ;; region ignore markers
-;; ;; https://emacs.stackexchange.com/questions/48587/have-flycheck-skip-certain-regions
+;; region ignore markers
+;; https://emacs.stackexchange.com/questions/48587/have-flycheck-skip-certain-regions
 
-;; (defun noflycheck--region-regexp (&optional symbol value)
-;;   "Set `noflycheck--region-regexp' from customization of `noflycheck-region-regexps'."
-;;   (when (prog1
-;;         (or symbol value)
-;;       (unless symbol (setq symbol 'noflycheck-region-regexps))
-;;       (unless value (setq value (default-value 'noflycheck-region-regexps))))
-;;     (set-default symbol value))
-;;   (setq noflycheck--region-regexp
-;;     (concat "\\(?:\\(" (car value) "\\)\\|" (cadr value) "\\)")
-;;     noflycheck--where (cddr value)))
+(defun noflycheck--region-regexp (&optional symbol value)
+  "Set `noflycheck--region-regexp' from customization of `noflycheck-region-regexps'."
+  (when (prog1
+        (or symbol value)
+      (unless symbol (setq symbol 'noflycheck-region-regexps))
+      (unless value (setq value (default-value 'noflycheck-region-regexps))))
+    (set-default symbol value))
+  (setq noflycheck--region-regexp
+    (concat "\\(?:\\(" (car value) "\\)\\|" (cadr value) "\\)")
+    noflycheck--where (cddr value)))
 
-;; (defcustom noflycheck-region-regexps '("\\[BEGIN_FLYCHECK_IGNORE\\]" "\\[END_FLYCHECK_IGNORE\\]" comment)
-;;   "Cons of markers to mark the beginning and the end of a noflycheck region.
-;; The two regexps may not match the same string."
-;;   :type '(cons :tag ""
-;;            (regexp :tag "Begin marker")
-;;            (cons :tag ""
-;;              (regexp :tag "End marker")
-;;              (set
-;;               (const nostring :tag "Don't match in strings.")
-;;               (choice (const comment :tag "Only match in comments.")
-;;                   (const code :tag "Only match in code.")))))
-;;   :set #'noflycheck--region-regexp
-;;   :group 'flycheck)
+(defcustom noflycheck-region-regexps '("\\[BEGIN_FLYCHECK_IGNORE\\]" "\\[END_FLYCHECK_IGNORE\\]" comment)
+  "Cons of markers to mark the beginning and the end of a noflycheck region.
+The two regexps may not match the same string."
+  :type '(cons :tag ""
+           (regexp :tag "Begin marker")
+           (cons :tag ""
+             (regexp :tag "End marker")
+             (set
+              (const nostring :tag "Don't match in strings.")
+              (choice (const comment :tag "Only match in comments.")
+                  (const code :tag "Only match in code.")))))
+  :set #'noflycheck--region-regexp
+  :group 'flycheck)
 
-;; (defvar noflycheck--region-regexp nil
-;;   "Regular expression for matching beginning and end of noflycheck regions.
-;; The regular expression is generated from `noflycheck-region-regexps'
-;; by function `noflycheck--region-regexp'.
-;; If the regular expression matches the beginning of a noflycheck region
-;; it is captured in group 1.
-;; If it matches the end of a noflycheck region group 1 does not match,
-;; i.e., (match-beginning 1) gives nil.")
+(defvar noflycheck--region-regexp nil
+  "Regular expression for matching beginning and end of noflycheck regions.
+The regular expression is generated from `noflycheck-region-regexps'
+by function `noflycheck--region-regexp'.
+If the regular expression matches the beginning of a noflycheck region
+it is captured in group 1.
+If it matches the end of a noflycheck region group 1 does not match,
+i.e., (match-beginning 1) gives nil.")
 
-;; (defvar noflycheck--where nil
-;;   "Set by function `noflycheck--region-regexp'.
-;; Possible members:
-;; comment Match beginning and end of noflycheck regions only in comments.
-;; code")
+(defvar noflycheck--where nil
+  "Set by function `noflycheck--region-regexp'.
+Possible members:
+comment Match beginning and end of noflycheck regions only in comments.
+code")
 
-;; (noflycheck--region-regexp)
+(noflycheck--region-regexp)
 
-;; (defsubst noflycheck-in-comment-p ()
-;;   "Non-nil if point is in comment."
-;;   (nth 4 (syntax-ppss)))
+(defsubst noflycheck-in-comment-p ()
+  "Non-nil if point is in comment."
+  (nth 4 (syntax-ppss)))
 
-;; (defsubst noflycheck-in-string-p ()
-;;   "Non-nil if point is in comment."
-;;   (nth 3 (syntax-ppss)))
+(defsubst noflycheck-in-string-p ()
+  "Non-nil if point is in comment."
+  (nth 3 (syntax-ppss)))
 
-;; (defun noflycheck-re-search-backward (&rest args)
-;;   "Do `re-search-forward' but consider `noflycheck--where'."
-;;   (let (found)
-;;     (while (and
-;;         (setq found (apply #'re-search-backward args))
-;;         (cond
-;;          ((memq 'comment noflycheck--where)
-;;           (null (noflycheck-in-comment-p)))
-;;          ((memq 'nostring noflycheck--where)
-;;           (or (noflycheck-in-string-p) ;; strings only occur in code
-;;           (and (memq 'code noflycheck--where)
-;;                (noflycheck-in-comment-p))))
-;;          (memq 'code noflycheck--where)
-;;                (noflycheck-in-comment-p))))
-;;     found))
+(defun noflycheck-re-search-backward (&rest args)
+  "Do `re-search-forward' but consider `noflycheck--where'."
+  (let (found)
+    (while (and
+        (setq found (apply #'re-search-backward args))
+        (cond
+         ((memq 'comment noflycheck--where)
+          (null (noflycheck-in-comment-p)))
+         ((memq 'nostring noflycheck--where)
+          (or (noflycheck-in-string-p) ;; strings only occur in code
+          (and (memq 'code noflycheck--where)
+               (noflycheck-in-comment-p))))
+         (memq 'code noflycheck--where)
+               (noflycheck-in-comment-p))))
+    found))
 
-;; (defun noflycheck-region (err)
-;;   "Ignore flycheck if ERR is in region marked with regexps from `noflycheck-regions'."
-;;   (save-excursion
-;;     (goto-char (car (flycheck-error-line-region err)))
-;;     (and (noflycheck-re-search-backward noflycheck--region-regexp nil 'noError)
-;;      (match-beginning 1))))
+(defun noflycheck-region (err)
+  "Ignore flycheck if ERR is in region marked with regexps from `noflycheck-regions'."
+  (save-excursion
+    (goto-char (car (flycheck-error-line-region err)))
+    (and (noflycheck-re-search-backward noflycheck--region-regexp nil 'noError)
+     (match-beginning 1))))
 
-;; (defvar noflycheck-process-error-functions nil
-;;   "Like `flycheck-process-error-functions'.
-;; But should only include the filters and not the actual action.")
+(defvar noflycheck-process-error-functions nil
+  "Like `flycheck-process-error-functions'.
+But should only include the filters and not the actual action.")
 
-;; (defun noflycheck-hook-fun ()
-;;   "Add the noflycheck markers to ."
-;;   (require 'flycheck)
-;;   (add-hook 'noflycheck-process-error-functions #'noflycheck-region)
-;;   (add-hook 'flycheck-process-error-functions
-;;         (lambda (err)
-;;           (run-hook-with-args-until-success 'noflycheck-process-error-functions err))
-;;         nil t))
+(defun noflycheck-hook-fun ()
+  "Add the noflycheck markers to ."
+  (require 'flycheck)
+  (add-hook 'noflycheck-process-error-functions #'noflycheck-region)
+  (add-hook 'flycheck-process-error-functions
+        (lambda (err)
+          (run-hook-with-args-until-success 'noflycheck-process-error-functions err))
+        nil t))
 
-;; (defvar flycheck-error-list-source-buffer)
+(defvar flycheck-error-list-source-buffer)
 
-;; (defun noflycheck-error-list-filter (errors)
-;;   "Only let through ERRORS accepted by `error-list-process-error-functions'.
-;; Works as :filter-args advice if FILTER-ARGS is non-nil."
-;;   (cl-loop for err in errors
-;;        unless
-;;        (let ((buf (flycheck-error-buffer err)))
-;;          (when (buffer-live-p buf)
-;;            (with-current-buffer buf
-;;          (run-hook-with-args-until-success 'noflycheck-process-error-functions err))))
-;;        collect err))
+(defun noflycheck-error-list-filter (errors)
+  "Only let through ERRORS accepted by `error-list-process-error-functions'.
+Works as :filter-args advice if FILTER-ARGS is non-nil."
+  (cl-loop for err in errors
+       unless
+       (let ((buf (flycheck-error-buffer err)))
+         (when (buffer-live-p buf)
+           (with-current-buffer buf
+         (run-hook-with-args-until-success 'noflycheck-process-error-functions err))))
+       collect err))
 
-;; (advice-add 'flycheck-filter-errors :filter-return #'noflycheck-error-list-filter)
+(advice-add 'flycheck-filter-errors :filter-return #'noflycheck-error-list-filter)
 
-;; (add-hook 'LaTeX-mode-hook #'noflycheck-hook-fun)
+(add-hook 'LaTeX-mode-hook #'noflycheck-hook-fun)
