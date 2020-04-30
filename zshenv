@@ -24,3 +24,6 @@ export PATH="$PATH:/home/helge/.local/bin"
 # trying to get rid of gh-pages warnings
 export JEKYLL_GITHUB_TOKEN=
 export SSL_CERT_FILE=/home/helge/cacert.pem
+
+# add snap to path
+PATH=$PATH:/snap/bin

@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: So 01 Dez 2019 12:42:14 EST
+"" Last modified: Do 26 Mär 2020 13:38:36 CET
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -64,6 +64,7 @@ Plug 'honza/vim-snippets'
 " Plug 'ncm2/ncm2-match-highlight'
 """""""""""""""""""" Feature support """"""""""""""""""""""""""""""""""""""""""
 Plug 'w0rp/ale'
+Plug 'neoclide/coc.nvim'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'sjl/gundo.vim'
