@@ -3,7 +3,7 @@
 # script needs xsel and xdotool
 # to get them run
 # in debian/ubuntu linux
-# sudo apt-get install xsel xdotool
+# sudo apt-get install xsel xdotool xautomation wmctrl
 # in arch
 # sudo pacman -S xsel xdotool
 
@@ -25,7 +25,7 @@ winid=$(xdotool getactivewindow)
 # if [ "$stataid" ]
 # then
     # xdotool windowactivate --sync $stataid key 'Control_L+1' 'Control_L+a' 'Control_L+v' 'Return'
-    wmctrl -a 'Stata/MP'
+    wmctrl -a 'Stata/'
     # wmctrl -ia $stataid
     sleep 0.1
     xte 'keydown Control_L' 'key 1' 'key A' 'usleep 100' \
