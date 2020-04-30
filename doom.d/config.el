@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mi Apr 29 12:35:54 2020
+;; Last-Updated: Do Apr 30 11:48:24 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -28,6 +28,36 @@
 ;; Display absolute line numbers
 (setq display-line-numbers-type t)
 
+
+;==================================== Email ====================================
+
+;; Each path is relative to `+mu4e-mu4e-mail-path', which is ~/.mail by default
+(set-email-account! "gmail"
+  '((mu4e-sent-folder       . "/gmail/Gesendet")
+    (mu4e-drafts-folder     . "/gmail/Entwürfe")
+    (mu4e-trash-folder      . "/gmail/Papierkorb")
+  ;;(mu4e-refile-folder     . "/gmail/Alle Nachrichten")
+    (user-mail-address      . "helge.liebert@gmail.com")    ;; only needed for mu < 1.4
+    (smtpmail-smtp-user     . "helge.liebert@gmail.com")
+    (smtpmail-smtp-server   . "smtp.gmail.com")
+    (smtpmail-smtp-service  . 587)
+    (mu4e-compose-signature . (concat "Helge Liebert\n"
+                                      "Postdoctoral Fellow\n"
+                                      "Department of Health Care Policy\n"
+                                      "Harvard University\n"
+                                      "https://hliebert.github.io\n")))
+  t)
+
+(set-email-account! "hbdc"
+  '((mu4e-sent-folder       . "/hbdc/Gesendet")
+    (mu4e-drafts-folder     . "/hbdc/Entwürfe")
+    (mu4e-trash-folder      . "/hbdc/Papierkorb")
+  ;;(mu4e-refile-folder     . "/hbdc/Alle Nachrichten")
+    (user-mail-address      . "hyperbolicdiscounting00@gmail.com")    ;; only needed for mu < 1.4
+    (smtpmail-smtp-user     . "hyperbolicdiscounting00@gmail.com")
+    (smtpmail-smtp-server   . "smtp.gmail.com")
+    (smtpmail-smtp-service  . 587))
+  t)
 
 ;================================== Dictionary =================================
 
@@ -67,6 +97,11 @@ if COUNT is negative.  A paragraph is defined by
 
 ;; disable smartparens
 (after! smartparens (smartparens-global-mode -1))
+
+;; disable smartparens for mini buffer
+(after! evil-ex
+  :config
+  (remove-hook! 'minibuffer-setup-hook #'doom-init-smartparens-in-minibuffer-maybe-h))
 
 
 ;================================= Key mappings ================================
@@ -286,6 +321,27 @@ if COUNT is negative.  A paragraph is defined by
       :n [C-return] #'ess-eval-region-or-line-visibly-and-step)
 
 
+;================================== Header.el ==================================
+
+;; not working properly, delete?
+;; load header.el (alternative: configure simple auto-insert)
+;; not on melpa, just use source file
+(load! "+header")
+(setq header-date-format "%a %b %e %T %Y")
+(setq header-file-name 'buffer-file-name)
+(setq make-header-hook
+      '(header-end-line
+        header-file-name
+        header-description
+        header-author
+        header-creation-date
+        header-modification-date
+        header-end-line))
+(autoload 'auto-update-file-header "+header/header2")
+(add-hook! 'before-save-hook 'auto-update-file-header)
+(add-hook! 'ess-mode-hook 'auto-make-header)
+
+
 ;; ==================================== Stata ====================================
 
 ;; Messy, ado-mode on Windows, ado-mode + own functions and shell scripts on Linux
@@ -355,24 +411,6 @@ if COUNT is negative.  A paragraph is defined by
     ;; (shell-command (format "~/dotfiles/rundo.sh %s &" tempfile))))
     (start-process-shell-command "rundo" nil (format "~/dotfiles/rundo.sh %s" tempfile))))
 
-
-;================================== Header.el ==================================
-
-;; not working properly, delete?
-;; load header.el (alternative: configure simple auto-insert)
-;; not on melpa, just use source file
-(load! "+header")
-(setq header-date-format "%a %b %e %T %Y")
-(setq header-file-name 'buffer-file-name)
-(setq make-header-hook
-      '(header-end-line
-        header-file-name
-        header-description
-        header-author
-        header-creation-date
-        header-modification-date
-        header-end-line))
-(autoload 'auto-update-file-header "+header/header2")
-(add-hook! 'before-save-hook 'auto-update-file-header)
-(add-hook! 'ess-mode-hook 'auto-make-header)
-
+;; Fix /* */ line ending for ESS Stata
+;; https://stackoverflow.com/questions/8069351/fix-undesirable-emacs-tabbing-behavior-in-ess-stata
+;; not working
