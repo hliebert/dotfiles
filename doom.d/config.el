@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Do Apr 30 11:48:24 2020
+;; Last-Updated: Do Apr 30 12:25:15 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -36,7 +36,7 @@
   '((mu4e-sent-folder       . "/gmail/Gesendet")
     (mu4e-drafts-folder     . "/gmail/Entwürfe")
     (mu4e-trash-folder      . "/gmail/Papierkorb")
-  ;;(mu4e-refile-folder     . "/gmail/Alle Nachrichten")
+    (mu4e-refile-folder     . "/gmail/Alle Nachrichten")
     (user-mail-address      . "helge.liebert@gmail.com")    ;; only needed for mu < 1.4
     (smtpmail-smtp-user     . "helge.liebert@gmail.com")
     (smtpmail-smtp-server   . "smtp.gmail.com")
@@ -49,10 +49,10 @@
   t)
 
 (set-email-account! "hbdc"
-  '((mu4e-sent-folder       . "/hbdc/Gesendet")
-    (mu4e-drafts-folder     . "/hbdc/Entwürfe")
-    (mu4e-trash-folder      . "/hbdc/Papierkorb")
-  ;;(mu4e-refile-folder     . "/hbdc/Alle Nachrichten")
+  '((mu4e-sent-folder       . "/hbdc/[hbdc].Gesendet")
+    (mu4e-drafts-folder     . "/hbdc/[hbdc].Entwürfe")
+    (mu4e-trash-folder      . "/hbdc/[hbdc].Papierkorb")
+    (mu4e-refile-folder     . "/hbdc/[hbdc].Alle Nachrichten")
     (user-mail-address      . "hyperbolicdiscounting00@gmail.com")    ;; only needed for mu < 1.4
     (smtpmail-smtp-user     . "hyperbolicdiscounting00@gmail.com")
     (smtpmail-smtp-server   . "smtp.gmail.com")
