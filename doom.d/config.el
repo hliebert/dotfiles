@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Sa Mai  2 19:50:06 2020
+;; Last-Updated: Di Mai  5 14:26:46 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -13,7 +13,7 @@
       user-mail-address "helge.liebert@gmail.com")
 
 ;; Doom UI settings
-(setq doom-font (font-spec :family "MesloLGS NF"))
+(setq doom-font (font-spec :family "MesloLGS Nerd Font"))
 ;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-vibrant)
 ;; (setq doom-theme 'doom-snazzy)
@@ -62,7 +62,7 @@
 ;; Update automatically in the background, every 10 minutes
 (setq mu4e-update-interval 600)
 ;; if xapian lock causes issues
-;; (run-at-time nil 600 'mu4e-update-mail-and-index)
+(run-at-time nil 600 'mu4e-update-mail-and-index)
 
 ;================================== Dictionary =================================
 
