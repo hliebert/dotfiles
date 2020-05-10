@@ -26,4 +26,7 @@ export JEKYLL_GITHUB_TOKEN=
 export SSL_CERT_FILE=/home/helge/cacert.pem
 
 # add snap to path
-PATH=$PATH:/snap/bin
+export PATH="$PATH:/snap/bin"
+
+# add cargo to path
+export PATH="$PATH:/home/helge/.cargo/bin"

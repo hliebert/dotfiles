@@ -13,6 +13,6 @@ Sys.setenv(R_HISTSIZE = '100000')
 ht <- function(d) rbind(head(d,10), tail(d,10))
 
 # Override q() to not save by default. Same as saying q("no").
-q <- function (save="no", ...) {
-  quit(save=save, ...)
+q <- function (save = "no", ...) {
+  quit(save = save, ...)
 }
