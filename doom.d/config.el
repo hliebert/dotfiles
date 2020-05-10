@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: So Mai 10 12:24:00 2020
+;; Last-Updated: So Mai 10 12:26:22 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -112,17 +112,6 @@ if COUNT is negative.  A paragraph is defined by
 (after! evil-ex
   :config
   (remove-hook! 'minibuffer-setup-hook #'doom-init-smartparens-in-minibuffer-maybe-h))
-
-;; Recenter screen after most searches
-(dolist (fn '(evil-visualstar/begin-search-forward
-              evil-visualstar/begin-search-backward
-              evil-ex-search-word-forward
-              evil-ex-search-word-backward
-              evil-ex-search-next
-              evil-ex-search-previous
-              evil-ex-search-forward
-              evil-ex-search-backward))
-  (advice-add fn :around #'doom-preserve-window-position-a))
 
 
 ;================================= Key mappings ================================
