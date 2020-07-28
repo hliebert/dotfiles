@@ -25,6 +25,7 @@ alias vim="vim --servername VIM"
 alias emc='emacsclient -nc -a ""'
 alias emt='emacsclient -t -a ""'
 alias fd='fdfind'
+# alias R='R --no-restore-history --no-save'
 alias R='R --no-save'
 
 # Git Aliases

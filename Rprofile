@@ -1,7 +1,7 @@
 # vim r plugin
-if(interactive()){
-   library(colorout)
-}
+# if(interactive()){
+   # library(colorout)
+# }
 
 # set repo mirrors
 options(repos=c("http://stat.ethz.ch/CRAN/"))

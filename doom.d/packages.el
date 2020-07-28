@@ -7,6 +7,8 @@
 (package! dired-hacks)
 (package! yasnippet-snippets)
 (package! eterm-256color)
+(package! golden-ratio)
+(package! zoom)
 ;; (package! transpose-frame)
 ;; (package! org-projectile)
 

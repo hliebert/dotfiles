@@ -1,11 +1,11 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
-;; This file controls what Doom modules are enabled and what order they load in.
-;; Remember to run 'doom sync' after modifying it!
+;; This file controls what Doom modules are enabled and what order they load
+;; in. Remember to run 'doom sync' after modifying it!
 
 ;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
-;;      documentation. There you'll find information about all of Doom's modules
-;;      and what flags they support.
+;;      documentation. There you'll find information about all of Doom's
+;;      modules and what flags they support.
 
 ;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
 ;;      'C-c g k' for non-vim users) to view its documentation. This works on
@@ -38,6 +38,7 @@
        hl-todo               ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides       ; highlighted indent columns
+       minimap               ; show a map of the code on the side
        modeline              ; snazzy, Atom-inspired modeline, plus API
        nav-flash             ; blink the current line after jumping
        ;;neotree             ; a project drawer, like NERDTree for vim
@@ -49,7 +50,7 @@
        ;;unicode             ; extended unicode support for various languages
        vc-gutter             ; vcs diff in the fringe
        vi-tilde-fringe       ; fringe tildes to mark beyond EOB
-       window-select         ; visually switch windows
+       ;;window-select       ; visually switch windows
        ;;workspaces          ; tab emulation, persistence & separate workspaces
        ;;zen                 ; distraction-free coding or writing
 
@@ -65,7 +66,7 @@
        ;;parinfer            ; turn lisp into python, sort of
        rotate-text           ; cycle region at point between text candidates
        snippets              ; my elves. They type so I don't have to
-       word-wrap             ; soft wrapping with language-aware indent
+       ;;word-wrap           ; soft wrapping with language-aware indent
 
        :emacs
        (dired                ; making dired pretty [functional]
@@ -73,14 +74,15 @@
         +icons)              ; colorful icons for dired-mode
        electric              ; smarter, keyword-based electric-indent
        (ibuffer +icons)      ; interactive buffer management
-       (undo  +tree)         ; persistent, smarter undo for your inevitable mistakes
+       ;; undo               ; persistent, smarter undo for your inevitable mistakes
+       (undo +tree)          ; persistent, smarter undo for your inevitable mistakes
        vc                    ; version-control and Emacs, sitting in a tree
 
        :term
        eshell                ; the elisp shell that works everywhere
        ;;shell               ; simple shell REPL for Emacs
        term                  ; basic terminal emulator for Emacs
-       ;;vterm               ; the best terminal emulation in Emacs
+       vterm                 ; the best terminal emulation in Emacs
 
        :checkers
        (syntax               ; tasing you for every semicolon you forget
@@ -97,7 +99,7 @@
        ;;ein                 ; tame Jupyter notebooks with emacs
        (eval +overlay)       ; run code, run (also, repls)
        ;;gist                ; interacting with github gists
-       (lookup               ; helps you navigate your code and documentation
+       (lookup               ; navigate your code and its documentation
         +dictionary
         +offline
         +docsets)           
@@ -109,13 +111,13 @@
        pdf                   ; pdf enhancements
        ;;prodigy             ; FIXME managing external services & code builders
        rgb                   ; creating color strings
+       ;;taskrunner          ; taskrunner for all your projects
        ;;terraform           ; infrastructure as code
        ;;tmux                ; an API for interacting with tmux
        ;;upload              ; map local to remote projects via ssh/ftp
 
        :lang
        ;;agda                ; types of types of types of types...
-       ;;assembly            ; assembly for fun or debugging
        ;;cc                  ; C/C++/Obj-C madness
        ;;clojure             ; java with a lisp
        ;;common-lisp         ; if you've seen one lisp, you've seen them all
@@ -128,22 +130,23 @@
        ;;elm                 ; care for a cup of TEA?
        emacs-lisp            ; drown in parentheses
        ;;erlang              ; an elegant language for a more civilized age
-       (ess +lsp)            ; emacs speaks statistics
+       ess                   ; emacs speaks statistics
+       ;;(ess +lsp)            ; emacs speaks statistics
        ;;faust               ; dsp, but you get to keep your soul
        ;;fsharp              ; ML stands for Microsoft's Language
        ;;fstar               ; (dependent) types and (monadic) effects and Z3
-       ;;go                  ; the hipster dialect
+       ;;(go +lsp)           ; the hipster dialect
        ;;(haskell +dante)    ; a language that's lazier than I am
        ;;hy                  ; readability of scheme w/ speed of python
        ;;idris               ;
+       json                  ; At least it ain't XML
        ;;(java +meghanada)   ; the poster child for carpal tunnel syndrome
        ;;javascript          ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia               ; a better, faster MATLAB
        ;;kotlin              ; a better, slicker Java(Script)
        (latex                ; writing papers in Emacs has never been so fun
-        +latexmk
-        +lsp
-        +cdlatex)
+        ;;+lsp
+        +latexmk)
        ;;lean
        ;;factor
        ;;ledger              ; an accounting system in Emacs
@@ -153,12 +156,16 @@
        ;;nix                 ; I hereby declare "nix geht mehr!"
        ;;ocaml               ; an objective camel
        (org                  ; organize your plain life in plain text
-        +dragndrop           ; drag & drop files/images into org buffers
-        ;;+hugo              ; use Emacs for hugo blogging
-        ;;+jupyter           ; ipython/jupyter support for babel
-        +pandoc              ; export-with-pandoc support
-        ;;+pomodoro          ; be fruitful with the tomato technique
-        +present)            ; using org-mode for presentations
+        ;;+brain
+        +dragndrop
+        ;;+gnuplot
+        +journal
+        +jupyter
+        ;;+noter
+        +pandoc
+        ;;+pomodoro
+        +present
+        +roam)
        ;;perl                ; write code no one else can comprehend
        ;;php                 ; perl's insecure younger brother
        ;;plantuml            ; diagrams for confusing people more
@@ -180,6 +187,7 @@
        (web                  ; the tubes
         +css                 ;
         +html)               ;
+       yaml                  ; JSON, but readable
 
        :email
        (mu4e +gmail)
@@ -194,6 +202,7 @@
 
        :config
        ;;literate
-       (default +bindings))
+       (default +bindings +smartparens))
 
 (setq evil-respect-visual-line-mode t)
+(setq-default evil-kill-on-visual-paste nil)

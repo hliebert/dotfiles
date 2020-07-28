@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: So Mai 10 12:26:22 2020
+;; Last-Updated: Di Jul 21 13:05:32 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -26,10 +26,12 @@
       org-projectile-file (expand-file-name "~/Dropbox/Org/projects.org"))
 
 ;; Display absolute line numbers
-(setq display-line-numbers-type t)
+;; (setq display-line-numbers-type t)
 
 
 ;==================================== Email ====================================
+ 
+(setq mu4e-maildir "~/.mail")
 
 ;; Each path is relative to `+mu4e-mu4e-mail-path', which is ~/.mail by default
 (set-email-account! "gmail"
@@ -59,28 +61,45 @@
     (smtpmail-smtp-service  . 587))
   t)
 
-;; Start mu4e on startup, otherwise auto-update won't work
-(mu4e)
-(switch-to-buffer (other-buffer))
+;; disable spam or trashed showing up in unread (alternative to mu .noindex file)
+;;https://emacs.stackexchange.com/questions/21038/mu4e-bookmarks-how-to-hide-messages-for-folders-like-trash-and-spam
+;;https://github.com/iqbalansari/mu4e-alert/issues/6
+;; (setq mu4e-alert-interesting-mail-query
+;;       (concat
+;;        "flag:unread"
+;;        " AND NOT flag:trashed"
+;;        " AND NOT maildir:/gmail/Papierkorb"
+;;        " AND NOT maildir:/gmail/Gesendet"
+;;        " AND NOT maildir:/gmail/Spam"
+;;        " AND NOT maildir:/hbdc/Papierkorb"
+;;        " AND NOT maildir:/hbdc/Gesendet"
+;;        " AND NOT maildir:/hbdc/Spam"))
 
-;; Update automatically in the background, every 10 minutes
-(setq mu4e-update-interval 600)
-;; if xapian lock causes issues
-;; (run-at-time nil 600 mu4e-update-index)
-;; (run-at-time nil 600 'mu4e-update-mail-and-index t)
+;; Start mu4e on startup, otherwise auto-update won't work
+;; (mu4e)
+;; (switch-to-buffer (other-buffer))
+
+;; Update automatically in the background, every x minutes
+;; (setq mu4e-update-interval 180)
+;; ;; if xapian lock causes issues
+;; ;; (run-at-time nil 600 mu4e-update-index)
+;; ;; (run-at-time nil 600 'mu4e-update-mail-and-index t)
 
 ;================================== Dictionary =================================
 
-;; dictionaries
+;; dictionaries, broken in emacs 27
 ;; activate multiple dictionaries to avoid switching between German and English
-(after! ispell
-  (setq ispell-program-name "hunspell")
-  (setq ispell-dictionary "en_US,de_CH")
-  (ispell-set-spellchecker-params)
-  (ispell-hunspell-add-multi-dic "en_US,de_CH"))
+;;(after! ispell
+;;  (setq ispell-program-name "hunspell")
+;;  (setq ispell-dictionary "en_US,de_CH")
+;;  (ispell-set-spellchecker-params)
+;;  (ispell-hunspell-add-multi-dic "en_US,de_CH"))
 
 
 ;===================================== Evil ====================================
+
+;; j,k navigate on visual lines
+(setq evil-respect-visual-line-mode t)
 
 ;; Do not replace element in kill ring after pasting over
 (setq-default evil-kill-on-visual-paste nil)
@@ -122,7 +141,7 @@ if COUNT is negative.  A paragraph is defined by
  (:leader
    :desc "Comment"                      :nv ";"   #'evilnc-comment-operator
    (:prefix "f"
-     :desc "Copy this file"             :n  "c"   #'doom/copy-this-file
+     ;; :desc "Copy this file"             :n  "c"   #'doom/copy-this-file
    ;;   :desc "Move this file"             :n  "m"   #'doom/move-this-file
    ;;   :desc "Find file in project"       :n  "p"   #'counsel-projectile
    ;;   :desc "Treemacs"                   :n  "t"   #'+treemacs/toggle
@@ -140,9 +159,9 @@ if COUNT is negative.  A paragraph is defined by
      :desc "Search clear"               :n  "c"   #'evil-ex-nohighlight)
    (:prefix "t"
      ;; :desc "Toggle flyspell dictionary" :n  "d"   #'ispell-change-dictionary
-     ;; :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines
+     :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines
      :desc "Toggle auto-fill-mode"      :n  "a"   #'auto-fill-mode
-     :desc "Toggle visual lines"        :n  "l"   #'visual-line-mode
+     ;; :desc "Toggle visual lines"        :n  "l"   #'visual-line-mode
      :desc "Toggle line numbers"        :n  "L"   #'doom/toggle-line-numbers)
    (:prefix "i"
      ;; :desc "Org-projectile todo current project" :n  "t"   #'org-projectile-capture-for-current-project
@@ -154,11 +173,11 @@ if COUNT is negative.  A paragraph is defined by
 ;================================== Workspaces =================================
 
 ;; turn off creating a new workspace when opening a new frame
-(after! persp-mode
-  ;; for emacsclient spawned frames:
-  (setq persp-emacsclient-init-frame-behaviour-override nil)
-  ;; for interactively created frames:
-  (setq persp-interactive-init-frame-behaviour-override nil))
+;; (after! persp-mode
+;;   ;; for emacsclient spawned frames:
+;;   (setq persp-emacsclient-init-frame-behaviour-override nil)
+;;   ;; for interactively created frames:
+;;   (setq persp-interactive-init-frame-behaviour-override nil))
 
 ;================================= Dired/ranger ================================
 
@@ -208,6 +227,8 @@ if COUNT is negative.  A paragraph is defined by
 (setq deft-recursive t)
 ;; (setq deft-use-filename-as-title t)
 
+;; captions always above
+(setq org-latex-caption-above t)
 
 ;; org export custom article using koma class scrartcl
 ;; fix proper
@@ -222,9 +243,15 @@ if COUNT is negative.  A paragraph is defined by
                                   parskip=full
                                   ]{scrartcl}
                     \\usepackage[sfdefault,light]{roboto}
+                    \\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
                     %\\renewcommand{\\familydefault}{\\sfdefault}
                     \\usepackage[T1]{fontenc}
-                    \\usepackage[nswissgerman,english]{babel}"
+                    \\usepackage[nswissgerman,english]{babel}
+                    \\usepackage{enumitem}
+                    \\usepackage{fancyvrb}
+                    \\usepackage[tableposition=top,figureposition=top,
+                                 justification=raggedright,singlelinecheck=false,
+                                 format=hang]{caption}"
                  ;; \\usepackage{titlesec}
                  ;; \\titleformat*{\section}{\large\bfseries}
                  ("\\section{%s}" . "\\section*{%s}")
@@ -291,11 +318,12 @@ if COUNT is negative.  A paragraph is defined by
 
 (after! ess-mode
   ;; Style convention to RStudio
-  (setq ess-style 'RStudio)
-  (setq ess-r-backend 'lsp)
-  (setq ess-use-flymake nil)
+  ;; (setq ess-style 'RStudio)
+  ;; (setq ess-r-backend 'lsp)
+  ;; (setq ess-use-flymake nil)
   ;; Disable asking for saving the history on exit and do not restore it
-  (setq inferior-R-args "--no-restore-history --no-save " ))
+  ;; (setq inferior-R-args "--no-restore-history --no-save " ))
+  (setq inferior-R-args "--no-save " ))
 
 ;; (after! ess-mode
 ;;   (set-company-backend! 'ess-mode
@@ -424,3 +452,19 @@ if COUNT is negative.  A paragraph is defined by
 ;; Fix /* */ line ending for ESS Stata
 ;; https://stackoverflow.com/questions/8069351/fix-undesirable-emacs-tabbing-behavior-in-ess-stata
 ;; not working
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values
+   '((TeX-command-master . latexmk)
+     (TeX-command-extra-options . "-xelatex --shell-escape")
+     (TeX-command-master . "LatexMk")
+     (header-auto-update-enabled))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
