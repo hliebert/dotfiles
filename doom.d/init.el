@@ -103,7 +103,7 @@
         +dictionary
         +offline
         +docsets)           
-       lsp
+       (lsp +eglot)
        ;;macos               ; MacOS-specific commands
        magit                 ; a git porcelain for Emacs
        ;;make                ; run make tasks from Emacs

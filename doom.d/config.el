@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Di Jul 21 13:05:32 2020
+;; Last-Updated: Do Sep 10 19:17:59 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
