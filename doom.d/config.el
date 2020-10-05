@@ -22,8 +22,7 @@
 ;; (setq doom-theme 'rebecca)
 
 ;; Org
-(setq org-directory (expand-file-name "~/Dropbox/Org/")
-      org-projectile-file (expand-file-name "~/Dropbox/Org/projects.org"))
+(setq org-directory (expand-file-name "~/Dropbox/Org/"))
 
 ;; Display absolute line numbers
 ;; (setq display-line-numbers-type t)
