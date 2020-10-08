@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Do Sep 10 19:17:59 2020
+;; Last-Updated: Mo Okt  5 18:59:28 2020
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -14,11 +14,8 @@
 
 ;; Doom UI settings
 (setq doom-font (font-spec :family "MesloLGS Nerd Font"))
-;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-vibrant)
-;; (setq doom-theme 'doom-snazzy)
 (setq doom-theme 'doom-dracula)
-;; (setq doom-theme 'doom-dark+)
 ;; (setq doom-theme 'rebecca)
 
 ;; Org
