@@ -1,6 +1,5 @@
 linters: with_defaults(
-    # lintr defaults: https://github.com/jimhester/lintr#available-linters
     object_name_linter = object_name_linter(c("dotted.case", "snake_case", "camelCase", "CamelCase", "lowercase","UPPERCASE")),
     commented_code_linter = NULL,
-    # line_length_linter = line_length_linter(120)
+    line_length_linter = line_length_linter(180)
     )
