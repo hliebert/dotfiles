@@ -23,7 +23,7 @@ export ALTERNATE_EDITOR=""
 # Emacs Aliases
 alias vim="vim --servername VIM"
 alias emc='emacsclient -nc -a ""'
-alias emt='emacsclient -t -a ""'
+alias emt='emacsclient -nw -a ""'
 alias fd='fdfind'
 # alias R='R --no-restore-history --no-save'
 alias R='R --no-save'
