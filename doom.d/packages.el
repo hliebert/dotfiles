@@ -9,6 +9,7 @@
 (package! eterm-256color)
 (package! golden-ratio)
 (package! zoom)
+(package! sudo-edit)
 ;; (package! transpose-frame)
 ;; (package! org-projectile)
 
