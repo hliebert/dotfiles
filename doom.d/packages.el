@@ -10,6 +10,7 @@
 (package! golden-ratio)
 (package! zoom)
 (package! sudo-edit)
+(package! keyword-search)
 ;; (package! transpose-frame)
 ;; (package! org-projectile)
 
