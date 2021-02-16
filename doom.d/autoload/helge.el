@@ -25,7 +25,7 @@ current frame."
     (select-window prev-window)))
 
 ;;;###autoload
-(defun er-sudo-edit (&optional arg)
+(defun +helge/er-sudo-edit (&optional arg)
   "Edit currently visited file as root.
 
 With a prefix ARG prompt for a file to visit.
@@ -38,7 +38,7 @@ buffer is not visiting a file."
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 ;;;###autoload
-(defun my-search-or-browse ()
+(defun +helge/my-search-or-browse ()
   "If selected region, or thing at point, is a url, go there. Otherwise,
 use region/thing as a keyword for a google search."
   (interactive)
@@ -50,3 +50,11 @@ use region/thing as a keyword for a google search."
         (browse-url target)
       (browse-url (concat "http://www.google.com/search?q="
                           (url-hexify-string target))))))
+
+;;;###autoload
+(defun +helge/browse-file-directory ()
+  "Open the current file's directory however the OS would."
+  (interactive)
+  (if default-directory
+      (browse-url-of-file (expand-file-name default-directory))
+    (error "No `default-directory' to open")))
