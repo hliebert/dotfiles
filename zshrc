@@ -27,6 +27,7 @@ alias emt='emacsclient -nw -a ""'
 alias fd='fdfind'
 # alias R='R --no-restore-history --no-save'
 alias R='R --no-save'
+alias latexindent='latexindent -m -g /dev/null -l="$HOME/.latexindent.yaml"'
 
 # Git Aliases
 # alias gs='git status '
