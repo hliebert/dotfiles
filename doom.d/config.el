@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mo Okt  5 18:59:28 2020
+;; Last-Updated: Di Feb 16 20:14:37 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -39,10 +39,9 @@
     (smtpmail-smtp-user     . "helge.liebert@gmail.com")
     (smtpmail-smtp-server   . "smtp.gmail.com")
     (smtpmail-smtp-service  . 587)
-    (mu4e-compose-signature . (concat "Helge Liebert\n"
-                                      "Postdoctoral Fellow\n"
-                                      "Department of Health Care Policy\n"
-                                      "Harvard University\n"
+    (mu4e-compose-signature . (concat "Helge Liebert, PhD\n"
+                                      "Department of Economics\n"
+                                      "University of Zurich\n"
                                       "https://hliebert.github.io\n")))
   t)
 
@@ -144,6 +143,7 @@ if COUNT is negative.  A paragraph is defined by
      :desc "Find file jump"             :n  "j"   #'dired-jump
      :desc "Find file fzf"              :n  "z"   #'counsel-fzf
      :desc "Find file rg"               :n  "g"   #'counsel-rg)
+     :desc "Open file manager"          :n  "o"   #'+helge/browse-file-directory)
    (:prefix "b"
      :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
      :desc "Kill buffer and window"     :n  "q"   #'kill-buffer-and-window)
@@ -202,6 +202,12 @@ if COUNT is negative.  A paragraph is defined by
                          company-files
                          company-keywords
                          company-yasnippet))
+
+
+;================================== Formatting =================================
+
+;; (setq +format-with-lsp nil)
+(setq-hook! 'latex-mode-hook +format-with-lsp nil)
 
 
 ;===================================== Org =====================================
@@ -289,13 +295,13 @@ if COUNT is negative.  A paragraph is defined by
        ;; :desc "TeX-comment-or-uncomment-region"     :n ";" #'TeX-comment-or-uncomment-region      ;; C-c ; or C-c :
        ))))
 
-(after! bibtex
-  ;; bibliography
-  ;; (setq reftex-default-bibliography "~/Zotero/bib.bib")
-  ;; Optionally specifying a location for the corresponding PDFs
-  ;; (setq bibtex-completion-library-path (list "/your/bib/pdfs"))
-  ;; dialect, bibtex vs biblatex
-  (setq bibtex-dialect 'BibTeX))
+;; (after! bibtex
+;;   ;; bibliography
+;;   ;; (setq reftex-default-bibliography "~/Zotero/bib.bib")
+;;   ;; Optionally specifying a location for the corresponding PDFs
+;;   ;; (setq bibtex-completion-library-path (list "/your/bib/pdfs"))
+;;   ;; dialect, bibtex vs biblatex
+;;   (setq bibtex-dialect 'BibTeX))
 
 ;; (after! LaTeX-mode
 ;;   (set-company-backend!
