@@ -1,13 +1,31 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Filename: .vimrc
 "" Created on: Thu 02 Nov 2017 07:30:54 PM CET
-"" Last modified: Do 26 Mär 2020 13:38:36 CET
+"" Last modified: Do 07 Jan 2021 18:22:15
 "" Note: My vimrc. Mostly cleaned now.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""" vim-plug: load plugins """""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" " Install vim-plug if not found
+" if empty(glob('~/.vim/autoload/plug.vim'))
+  " silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    " \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" endif
+" " Run PlugInstall if there are missing plugins
+" autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  " \| PlugInstall --sync | source $MYVIMRC
+" \| endif
+
+" Call vim-plug
 call plug#begin('~/.vim/plugged')
 """""""""""""""""""" Appearance """""""""""""""""""""""""""""""""""""""""""""""
 "Plug 'flazz/vim-colorschemes'
