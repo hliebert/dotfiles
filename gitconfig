@@ -1,7 +1,11 @@
 [credential]
 	helper = cache
+	# helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+[core]
+	editor = emacsclient -nw --alternate-editor=''
 [user]
 	email = helge.liebert@gmail.com
 	name = Helge Liebert
 [pull]
 	rebase = preserve
+	# rebase = true
