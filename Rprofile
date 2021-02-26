@@ -16,3 +16,8 @@ ht <- function(d) rbind(head(d,10), tail(d,10))
 q <- function (save = "no", ...) {
   quit(save = save, ...)
 }
+
+# User library path, hidden folder
+Sys.unsetenv("R_LIBS_USER")
+Sys.setenv(R_LIBS_USER = "~/.R/x86_64-pc-linux-gnu-library")
+.libPaths( c("~/.R/x86_64-pc-linux-gnu-library", .libPaths()))
