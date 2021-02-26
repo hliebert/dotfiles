@@ -1,0 +1,7 @@
+[credential]
+	helper = cache
+[user]
+	email = helge.liebert@gmail.com
+	name = Helge Liebert
+[pull]
+	rebase = preserve
