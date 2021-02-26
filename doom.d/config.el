@@ -142,7 +142,7 @@ if COUNT is negative.  A paragraph is defined by
    ;;   :desc "Treemacs"                   :n  "t"   #'+treemacs/toggle
      :desc "Find file jump"             :n  "j"   #'dired-jump
      :desc "Find file fzf"              :n  "z"   #'counsel-fzf
-     :desc "Find file rg"               :n  "g"   #'counsel-rg)
+     :desc "Find file rg"               :n  "g"   #'counsel-rg
      :desc "Open file manager"          :n  "o"   #'+helge/browse-file-directory)
    (:prefix "b"
      :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
@@ -354,7 +354,7 @@ if COUNT is negative.  A paragraph is defined by
 ;;                    :separate)))
 ;; (add-hook 'ess-mode-hook #'my-ess-config))
 
-;; Upstream this is only ess-eval-line - PR this at some point
+;; Upstream this is only ess-eval-line
 (map! :after ess
       :map ess-mode-map
       ;; :map ess-r-mode-map
