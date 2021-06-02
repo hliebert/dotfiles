@@ -8,25 +8,28 @@ if [ -f /usr/bin/vim ]; then
 fi
 
 # fzf
-if [[ ! "$PATH" == */home/hliebe/.fzf/bin* ]]; then
-  export PATH="$PATH:/home/hliebe/.fzf/bin"
+if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
+  export PATH="$PATH:$HOME/.fzf/bin"
 fi
 
 # Ledger file
 # export LEDGER_FILE=~/Dropbox/org/hledger.journal
 
 # pip local
-export PATH="$PATH:/home/hliebe/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 
 # Anaconda3
-# export PATH=/home/hliebe/anaconda3/bin:$PATH
+# export PATH=$HOME/anaconda3/bin:$PATH
 
 # trying to get rid of gh-pages warnings
 export JEKYLL_GITHUB_TOKEN=
-export SSL_CERT_FILE=/home/hliebe/cacert.pem
+export SSL_CERT_FILE=$HOME/cacert.pem
 
 # add snap to path
 export PATH="$PATH:/snap/bin"
 
 # add cargo to path
-export PATH="$PATH:/home/hliebe/.cargo/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
+
+# add doom to path
+export PATH="$PATH:$HOME/.emacs.d/bin"
