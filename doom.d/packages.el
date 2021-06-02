@@ -11,6 +11,7 @@
 (package! zoom)
 (package! sudo-edit)
 (package! keyword-search)
+(package! deadgrep)
 ;; (package! transpose-frame)
 ;; (package! org-projectile)
 
