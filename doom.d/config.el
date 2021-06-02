@@ -116,6 +116,9 @@ if COUNT is negative.  A paragraph is defined by
         ((> dir 0) (forward-paragraph))
         ((not (bobp)) (start-of-paragraph-text) (beginning-of-line)))))))
 
+;; center search again
+(advice-add #'evil-ex-search-next :after #'doom-recenter-a)
+(advice-add #'evil-ex-search-previous :after #'doom-recenter-a)
 
 ;=================================== Editing ===================================
 
