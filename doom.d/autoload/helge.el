@@ -84,7 +84,7 @@ use region/thing as a keyword for a google search."
                             startup-hooks
                             job-name
                             'word-mode
-                            nil))
+                            nil)))
 
 ;;;###autoload
 (eval
