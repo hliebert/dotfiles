@@ -184,6 +184,9 @@ if COUNT is negative.  A paragraph is defined by
 ;; (after! ranger
 ;;   (setq ranger-override-dired nil))
 
+;; make dired suggest xdg-open on dired-do-shell-command
+(setq dired-guess-shell-alist-user '(("" "xdg-open")))
+
 
 ;===================================== Ivy =====================================
 
