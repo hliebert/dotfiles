@@ -55,6 +55,7 @@ Plug 'vim-scripts/Align'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-gtfo'
 Plug 'justinmk/vim-sneak'
+Plug 'alptertuna/vim-header'
 """""""""""""""""""" Completion """""""""""""""""""""""""""""""""""""""""""""""
 Plug 'lifepillar/vim-mucomplete'
 Plug 'SirVer/ultisnips'
