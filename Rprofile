@@ -20,7 +20,7 @@ q <- function (save = "no", ...) {
 # User library path, hidden folder
 Sys.unsetenv("R_LIBS_USER")
 Sys.setenv(R_LIBS_USER = "~/.R/x86_64-pc-linux-gnu-library")
-.libPaths( c("~/.R/x86_64-pc-linux-gnu-library", .libPaths()))
+.libPaths(c("~/.R/x86_64-pc-linux-gnu-library", .libPaths()))
 
 # enable bspm
 suppressMessages(bspm::enable())
