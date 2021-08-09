@@ -17,3 +17,6 @@
 
 (package! ado-mode
   :recipe (:host github :repo "louabill/ado-mode"))
+
+;; (package! evil-collection-vterm :recipe (:build (:not native-compile)))
+;; (package! with-editor :recipe (:build (:not native-compile)))

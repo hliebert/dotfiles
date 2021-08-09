@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Di Feb 16 20:14:37 2021
+;; Last-Updated: Mi Jul 21 19:28:40 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -197,6 +197,21 @@ if COUNT is negative.  A paragraph is defined by
   (map! (:map ivy-minibuffer-map
           ("<C-return>" #'ivy-immediate-done))))
 
+;; counsel-rg open all matches, C-o a after SPC s s
+(after! counsel
+  (ivy-add-actions
+   #'counsel-rg
+   '(("a" (lambda (_path) (mapc #'counsel-git-grep-action ivy--all-candidates))
+      "Open all matches"))))
+
+;; find file open all matches, C-o a after SPC s s, not working as of yet
+(after! counsel
+  (dolist (cmd '(counsel-find-file counsel-projectile-find-file projectile-find-file counsel-file-jump))
+    (ivy-add-actions
+     cmd
+     '(("a" (lambda (_path) (mapc #'counsel-git-grep-action ivy--all-candidates))
+        "Open all matches")))))
+
 
 ;=================================== Company ===================================
 
@@ -210,10 +225,23 @@ if COUNT is negative.  A paragraph is defined by
                          company-yasnippet))
 
 
+;==================================== Ediff ====================================
+
+;; sometimes this is set to nix for some reason, still not working
+;; (setq-default diff-auto-refine t)
+;; (setq-default ediff-auto-refine 'on)
+;; (setq-default ediff-auto-refine-limit 100000)
+;; (setq-default magit-diff-refine-hunk (quote all))
+
+
 ;================================== Formatting =================================
 
+;; disable lsp formatting, global
 ;; (setq +format-with-lsp nil)
+
+;; disable lsp formatting, for specific major modes
 (setq-hook! 'latex-mode-hook +format-with-lsp nil)
+(setq-hook! 'ess-mode-hook +format-with-lsp nil)
 
 
 ;===================================== Org =====================================
@@ -365,6 +393,36 @@ if COUNT is negative.  A paragraph is defined by
       :map ess-mode-map
       ;; :map ess-r-mode-map
       :n [C-return] #'ess-eval-region-or-line-visibly-and-step)
+
+
+;; ess ignoring .lintr file again, not working
+
+;; (setq ess-use-flymake nil)
+;; (setq ess-r-flymake-linters '("line_length_linter = line_length_linter(120)"))
+
+(setq ess-r-flymake-linters '(
+    "absolute_paths_linter=NULL"
+    "assignment_linter=NULL"
+    "closed_curly_linter=NULL"
+    "commas_linter=NULL"
+    "commented_code_linter=NULL"
+    "infix_spaces_linter=NULL"
+    ;; "line_length_linter=NULL"
+    "line_length_linter=line_length_linter(120)"
+    ;; "no_tab_linter=NULL"
+    "object_usage_linter=NULL"
+    "camel_case_linter=NULL"
+    "snake_case_linter=NULL"
+    "multiple_dots_linter=NULL"
+    "object_name_linter=NULL"
+    "object_length_linter=NULL"
+    "open_curly_linter=NULL"
+    "single_quotes_linter=NULL"
+    "spaces_inside_linter=NULL"
+    "spaces_left_parentheses_linter=NULL"
+    "trailing_blank_lines_linter=NULL"
+    "trailing_whitespace_linter=NULL"
+))
 
 
 ;================================== Header.el ==================================
