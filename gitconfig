@@ -1,5 +1,5 @@
 [credential]
-	helper = cache
+	helper = cache --timeout=7200
 [core]
 	editor = emacsclient -nw --alternate-editor=''
 [user]

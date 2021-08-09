@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mo Aug  9 18:38:40 2021
+;; Last-Updated: Mo Aug  9 18:40:19 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -192,15 +192,6 @@ if COUNT is negative.  A paragraph is defined by
                          company-files
                          company-keywords
                          company-yasnippet))
-
-
-;==================================== Ediff ====================================
-
-;; sometimes this is set to nix for some reason, still not working
-;; (setq-default diff-auto-refine t)
-;; (setq-default ediff-auto-refine 'on)
-;; (setq-default ediff-auto-refine-limit 100000)
-;; (setq-default magit-diff-refine-hunk (quote all))
 
 
 ;================================== Formatting =================================
