@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mi Jul 21 19:28:40 2021
+;; Last-Updated: Mo Aug  9 18:38:40 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -135,38 +135,32 @@ if COUNT is negative.  A paragraph is defined by
 
 ;; These are old, set before doom moved to general.el.
 ;; Probably need fixing. Try without them?
-(map!
- (:leader
-   :desc "Comment"                      :nv ";"   #'evilnc-comment-operator
-   (:prefix "f"
-     ;; :desc "Copy this file"             :n  "c"   #'doom/copy-this-file
-   ;;   :desc "Move this file"             :n  "m"   #'doom/move-this-file
-   ;;   :desc "Find file in project"       :n  "p"   #'counsel-projectile
-   ;;   :desc "Treemacs"                   :n  "t"   #'+treemacs/toggle
-     :desc "Find file jump"             :n  "j"   #'dired-jump
-     :desc "Find file fzf"              :n  "z"   #'counsel-fzf
-     :desc "Find file rg"               :n  "g"   #'counsel-rg
-     :desc "Open file manager"          :n  "o"   #'+helge/browse-file-directory)
-   (:prefix "b"
-     :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
-     :desc "Kill buffer and window"     :n  "q"   #'kill-buffer-and-window)
-   (:prefix "w"
-     :desc "Maximize window"            :n  "m"   #'doom/window-maximize-buffer
-     :desc "Other window"               :n  "w"   #'other-window
-     :desc "Alternate window"           :n  "TAB" #'+helge/alternate-window)
-   (:prefix "s"
-     :desc "Search clear"               :n  "c"   #'evil-ex-nohighlight)
-   (:prefix "t"
-     ;; :desc "Toggle flyspell dictionary" :n  "d"   #'ispell-change-dictionary
-     :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines
-     :desc "Toggle auto-fill-mode"      :n  "a"   #'auto-fill-mode
-     ;; :desc "Toggle visual lines"        :n  "l"   #'visual-line-mode
-     :desc "Toggle line numbers"        :n  "L"   #'doom/toggle-line-numbers)
-   (:prefix "i"
-     ;; :desc "Org-projectile todo current project" :n  "t"   #'org-projectile-capture-for-current-project
-     ;; :desc "Org-projectile todo any project"     :n  "i"   #'org-projectile-project-todo-completing-read
-     :desc "Banner-comment"                      :n  "h"   #'banner-comment)
-     ))
+;; (map!
+;;  (:leader
+;;    :desc "Comment"                      :nv ";"   #'evilnc-comment-operator
+;;    (:prefix "f"
+;;      ;; :desc "Find file jump"             :n  "j"   #'dired-jump
+;;      :desc "Open file manager"          :n  "o"   #'+helge/browse-file-directory)
+;;    (:prefix "b"
+;;      :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
+;;      :desc "Kill buffer and window"     :n  "q"   #'kill-buffer-and-window)
+;;    (:prefix "w"
+;;      :desc "Maximize window"            :n  "m"   #'doom/window-maximize-buffer
+;;      :desc "Other window"               :n  "w"   #'other-window
+;;      :desc "Alternate window"           :n  "TAB" #'+helge/alternate-window)
+;;    (:prefix "s"
+;;      :desc "Search clear"               :n  "c"   #'evil-ex-nohighlight)
+;;    (:prefix "t"
+;;      ;; :desc "Toggle flyspell dictionary" :n  "d"   #'ispell-change-dictionary
+;;      :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines
+;;      :desc "Toggle auto-fill-mode"      :n  "a"   #'auto-fill-mode
+;;      ;; :desc "Toggle visual lines"        :n  "l"   #'visual-line-mode
+;;      :desc "Toggle line numbers"        :n  "L"   #'doom/toggle-line-numbers)
+;;    (:prefix "i"
+;;      ;; :desc "Org-projectile todo current project" :n  "t"   #'org-projectile-capture-for-current-project
+;;      ;; :desc "Org-projectile todo any project"     :n  "i"   #'org-projectile-project-todo-completing-read
+;;      :desc "Banner-comment"                      :n  "h"   #'banner-comment)
+;;      ))
 
 
 ;================================== Workspaces =================================
@@ -186,31 +180,6 @@ if COUNT is negative.  A paragraph is defined by
 
 ;; make dired suggest xdg-open on dired-do-shell-command
 (setq dired-guess-shell-alist-user '(("" "xdg-open")))
-
-
-;===================================== Ivy =====================================
-
-(after! ivy
-;;   ;; do not display ./ and ../ in counsel
-;;   (setq ivy-extra-directories nil)
-;;   add mapping for ivy-immediate-done (C-M-j)
-  (map! (:map ivy-minibuffer-map
-          ("<C-return>" #'ivy-immediate-done))))
-
-;; counsel-rg open all matches, C-o a after SPC s s
-(after! counsel
-  (ivy-add-actions
-   #'counsel-rg
-   '(("a" (lambda (_path) (mapc #'counsel-git-grep-action ivy--all-candidates))
-      "Open all matches"))))
-
-;; find file open all matches, C-o a after SPC s s, not working as of yet
-(after! counsel
-  (dolist (cmd '(counsel-find-file counsel-projectile-find-file projectile-find-file counsel-file-jump))
-    (ivy-add-actions
-     cmd
-     '(("a" (lambda (_path) (mapc #'counsel-git-grep-action ivy--all-candidates))
-        "Open all matches")))))
 
 
 ;=================================== Company ===================================
