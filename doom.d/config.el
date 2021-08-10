@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Mo Aug  9 18:40:19 2021
+;; Last-Updated: Di Aug 10 10:07:27 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -84,11 +84,11 @@
 
 ;; dictionaries, broken in emacs 27
 ;; activate multiple dictionaries to avoid switching between German and English
-;;(after! ispell
-;;  (setq ispell-program-name "hunspell")
-;;  (setq ispell-dictionary "en_US,de_CH")
-;;  (ispell-set-spellchecker-params)
-;;  (ispell-hunspell-add-multi-dic "en_US,de_CH"))
+(after! ispell
+ (setq ispell-program-name "hunspell")
+ (setq ispell-dictionary "en_US,de_CH")
+ (ispell-set-spellchecker-params)
+ (ispell-hunspell-add-multi-dic "en_US,de_CH"))
 
 
 ;===================================== Evil ====================================
@@ -135,32 +135,32 @@ if COUNT is negative.  A paragraph is defined by
 
 ;; These are old, set before doom moved to general.el.
 ;; Probably need fixing. Try without them?
-;; (map!
-;;  (:leader
-;;    :desc "Comment"                      :nv ";"   #'evilnc-comment-operator
-;;    (:prefix "f"
-;;      ;; :desc "Find file jump"             :n  "j"   #'dired-jump
-;;      :desc "Open file manager"          :n  "o"   #'+helge/browse-file-directory)
-;;    (:prefix "b"
-;;      :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
-;;      :desc "Kill buffer and window"     :n  "q"   #'kill-buffer-and-window)
-;;    (:prefix "w"
-;;      :desc "Maximize window"            :n  "m"   #'doom/window-maximize-buffer
-;;      :desc "Other window"               :n  "w"   #'other-window
-;;      :desc "Alternate window"           :n  "TAB" #'+helge/alternate-window)
-;;    (:prefix "s"
-;;      :desc "Search clear"               :n  "c"   #'evil-ex-nohighlight)
-;;    (:prefix "t"
-;;      ;; :desc "Toggle flyspell dictionary" :n  "d"   #'ispell-change-dictionary
-;;      :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines
-;;      :desc "Toggle auto-fill-mode"      :n  "a"   #'auto-fill-mode
-;;      ;; :desc "Toggle visual lines"        :n  "l"   #'visual-line-mode
-;;      :desc "Toggle line numbers"        :n  "L"   #'doom/toggle-line-numbers)
-;;    (:prefix "i"
-;;      ;; :desc "Org-projectile todo current project" :n  "t"   #'org-projectile-capture-for-current-project
-;;      ;; :desc "Org-projectile todo any project"     :n  "i"   #'org-projectile-project-todo-completing-read
-;;      :desc "Banner-comment"                      :n  "h"   #'banner-comment)
-;;      ))
+(map!
+ (:leader
+  :desc "Comment"                      :nv ";"   #'evilnc-comment-operator
+  (:prefix "f"
+   :desc "Find file jump"             :n  "j"   #'dired-jump
+   :desc "Open file manager"          :n  "o"   #'+helge/browse-file-directory)
+  (:prefix "b"
+   :desc "Other buffer"               :n  "TAB" #'+helge/alternate-buffer
+   :desc "Kill buffer and window"     :n  "q"   #'kill-buffer-and-window)
+  (:prefix "w"
+   ;; :desc "Maximize window"            :n  "m"   #'doom/window-maximize-buffer
+   :desc "Other window"               :n  "w"   #'other-window
+   :desc "Alternate window"           :n  "TAB" #'+helge/alternate-window)
+  (:prefix "s"
+   :desc "Search clear"               :n  "c"   #'evil-ex-nohighlight)
+  (:prefix "t"
+   ;; :desc "Toggle flyspell dictionary" :n  "d"   #'ispell-change-dictionary
+   :desc "Toggle truncate lines"      :n  "l"   #'toggle-truncate-lines
+   :desc "Toggle auto-fill-mode"      :n  "a"   #'auto-fill-mode
+   ;; :desc "Toggle visual lines"        :n  "l"   #'visual-line-mode
+   :desc "Toggle line numbers"        :n  "L"   #'doom/toggle-line-numbers)
+  (:prefix "i"
+   ;; :desc "Org-projectile todo current project" :n  "t"   #'org-projectile-capture-for-current-project
+   ;; :desc "Org-projectile todo any project"     :n  "i"   #'org-projectile-project-todo-completing-read
+   :desc "Banner-comment"                      :n  "h"   #'banner-comment)
+  ))
 
 
 ;================================== Workspaces =================================
