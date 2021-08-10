@@ -3,7 +3,11 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
+<<<<<<< HEAD
 ;; Last-Updated: Di Aug 10 10:07:27 2021
+=======
+;; Last-Updated: Di Aug 10 10:09:25 2021
+>>>>>>> Reactivate keybinds.
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -171,6 +175,7 @@ if COUNT is negative.  A paragraph is defined by
 ;;   (setq persp-emacsclient-init-frame-behaviour-override nil)
 ;;   ;; for interactively created frames:
 ;;   (setq persp-interactive-init-frame-behaviour-override nil))
+
 
 ;================================= Dired/ranger ================================
 
