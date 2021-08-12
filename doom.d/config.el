@@ -3,11 +3,8 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-<<<<<<< HEAD
-;; Last-Updated: Di Aug 10 10:07:27 2021
-=======
+;; Last-Updated: Do Aug 12 10:39:36 2021
 ;; Last-Updated: Di Aug 10 10:09:25 2021
->>>>>>> Reactivate keybinds.
 ;===============================================================================
 
 ;================================ Basic settings ===============================
