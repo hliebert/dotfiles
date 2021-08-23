@@ -1,5 +1,6 @@
 [credential]
-	helper = cache --timeout=7200
+	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+	credentialStore = secretservice
 [core]
 	editor = emacsclient -nw --alternate-editor=''
 [user]
