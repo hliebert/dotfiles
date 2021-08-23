@@ -61,6 +61,13 @@ use region/thing as a keyword for a google search."
     (error "No `default-directory' to open")))
 
 ;;;###autoload
+(defun +helge/sort-lines-nocase ()
+  "Sort lines, case insensitive."
+  (interactive)
+  (let ((sort-fold-case t))
+    (call-interactively 'sort-lines)))
+
+;;;###autoload
 (eval
  `(defun +helge/ediff-buffers-wordwise (buffer-A buffer-B &optional startup-hooks job-name)
     ,(concat (documentation 'ediff-buffers) "\nComparison is done word-wise.")
@@ -115,3 +122,4 @@ use region/thing as a keyword for a google search."
                               setup-parameters)
                              merge-buffer-file)))))
      (ediff-files file-A file-B startup-hooks))))
+
