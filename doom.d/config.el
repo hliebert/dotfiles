@@ -1,10 +1,9 @@
-;===============================================================================
+;===================================
 ;; Filename: config.el
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Do Aug 12 10:39:36 2021
-;; Last-Updated: Di Aug 10 10:09:25 2021
+;; Last-Updated: Fr Aug 13 20:12:05 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -14,9 +13,9 @@
       user-mail-address "helge.liebert@gmail.com")
 
 ;; Doom UI settings
-(setq doom-font (font-spec :family "MesloLGS Nerd Font"))
+;; (setq doom-font (font-spec :family "MesloLGS Nerd Font"))
 ;; (setq doom-theme 'doom-vibrant)
-(setq doom-theme 'doom-dracula)
+;; (setq doom-theme 'doom-dracula)
 ;; (setq doom-theme 'rebecca)
 
 ;; Org
