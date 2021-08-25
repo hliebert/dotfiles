@@ -100,6 +100,7 @@ verbatimEnvironments:
     verbatim: 1
     lstlisting: 1
     minted: 1
+    Verbatim: 1
 
 #  verbatim commands such as \verb! body !, \lstinline$something else$
 verbatimCommands:
@@ -441,30 +442,30 @@ commandCodeBlocks:
 modifyLineBreaks:
     preserveBlankLines: 1
     condenseMultipleBlankLinesInto: 1
-    oneSentencePerLine:
-        manipulateSentences: 0     
-        removeSentenceLineBreaks: 1
-        textWrapSentences: 0
-        sentenceIndent: ""
-        sentencesFollow:
-            par: 1
-            blankLine: 1
-            fullStop: 1
-            exclamationMark: 1
-            questionMark: 1
-            rightBrace: 1
-            commentOnPreviousLine: 1
-            other: 0
-        sentencesBeginWith:
-            A-Z: 1
-            a-z: 0
-            other: 0
-        sentencesEndWith:
-            basicFullStop: 0
-            betterFullStop: 1
-            exclamationMark: 1
-            questionMark: 1
-            other: 0
+    # oneSentencePerLine:
+    #     manipulateSentences: 0
+    #     removeSentenceLineBreaks: 1
+    #     textWrapSentences: 0
+    #     sentenceIndent: ""
+    #     sentencesFollow:
+    #         par: 1
+    #         blankLine: 1
+    #         fullStop: 1
+    #         exclamationMark: 1
+    #         questionMark: 1
+    #         rightBrace: 1
+    #         commentOnPreviousLine: 1
+    #         other: 0
+    #     sentencesBeginWith:
+    #         A-Z: 1
+    #         a-z: 0
+    #         other: 0
+    #     sentencesEndWith:
+    #         basicFullStop: 0
+    #         betterFullStop: 1
+    #         exclamationMark: 1
+    #         questionMark: 1
+    #         other: 0
     textWrapOptions:
         columns: 79
         separator: ""
@@ -473,47 +474,48 @@ modifyLineBreaks:
           except:
             - tabular
             - array
+            - quotation
         alignAtAmpersandTakesPriority: 1
-        environments: 
-            quotation: 0
+        # environments:
+        #     quotation: 0
         ifElseFi: 0
         optionalArguments: 0
         mandatoryArguments: 0
-        items: 0
+        items: 1
         specialBeginEnd: 0
-        afterHeading: 0
+        afterHeading: 1
         preamble: 0
         filecontents: 0
-        masterDocument: 0
-    removeParagraphLineBreaks:
-        all: 0
-        beforeTextWrap: 0
-        alignAtAmpersandTakesPriority: 1
-        environments: 
-            quotation: 0
-        ifElseFi: 0
-        optionalArguments: 0
-        mandatoryArguments: 0
-        items: 0
-        specialBeginEnd: 0
-        afterHeading: 0
-        preamble: 0
-        filecontents: 0
-        masterDocument: 0
-        paragraphsStopAt:
-            environments: 1
-            verbatim: 1
-            commands: 0
-            ifElseFi: 0
-            items: 0
-            specialBeginEnd: 0
-            heading: 0
-            filecontents: 0
-            comments: 0
+        masterDocument: 1
+    # removeParagraphLineBreaks:
+    #     all: 0
+    #     beforeTextWrap: 0
+    #     alignAtAmpersandTakesPriority: 1
+    #     environments:
+    #         quotation: 0
+    #     ifElseFi: 0
+    #     optionalArguments: 0
+    #     mandatoryArguments: 0
+    #     items: 0
+    #     specialBeginEnd: 0
+    #     afterHeading: 0
+    #     preamble: 0
+    #     filecontents: 0
+    #     masterDocument: 0
+    #     paragraphsStopAt:
+    #         environments: 1
+    #         verbatim: 1
+    #         commands: 0
+    #         ifElseFi: 0
+    #         items: 0
+    #         specialBeginEnd: 0
+    #         heading: 0
+    #         filecontents: 0
+    #         comments: 0
     environments:
-        BeginStartsOnOwnLine: 0
-        BodyStartsOnOwnLine: 0
-        EndStartsOnOwnLine: 0
+        BeginStartsOnOwnLine: 1
+        BodyStartsOnOwnLine: 1
+        EndStartsOnOwnLine: 1
         EndFinishesWithLineBreak: 0
         equation*:
             BeginStartsOnOwnLine: 0
@@ -556,8 +558,8 @@ modifyLineBreaks:
         EqualsStartsOnOwnLine: 0
         EqualsFinishesWithLineBreak: 0
     items:
-        ItemStartsOnOwnLine: 0
-        ItemFinishesWithLineBreak: 0
+        ItemStartsOnOwnLine: 1
+        ItemFinishesWithLineBreak: 1
     namedGroupingBracesBrackets:
         NameStartsOnOwnLine: 0
         NameFinishesWithLineBreak: 0
