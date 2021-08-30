@@ -35,20 +35,6 @@ alias fd='fdfind'
 # alias R='R --no-restore-history --no-save'
 alias R='R --no-save'
 alias latexindent='latexindent -m -g /dev/null -l="$HOME/.latexindent.yaml"'
-# alias latexindent='latexindent -m -g /dev/null'
-# alias latexindent='latexindent -w -m -g /dev/null -l="$HOME/.latexindent.yaml"'
-
-# Git Aliases
-# alias gs='git status '
-# alias ga='git add '
-# alias gb='git branch '
-# alias gc='git commit'
-# alias gd='git diff'
-# alias go='git checkout '
-# alias gk='gitk --all&'
-# alias gx='gitx --all'
-# alias got='git '
-# alias get='git '
 
 # Miscellaneous Aliases
 # alias htop='sudo htop'
