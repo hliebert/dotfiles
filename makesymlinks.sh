@@ -10,7 +10,7 @@ dir=${HOME}/dotfiles
 # old dotfiles backup directory
 olddir=${HOME}/.dotfiles-old
 # list of files/folders to symlink in homedir
-files="bashrc bash_profile vimrc zshrc zshenv doom.d spacemacs xprofile rundo.sh Rprofile latexmkrc editorconfig gitconfig indentconfig"
+files="bashrc bash_profile vimrc zshrc zshenv doom.d spacemacs xprofile rundo.sh Rprofile latexmkrc editorconfig gitconfig indentconfig condarc"
 
 # create dotfiles_old in homedir
 echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
