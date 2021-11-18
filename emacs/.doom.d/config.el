@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Fr Aug 13 20:12:05 2021
+;; Last-Updated: Do Nov 18 16:48:58 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -166,11 +166,11 @@ if COUNT is negative.  A paragraph is defined by
 ;================================== Workspaces =================================
 
 ;; turn off creating a new workspace when opening a new frame
-;; (after! persp-mode
-;;   ;; for emacsclient spawned frames:
-;;   (setq persp-emacsclient-init-frame-behaviour-override nil)
-;;   ;; for interactively created frames:
-;;   (setq persp-interactive-init-frame-behaviour-override nil))
+(after! persp-mode
+  ;; for emacsclient spawned frames:
+  (setq persp-emacsclient-init-frame-behaviour-override nil)
+  ;; for interactively created frames:
+  (setq persp-interactive-init-frame-behaviour-override nil))
 
 
 ;================================= Dired/ranger ================================
@@ -203,6 +203,8 @@ if COUNT is negative.  A paragraph is defined by
 ;; disable lsp formatting, for specific major modes
 (setq-hook! 'latex-mode-hook +format-with-lsp nil)
 (setq-hook! 'ess-mode-hook +format-with-lsp nil)
+
+(set-formatter! 'latexindent "latexindent -m -g /dev/null -l='$HOME/.latexindent.yaml'" :modes '(latex-mode))
 
 
 ;===================================== Org =====================================
