@@ -149,9 +149,8 @@ defaultIndent: "  "
 lookForAlignDelims:
    tabular: 
       delims: 1
-      # alignDoubleBackSlash: 1
-      alignDoubleBackSlash: 0
-      spacesBeforeDoubleBackSlash: 1
+      alignFinalDoubleBackSlash: 1
+      spacesBeforeDoubleBackSlash: 0
       multiColumnGrouping: 0
       alignRowsWithoutMaxDelims: 1
       spacesBeforeAmpersand: 1
