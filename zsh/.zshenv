@@ -22,7 +22,7 @@ export PATH="$PATH:$HOME/.local/bin"
 # export PATH=$HOME/anaconda3/bin:$PATH
 
 # trying to get rid of gh-pages warnings
-export JEKYLL_GITHUB_TOKEN=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
+export JEKYLL_GITHUB_TOKEN=
 export SSL_CERT_FILE=$HOME/cacert.pem
 
 # add snap to path
