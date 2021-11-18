@@ -35,6 +35,8 @@ alias fd='fdfind'
 # alias R='R --no-restore-history --no-save'
 alias R='R --no-save'
 alias latexindent='latexindent -m -g /dev/null -l="$HOME/.latexindent.yaml"'
+# alias latexindent='latexindent -m -g /dev/null'
+# alias latexindent='latexindent -w -m -g /dev/null -l="$HOME/.latexindent.yaml"'
 
 # Git Aliases
 # alias gs='git status '
@@ -73,18 +75,18 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# # Miniconda setup, disabled for now
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/hliebe/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/helge/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/hliebe/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/hliebe/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/helge/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/helge/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/hliebe/miniconda3/bin:$PATH"
+        export PATH="/home/helge/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
