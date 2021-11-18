@@ -33,3 +33,6 @@ export PATH="$PATH:$HOME/.cargo/bin"
 
 # add doom to path
 export PATH="$PATH:$HOME/.emacs.d/bin"
+
+# add latexindent to path
+export PATH="$PATH:$HOME/.latexindent"
