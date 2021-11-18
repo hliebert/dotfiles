@@ -34,7 +34,7 @@ alias emt='emacsclient -nw -a ""'
 alias fd='fdfind'
 # alias R='R --no-restore-history --no-save'
 alias R='R --no-save'
-alias latexindent='latexindent -m -g /dev/null -l="$HOME/.latexindent.yaml"'
+alias latexindent='latexindent -m -g /dev/null -l="$HOME/.indentconfig.yaml"'
 
 # Miscellaneous Aliases
 # alias htop='sudo htop'
@@ -56,10 +56,10 @@ qfind () {
 # fix CURL certificates path
 export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# # nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # # Miniconda setup, disabled for now
 # >>> conda initialize >>>
