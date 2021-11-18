@@ -1,7 +1,7 @@
 Dotfiles
 ========
 
-This repository includes most of my dotfiles. They are symlinked using GNU stow.
+This repository includes most of my dotfiles. Symlink them using GNU stow.
 
 
 Usage
