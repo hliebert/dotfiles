@@ -18,9 +18,6 @@ fi
 # pip local
 export PATH="$PATH:$HOME/.local/bin"
 
-# Anaconda3
-# export PATH=$HOME/anaconda3/bin:$PATH
-
 # trying to get rid of gh-pages warnings
 export JEKYLL_GITHUB_TOKEN=
 export SSL_CERT_FILE=$HOME/cacert.pem
