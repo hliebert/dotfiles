@@ -24,3 +24,13 @@ Sys.setenv(R_LIBS_USER = "~/.R/x86_64-pc-linux-gnu-library")
 
 # enable bspm
 suppressMessages(bspm::enable())
+
+# screen width
+options(width = system("tput cols", intern = TRUE))
+# options(width = as.integer(system("stty -a | head -n 1 | awk '{print $7}' | sed 's/;//'", intern = TRUE)))
+# options(width = as.numeric(strsplit(system('stty size', intern = TRUE), ' ')[[1]])[2])
+
+wide.screen <- function(
+  cols = as.numeric(system("tput cols", intern = TRUE))) {
+  options(width = as.integer(cols))
+}
