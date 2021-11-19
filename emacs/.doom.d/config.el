@@ -1,9 +1,9 @@
-;===================================
+;===============================================================================
 ;; Filename: config.el
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Do Nov 18 16:48:58 2021
+;; Last-Updated: Fr Nov 19 13:18:34 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -120,6 +120,7 @@ if COUNT is negative.  A paragraph is defined by
 (advice-add #'evil-ex-search-next :after #'doom-recenter-a)
 (advice-add #'evil-ex-search-previous :after #'doom-recenter-a)
 
+
 ;=================================== Editing ===================================
 
 ;; disable smartparens
@@ -204,7 +205,7 @@ if COUNT is negative.  A paragraph is defined by
 (setq-hook! 'latex-mode-hook +format-with-lsp nil)
 (setq-hook! 'ess-mode-hook +format-with-lsp nil)
 
-(set-formatter! 'latexindent "latexindent -m -g /dev/null -l='$HOME/.latexindent.yaml'" :modes '(latex-mode))
+;; (set-formatter! 'latexindent "latexindent -m -g /dev/null -l='~/.latexindentsettings.yaml'" :modes '(latex-mode))
 
 
 ;===================================== Org =====================================
