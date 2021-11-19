@@ -67,59 +67,58 @@ use region/thing as a keyword for a google search."
   (let ((sort-fold-case t))
     (call-interactively 'sort-lines)))
 
-;;;###autoload
-(eval
- `(defun +helge/ediff-buffers-wordwise (buffer-A buffer-B &optional startup-hooks job-name)
-    ,(concat (documentation 'ediff-buffers) "\nComparison is done word-wise.")
-    ,(interactive-form 'ediff-buffers)
-    (setq bufA (get-buffer buffer-A)
-          bufB (get-buffer buffer-B)
-          job-name (or job-name 'ediff-buffers-wordwise))
-    (cl-assert bufA nil
-               "Not a live buffer: %s" buffer-A)
-    (cl-assert bufB nil
-               "Not a live buffer: %s" buffer-B)
-    (ediff-regions-internal bufA
-                            (with-current-buffer bufA
-                              (point-min))
-                            (with-current-buffer bufA
-                              (point-max))
-                            bufB
-                            (with-current-buffer bufB
-                              (point-min))
-                            (with-current-buffer bufB
-                              (point-max))
-                            startup-hooks
-                            job-name
-                            'word-mode
-                            nil)))
+;; ;;;###autoload
+;; (eval
+;;  `(defun +helge/ediff-buffers-wordwise (buffer-A buffer-B &optional startup-hooks job-name)
+;;     ,(concat (documentation 'ediff-buffers) "\nComparison is done word-wise.")
+;;     ,(interactive-form 'ediff-buffers)
+;;     (setq bufA (get-buffer buffer-A)
+;;           bufB (get-buffer buffer-B)
+;;           job-name (or job-name 'ediff-buffers-wordwise))
+;;     (cl-assert bufA nil
+;;                "Not a live buffer: %s" buffer-A)
+;;     (cl-assert bufB nil
+;;                "Not a live buffer: %s" buffer-B)
+;;     (ediff-regions-internal bufA
+;;                             (with-current-buffer bufA
+;;                               (point-min))
+;;                             (with-current-buffer bufA
+;;                               (point-max))
+;;                             bufB
+;;                             (with-current-buffer bufB
+;;                               (point-min))
+;;                             (with-current-buffer bufB
+;;                               (point-max))
+;;                             startup-hooks
+;;                             job-name
+;;                             'word-mode
+;;                             nil)))
 
-;;;###autoload
-(eval
- `(defun +helge/ediff-files-wordwise (file-A file-B &optional startup-hooks)
-    ,(concat (documentation 'ediff-files)
-             "\nComparison is done wordwise.")
-    ,(interactive-form 'ediff-files)
-    (cl-letf* ((oldfun (symbol-function 'ediff-setup))
-               ((symbol-function 'ediff-setup)
-                (lambda (buffer-A file-A buffer-B file-B buffer-C file-C startup-hooks setup-parameters &optional merge-buffer-file)
-                  (let* ((tmp-buffer (get-buffer-create ediff-tmp-buffer)))
-                    (with-current-buffer buffer-A
-                      (ediff-wordify (point-min) (point-max) buffer-A tmp-buffer))
-                    (setq file-A (ediff-make-temp-file tmp-buffer "regA"))
-                    (with-current-buffer buffer-B
-                      (ediff-wordify (point-min) (point-max) buffer-B tmp-buffer))
-                    (setq file-B (ediff-make-temp-file tmp-buffer "regB"))
-                    (setq overl-A (with-current-buffer buffer-A
-                                    (ediff-make-bullet-proof-overlay (point-min) (point-max) buffer-A))
-                          overl-B (with-current-buffer buffer-B
-                                    (ediff-make-bullet-proof-overlay (point-min) (point-max) buffer-B)))
-                    (funcall oldfun
-                             buffer-A file-A buffer-B file-B buffer-C file-C startup-hooks
-                             (append
-                              (list (cons 'ediff-word-mode 'word-mode)
-                                    (cons 'ediff-narrow-bounds (list overl-A overl-B)))
-                              setup-parameters)
-                             merge-buffer-file)))))
-     (ediff-files file-A file-B startup-hooks))))
-
+;; ;;;###autoload
+;; (eval
+;;  `(defun +helge/ediff-files-wordwise (file-A file-B &optional startup-hooks)
+;;     ,(concat (documentation 'ediff-files)
+;;              "\nComparison is done wordwise.")
+;;     ,(interactive-form 'ediff-files)
+;;     (cl-letf* ((oldfun (symbol-function 'ediff-setup))
+;;                ((symbol-function 'ediff-setup)
+;;                 (lambda (buffer-A file-A buffer-B file-B buffer-C file-C startup-hooks setup-parameters &optional merge-buffer-file)
+;;                   (let* ((tmp-buffer (get-buffer-create ediff-tmp-buffer)))
+;;                     (with-current-buffer buffer-A
+;;                       (ediff-wordify (point-min) (point-max) buffer-A tmp-buffer))
+;;                     (setq file-A (ediff-make-temp-file tmp-buffer "regA"))
+;;                     (with-current-buffer buffer-B
+;;                       (ediff-wordify (point-min) (point-max) buffer-B tmp-buffer))
+;;                     (setq file-B (ediff-make-temp-file tmp-buffer "regB"))
+;;                     (setq overl-A (with-current-buffer buffer-A
+;;                                     (ediff-make-bullet-proof-overlay (point-min) (point-max) buffer-A))
+;;                           overl-B (with-current-buffer buffer-B
+;;                                     (ediff-make-bullet-proof-overlay (point-min) (point-max) buffer-B)))
+;;                     (funcall oldfun
+;;                              buffer-A file-A buffer-B file-B buffer-C file-C startup-hooks
+;;                              (append
+;;                               (list (cons 'ediff-word-mode 'word-mode)
+;;                                     (cons 'ediff-narrow-bounds (list overl-A overl-B)))
+;;                               setup-parameters)
+;;                              merge-buffer-file)))))
+;;      (ediff-files file-A file-B startup-hooks))))
