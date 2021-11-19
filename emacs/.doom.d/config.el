@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Fr Nov 19 13:18:34 2021
+;; Last-Updated: Fr Nov 19 13:35:35 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -204,8 +204,6 @@ if COUNT is negative.  A paragraph is defined by
 ;; disable lsp formatting, for specific major modes
 (setq-hook! 'latex-mode-hook +format-with-lsp nil)
 (setq-hook! 'ess-mode-hook +format-with-lsp nil)
-
-;; (set-formatter! 'latexindent "latexindent -m -g /dev/null -l='~/.latexindentsettings.yaml'" :modes '(latex-mode))
 
 
 ;===================================== Org =====================================
