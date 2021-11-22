@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Fr Nov 19 13:35:35 2021
+;; Last-Updated: Fr Nov 19 15:40:11 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -447,13 +447,13 @@ if COUNT is negative.  A paragraph is defined by
   (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
 
 (defun stata-rundo ()
-  "Wrapper of ~/dotfiles/rundo.sh."
+  "Wrapper of ~/.rundo.sh."
   (interactive)
   (save-buffer)
-  (start-process-shell-command "rundo" nil (format "~/dotfiles/rundo.sh %s" buffer-file-name)))
+  (start-process-shell-command "rundo" nil (format "~/.rundo.sh %s" buffer-file-name)))
 
 (defun stata-rundolines (beg end)
-  "Wrapper of ~/dotfiles/rundo.sh."
+  "Wrapper of ~/.rundo.sh."
   (interactive
    ;; 1. If the region is highlighted
    (if (use-region-p)
@@ -474,8 +474,8 @@ if COUNT is negative.  A paragraph is defined by
     (write-region "\n" nil tempfile t)
     ;; 5. run the command asynchronously
     ;; (remove '&' to run it synchronously, i.e., blocking Emacs)
-    ;; (shell-command (format "~/dotfiles/rundo.sh %s &" tempfile))))
-    (start-process-shell-command "rundo" nil (format "~/dotfiles/rundo.sh %s" tempfile))))
+    ;; (shell-command (format "~/rundo.sh %s &" tempfile))))
+    (start-process-shell-command "rundo" nil (format "~/.rundo.sh %s" tempfile))))
 
 ;; Fix /* */ line ending for ESS Stata
 ;; https://stackoverflow.com/questions/8069351/fix-undesirable-emacs-tabbing-behavior-in-ess-stata
