@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Fr Nov 19 15:40:11 2021
+;; Last-Updated: Di Nov 23 11:31:38 2021
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -434,9 +434,7 @@ if COUNT is negative.  A paragraph is defined by
 ;; (define-key ado-mode-map [(meta control return)] 'ado-send-buffer-to-stata)
 ;; (define-key ado-mode-map [(control return)] 'stata-rundolines)
 ;; (define-key ado-mode-map [(meta control return)] 'stata-rundo)
-;; (map! (:map ado-mode-map
-;;         ("<C-return>"   #'stata-rundolines
-;;          "<C-M-return>" #'stata-rundo)))
+
 (map! :after ado-mode
       :map ado-mode-map
       :n [C-return]   #'stata-rundolines
@@ -477,9 +475,7 @@ if COUNT is negative.  A paragraph is defined by
     ;; (shell-command (format "~/rundo.sh %s &" tempfile))))
     (start-process-shell-command "rundo" nil (format "~/.rundo.sh %s" tempfile))))
 
-;; Fix /* */ line ending for ESS Stata
-;; https://stackoverflow.com/questions/8069351/fix-undesirable-emacs-tabbing-behavior-in-ess-stata
-;; not working
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
