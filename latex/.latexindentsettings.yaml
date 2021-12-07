@@ -150,8 +150,8 @@ lookForAlignDelims:
    tabular: 
       delims: 1
       alignFinalDoubleBackSlash: 1
-      spacesBeforeDoubleBackSlash: 0
-      multiColumnGrouping: 0
+      spacesBeforeDoubleBackSlash: 1
+      multiColumnGrouping: 1
       alignRowsWithoutMaxDelims: 1
       spacesBeforeAmpersand: 1
       spacesAfterAmpersand: 1
