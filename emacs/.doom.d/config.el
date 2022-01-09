@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: Fr Dez  3 12:40:02 2021
+;; Last-Updated: So Jan  9 17:06:55 2022
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -237,7 +237,6 @@ if COUNT is negative.  A paragraph is defined by
 (setq org-latex-caption-above t)
 
 ;; org export custom article using koma class scrartcl
-;; fix proper
 (after! ox-latex
   (setq org-latex-default-class "koma-article")
   (add-to-list 'org-latex-classes
@@ -248,9 +247,9 @@ if COUNT is negative.  A paragraph is defined by
                                   %egregdoesnotlikesansseriftitles,
                                   parskip=full
                                   ]{scrartcl}
-                    \\usepackage[sfdefault,light]{roboto}
+                    % \\usepackage[sfdefault,light]{roboto}
+                    \\usepackage{mathptmx}
                     \\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
-                    %\\renewcommand{\\familydefault}{\\sfdefault}
                     \\usepackage[T1]{fontenc}
                     \\usepackage[nswissgerman,english]{babel}
                     \\usepackage{enumitem}
@@ -258,8 +257,6 @@ if COUNT is negative.  A paragraph is defined by
                     \\usepackage[tableposition=top,figureposition=top,
                                  justification=raggedright,singlelinecheck=false,
                                  format=hang]{caption}"
-                 ;; \\usepackage{titlesec}
-                 ;; \\titleformat*{\section}{\large\bfseries}
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")

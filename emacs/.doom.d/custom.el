@@ -13,6 +13,7 @@
    '(((flycheck syntax-checker))
      ((flycheck syntax-checker))
      ((flycheck syntax-checker))
+     ((flycheck syntax-checker))
      ((flycheck syntax-checker)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
