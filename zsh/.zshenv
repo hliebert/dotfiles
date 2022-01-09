@@ -2,8 +2,11 @@
 PATH=/usr/local/git/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/local/bin:/opt/local/sbin:/usr/X11/bin
 
 # Custom exports
-## Set EDITOR to /usr/bin/vim if Vim is installed
-if [ -f /usr/bin/vim ]; then
+## Set EDITOR to emacsclient if emacs is installed, else use vim
+if [ -f /usr/bin/emacs -o -f /snap/bin/emacs ]; then
+  export EDITOR="emacsclient -nw -a ''"
+  export ALTERNATE_EDITOR=""
+else
   export EDITOR=/usr/bin/vim
 fi
 
