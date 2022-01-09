@@ -1,1 +1,6 @@
-linters: with_defaults(object_name_linter = object_name_linter(c("dotted.case", "snake_case", "camelCase", "CamelCase", "lowercase","UPPERCASE")), commented_code_linter = NULL, line_length_linter = line_length_linter(180))
+linters: with_defaults(
+    absolute_paths_linter=NULL,
+    commented_code_linter=NULL,
+    ## line_length_linter=NULL,
+    line_length_linter = line_length_linter(180)
+)
