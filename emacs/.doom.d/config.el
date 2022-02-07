@@ -3,7 +3,7 @@
 ;; Description: config file for doom-emacs
 ;; Author: Helge Liebert
 ;; Created: Mon Apr 16 23:56:45 2018
-;; Last-Updated: So Jan  9 17:06:55 2022
+;; Last-Updated: Fr Jan 14 15:53:17 2022
 ;===============================================================================
 
 ;================================ Basic settings ===============================
@@ -240,28 +240,41 @@ if COUNT is negative.  A paragraph is defined by
 (after! ox-latex
   (setq org-latex-default-class "koma-article")
   (add-to-list 'org-latex-classes
-               '("koma-article"
-                 "\\documentclass[a4paper,oneside,
-                                  headings=standardclasses,
-                                  %headings=normal,
-                                  %egregdoesnotlikesansseriftitles,
-                                  parskip=full
-                                  ]{scrartcl}
-                    % \\usepackage[sfdefault,light]{roboto}
-                    \\usepackage{mathptmx}
-                    \\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
-                    \\usepackage[T1]{fontenc}
-                    \\usepackage[nswissgerman,english]{babel}
-                    \\usepackage{enumitem}
-                    \\usepackage{fancyvrb}
-                    \\usepackage[tableposition=top,figureposition=top,
-                                 justification=raggedright,singlelinecheck=false,
-                                 format=hang]{caption}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+    '("koma-article"
+      "\\documentclass[a4paper,oneside,headings=standardclasses,parskip=full]{scrartcl}
+          %headings=normal,%egregdoesnotlikesansseriftitles,
+         % \\usepackage[sfdefault,light]{roboto}
+         \\usepackage{mathptmx}
+         \\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+         \\usepackage[T1]{fontenc}
+         \\usepackage[nswissgerman,english]{babel}
+         \\usepackage{enumitem}
+         \\usepackage{fancyvrb}
+         \\usepackage[tableposition=top,figureposition=top,justification=raggedright,singlelinecheck=false,format=hang]{caption}
+         \\makeatletter
+         \\renewcommand{\\@maketitle}{%\\null\\vskip 2em
+         \\ifx\\@subject\\@empty \\else
+         {\\subject@font \\@subject \\par}
+         \\vskip 0.5em
+         \\fi
+         \\titlefont\\LARGE \\@title\\par
+         %\\vskip .5em
+         {\\ifx\\@subtitle\\@empty\\else\\usekomafont{subtitle}\\@subtitle\\par\\fi}%
+         %\\vskip .5em
+         {\\ifx\\@author\\@empty%
+           {\\ifx\\@date\\@empty\\else\\usekomafont{date}\\large\\@date\\par\\fi}%
+           \\else%
+           {\\ifx\\@date\\@empty\\usekomafont{author}\\large\\@author\\par%
+             \\else\\usekomafont{author}\\large\\@author, \\usekomafont{date}\\large\\@date\\par\\fi}%
+         \\fi}%
+         \\vskip 1em}
+         \\makeatother"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+      ("\\subparagraph{%s}" . "\\subparagraph*{%s}")
+      )))
 
 
 ;==================================== Latex ====================================
