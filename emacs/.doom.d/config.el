@@ -13,7 +13,8 @@
       user-mail-address "helge.liebert@gmail.com")
 
 ;; Doom UI settings
-;; (setq doom-font (font-spec :family "MesloLGS Nerd Font"))
+(setq doom-font (font-spec :size 18))
+
 ;; (setq doom-theme 'doom-vibrant)
 ;; (setq doom-theme 'doom-dracula)
 ;; (setq doom-theme 'rebecca)
